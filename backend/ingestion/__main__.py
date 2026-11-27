@@ -3,10 +3,12 @@
     cd backend
     uv run python -m ingestion run --all [--dry-run] [--date YYYY-MM-DD]
     uv run python -m ingestion run --source sp|legifrance|treaty [--dry-run]
+    uv run python -m ingestion embed [--dry-run] [--limit N]
 
-`--dry-run` loads and chunks every selected source and prints a summary; it never touches the
-database. Without it, chunks are synced to `DATABASE_URL` (versioning + changelog, D-003).
-Embedding is a separate step, run after the manifest review.
+`run --dry-run` loads and chunks every selected source and prints a summary; it never touches
+the database. Without it, chunks are synced to `DATABASE_URL` (versioning + changelog, D-003).
+`embed` fills the missing chunk embeddings with `mistral-embed` (`MISTRAL_API_KEY`, billed per
+input token); `embed --dry-run` only counts the chunks and characters it would send.
 
 Exit codes: 0 success, 1 at least one source failed (others are still synced), 2 configuration.
 """
@@ -39,6 +41,8 @@ SOURCES = ("sp", "legifrance", "treaty")
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "embed":
+        return _embed(args.dry_run, args.limit)
     selected = set(SOURCES) if args.all else {args.source}
     try:
         manifest = load_manifest(args.manifest)
@@ -96,6 +100,9 @@ def _parser() -> argparse.ArgumentParser:
         help="in-force date for legal texts (default: today, UTC)",
     )
     run.add_argument("--manifest", type=Path, default=MANIFEST_PATH)
+    embed = sub.add_parser("embed", help="embed stored chunks that have no embedding")
+    embed.add_argument("--dry-run", action="store_true", help="count only, no API call")
+    embed.add_argument("--limit", type=int, default=None, help="embed at most N chunks")
     return parser
 
 
@@ -144,6 +151,46 @@ def _sync(results: list[LoadResult]) -> None:
                 )
                 counts = Counter(c.change_type for c in plan.changes)
                 print(f"[{result.source_type}] synced: {dict(counts) or 'no changes'}")
+    finally:
+        engine.dispose()
+
+
+def _embed(dry_run: bool, limit: int | None) -> int:
+    from sqlalchemy.orm import Session
+
+    from app.config import get_settings
+    from db.session import make_engine
+    from ingestion.embed import EmbedReport, batches, embed_pending, pending_chunks
+    from rag.embeddings import EmbeddingError, MistralEmbedder
+
+    settings = get_settings()
+    engine = make_engine(settings.database_url)
+    try:
+        if dry_run:
+            with Session(engine) as session:
+                chunks = pending_chunks(session, limit)
+            chars = sum(len(c.input) for c in chunks)
+            requests = sum(1 for _ in batches(chunks))
+            print(f"[embed] dry run: {len(chunks)} chunks, {chars} chars, {requests} requests")
+            return EXIT_OK
+        if settings.mistral_api_key is None:
+            print("Config error: MISTRAL_API_KEY is not set in .env", file=sys.stderr)
+            return EXIT_CONFIG_ERROR
+
+        def progress(report: EmbedReport) -> None:
+            print(f"  {report.chunks} chunks embedded, {report.prompt_tokens} tokens", flush=True)
+
+        with MistralEmbedder(settings.mistral_api_key.get_secret_value()) as embedder:
+            try:
+                report = embed_pending(engine, embedder, limit, on_batch=progress)
+            except EmbeddingError as exc:
+                print(f"FAILED: {exc}", file=sys.stderr)
+                return EXIT_SOURCE_ERROR
+        print(
+            f"[embed] {embedder.model}: {report.chunks} chunks, {report.requests} requests, "
+            f"{report.prompt_tokens} prompt tokens, {report.skipped} skipped (changed meanwhile)"
+        )
+        return EXIT_OK
     finally:
         engine.dispose()
 

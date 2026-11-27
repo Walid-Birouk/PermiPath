@@ -17,6 +17,7 @@ a superseded decision is marked as such and references the entry that replaces i
 | D-010 | httpx2 as HTTP client; warnings fail the test suite | Accepted | 2026-11-27 |
 | D-011 | Ingestion: manifest, chunking, identity and removal rules | Accepted | 2026-11-27 |
 | D-012 | Sources without machine-readable official text | Proposed | 2026-11-27 |
+| D-013 | Passage embeddings: mistral-embed through an own client | Accepted | 2026-11-27 |
 
 ---
 
@@ -215,3 +216,27 @@ Code du travail and Code pénal articles cited by the sheets are not ingested ye
 | Checks | `tests/test_consolidation.py`: every alinéa replaced or inserted by the 1994 and 2001 amendments matches the recorded JORF texts; every 1968 and 1985 passage outside the 2001 edits is found in the JO scan text layer; each quoted 2001 phrase is checked on both sides; replaced wording is checked absent. Mistral OCR (`mistral-ocr-latest`) of the JO pages was run once as a second reading, on the maintainer's Mistral Pro subscription, and agrees with the consolidation; it is not part of the pipeline. |
 | Entry into force | Recorded per instrument (`in_force_from`, `in_force_note`). First and second amendments: on signature (22 December 1985, 28 September 1994), per their own clauses. Third amendment: 1 January 2003, per footnote (1) to the title of Décret n° 2002-1500 in the JO of 26 December 2002 (p. 21614); the Légifrance API text omits the footnote, so the date is checked against the scan's text layer. |
 | Indexing | Only with `status: verified`, `verified_by` and `verified_at` set. Chunks: `source_type = treaty`, `authority = official`, `nationality_scope = algerian`, `source_id = accord-franco-algerien-1968:{provision}`; URL = official publication of the instrument that last set the wording; `in_force_from` = latest entry-into-force date of those instruments. |
+
+## D-013 — Passage embeddings: mistral-embed through an own client
+
+**Context.** Build step 2 ends with embedding the stored chunks (PLAN.md). CLAUDE.md fixes the
+model (`mistral-embed`, 1024 dimensions, the `chunks.embedding` column) and requires a thin
+provider interface. The project already calls Légifrance through its own `httpx2` client (D-008,
+D-010); LangChain and the Mistral SDK are not installed (D-007).
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Client | `rag.embeddings.MistralEmbedder`, an `httpx2` client for `POST https://api.mistral.ai/v1/embeddings` (`model`, `input` list; response `data[].embedding`, `data[].index`, `usage.prompt_tokens`), per the official documentation read on 2026-11-27. It implements the `Embedder` protocol, which query-time retrieval reuses so that queries and passages share one model. No SDK dependency. |
+| Input | `title + "\n\n" + text`: the fields covered by `content_hash` and by the lexical index (`tsv`). A chunk's embedding is reset exactly when its input changes (D-003). |
+| Batching | At most 32 chunks and 40,000 characters per request. The documentation states no per-request or rate limit (UNVERIFIED); HTTP 429 and 5xx are retried with backoff, honouring `Retry-After`. |
+| Writes | One transaction per batch; a vector is written only if the chunk's `content_hash` is unchanged since it was read. A failed or interrupted run keeps finished batches; the next `embed` run continues with the remaining chunks. |
+| Validation | The response must return one 1024-dimensional vector per input, indexes `0..n-1`; anything else fails the run. |
+| Model change | The model is a constant (`EMBEDDING_MODEL`). Changing it requires re-embedding every chunk (set `embedding` to NULL) and a new evaluation run. |
+
+**Consequences.** First run on 2026-11-27 (local Postgres, Mistral Pro subscription): 737
+chunks (460 fact-sheet, 256 law, 21 treaty), 858,135 input characters, 25 requests,
+286,736 prompt tokens, about 20 s; all vectors have unit norm; a second run sends nothing. No
+retrieval quality figure exists until the golden set (build step 3).
+

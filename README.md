@@ -73,6 +73,31 @@ uv run python -m ingestion.legifrance.check --article L422-1 --date 2026-11-26
 It fetches a token, locates CESEDA and prints the article version in force on the date.
 `--dump DIR` saves the raw responses.
 
+### Ingestion and embedding
+
+Sources are selected in `sources/manifest.yaml`. Ingestion needs `DATABASE_URL` (the local
+stack's database by default) and, for Légifrance and the Franco-Algerian agreement, the PISTE
+credentials. Embedding needs `MISTRAL_API_KEY`.
+
+```bash
+docker compose up -d db                                  # local Postgres + pgvector
+cd backend
+uv run alembic upgrade head
+uv run python -m ingestion run --all --dry-run          # load and chunk, no database access
+uv run python -m ingestion run --all                    # sync chunks, versions, changelog
+uv run python -m ingestion embed --dry-run              # chunks, characters, requests to send
+uv run python -m ingestion embed                        # fill missing embeddings (mistral-embed)
+```
+
+| Command | Effect |
+|---------|--------|
+| `run --all` / `run --source sp\|legifrance\|treaty` | Loads the selected sources and syncs them: new chunks added, changed chunks archived and their embedding reset, removed chunks deleted; one changelog entry per change. Re-running without source changes writes nothing. |
+| `run ... --date YYYY-MM-DD` | In-force date for legal texts (default: today, UTC). |
+| `embed` | Embeds every chunk whose embedding is empty, in batches of at most 32 chunks and 40,000 characters, one transaction per batch. An interrupted run resumes where it stopped. Billed per input token; the token count is printed. |
+| `embed --limit N` | Embeds at most N chunks. |
+
+Exit codes: `0` success, `1` a source or the provider failed, `2` configuration error.
+
 ### Frontend checks
 
 ```bash
