@@ -1,0 +1,36 @@
+{
+  "executionTime": 32,
+  "results": [
+    {
+      "id": "LEGITEXT000006070158",
+      "cid": "LEGITEXT000006070158",
+      "etat": "VIGUEUR",
+      "titre": "Code de l'entrée et du séjour des étrangers et du droit d'asile",
+      "dateDebut": "2005-01-19T00:00:00.000+0000",
+      "dateFin": "2999-01-01T00:00:00.000+0000",
+      "lastUpdate": "2026-11-21T00:00:00.000+0000",
+      "pdfFileName": "LEGITEXT000006070158.pdf",
+      "pdfFileSize": "1,9 Mo",
+      "pdfFilePath": "/LEGI/TEXT/00/00/06/07/01/58/LEGITEXT000006070158/LEGITEXT000006070158.pdf"
+    }
+  ],
+  "states": {
+    "facetElem": null,
+    "field": "etat",
+    "values": {
+      "VIGUEUR": 1
+    },
+    "childs": {},
+    "totalElement": 0
+  },
+  "codeNames": {
+    "facetElem": null,
+    "field": "titreLong",
+    "values": {
+      "Code de l'entrée et du séjour des étrangers et du droit d'asile": 1
+    },
+    "childs": {},
+    "totalElement": 0
+  },
+  "totalResultNumber": 1
+}

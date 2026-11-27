@@ -1,0 +1,3 @@
+# Entry point for `docker compose` at the repository root. The stack is defined in infra/.
+include:
+  - infra/docker-compose.yml

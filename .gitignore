@@ -1,0 +1,29 @@
+# Private notes between the maintainer and the coding assistant
+internal coms/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node / Next.js
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+
+# Eval reports (generated)
+reports/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
