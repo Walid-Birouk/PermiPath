@@ -1,0 +1,885 @@
+{
+  "schema": 1,
+  "created_at": "2026-11-27T17:37:52+00:00",
+  "set": {
+    "name": "golden",
+    "version": 1,
+    "items": 32,
+    "verified": 32,
+    "includes_drafts": false
+  },
+  "pipeline": {
+    "name": "grid:service-public:mistral-embed",
+    "corpus": "service-public",
+    "embedding_model": "mistral-embed",
+    "chunks": 322,
+    "chunks_by_source_type": {
+      "fact_sheet": 322
+    },
+    "chunks_embedded_this_run": 322,
+    "depth": 20,
+    "ks": [
+      5,
+      10
+    ],
+    "passage_embedding_tokens": 161457
+  },
+  "summary": {
+    "items": 32,
+    "items_scored": 24,
+    "precedence_items": 7,
+    "recall@5": 0.5486111111111112,
+    "recall@10": 0.5486111111111112,
+    "mrr": 0.75,
+    "right_source_wins": 0.14285714285714285,
+    "latency_ms_p50": 212.1,
+    "latency_ms_p95": 579.6,
+    "embedding_tokens": 748,
+    "not_measured": [
+      "answer_correctness",
+      "faithfulness",
+      "citation_accuracy",
+      "refusal_abstain_accuracy"
+    ]
+  },
+  "items": [
+    {
+      "id": "g001",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2231",
+        "fact_sheet:F17312"
+      ],
+      "top_score": 0.8898108955562058,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 179.1,
+      "embedding_tokens": 32,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    {
+      "id": "g002",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "en",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2231",
+        "fact_sheet:F17319",
+        "fact_sheet:F17312"
+      ],
+      "top_score": 0.8285687706588093,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 205.9,
+      "embedding_tokens": 25,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    {
+      "id": "g003",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2231",
+        "law:LEGIARTI000042801344",
+        "law:LEGIARTI000042801346"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2231",
+        "fact_sheet:F31969"
+      ],
+      "top_score": 0.793045745598041,
+      "first_rank": 2,
+      "reciprocal_rank": 0.5,
+      "right_source_wins": null,
+      "latency_ms": 217.5,
+      "embedding_tokens": 27,
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.3333333333333333
+    },
+    {
+      "id": "g004",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2231",
+        "law:LEGIARTI000042771654"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F22116",
+        "fact_sheet:F2231",
+        "fact_sheet:F35799",
+        "fact_sheet:F35796"
+      ],
+      "top_score": 0.8569414206233071,
+      "first_rank": 2,
+      "reciprocal_rank": 0.5,
+      "right_source_wins": null,
+      "latency_ms": 524.3,
+      "embedding_tokens": 26,
+      "recall@5": 0.5,
+      "recall@10": 0.5
+    },
+    {
+      "id": "g005",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "en",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2231",
+        "fact_sheet:F35799"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F35799",
+        "fact_sheet:F2231",
+        "fact_sheet:F35796"
+      ],
+      "top_score": 0.7798136708325456,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 522.6,
+      "embedding_tokens": 21,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    {
+      "id": "g006",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F35796",
+        "fact_sheet:F2231",
+        "fact_sheet:F22116",
+        "fact_sheet:F15898",
+        "fact_sheet:F31969",
+        "fact_sheet:F17319",
+        "fact_sheet:F16922"
+      ],
+      "top_score": 0.8654120721404678,
+      "first_rank": 2,
+      "reciprocal_rank": 0.5,
+      "right_source_wins": null,
+      "latency_ms": 194.8,
+      "embedding_tokens": 23,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    {
+      "id": "g007",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2713",
+        "law:LEGIARTI000042771654"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2713",
+        "fact_sheet:F13519",
+        "fact_sheet:F2229"
+      ],
+      "top_score": 0.8982876856506486,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 251.2,
+      "embedding_tokens": 24,
+      "recall@5": 0.5,
+      "recall@10": 0.5
+    },
+    {
+      "id": "g008",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "en",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F16734"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F17312"
+      ],
+      "top_score": 0.778253814124669,
+      "first_rank": null,
+      "reciprocal_rank": 0.0,
+      "right_source_wins": null,
+      "latency_ms": 204.8,
+      "embedding_tokens": 17,
+      "recall@5": 0.0,
+      "recall@10": 0.0
+    },
+    {
+      "id": "g009",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2713"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2713",
+        "fact_sheet:F2229",
+        "fact_sheet:F15898"
+      ],
+      "top_score": 0.8644463326803131,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 231.2,
+      "embedding_tokens": 25,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    {
+      "id": "g010",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2229",
+        "law:LEGIARTI000042771680"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2229",
+        "fact_sheet:F17319"
+      ],
+      "top_score": 0.8665437934805004,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 253.7,
+      "embedding_tokens": 25,
+      "recall@5": 0.6666666666666666,
+      "recall@10": 0.6666666666666666
+    },
+    {
+      "id": "g011",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "en",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F17319",
+        "law:LEGIARTI000042771680",
+        "law:LEGIARTI000042771684"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2229"
+      ],
+      "top_score": 0.8065763376226975,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 208.5,
+      "embedding_tokens": 16,
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.3333333333333333
+    },
+    {
+      "id": "g012",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F17319"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2229",
+        "fact_sheet:F16922"
+      ],
+      "top_score": 0.8767206825291194,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 196.1,
+      "embedding_tokens": 29,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    {
+      "id": "g013",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2229",
+        "fact_sheet:F15898",
+        "fact_sheet:F2728"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2229",
+        "fact_sheet:F2713"
+      ],
+      "top_score": 0.8666954381590094,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 210.3,
+      "embedding_tokens": 35,
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.3333333333333333
+    },
+    {
+      "id": "g014",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "en",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F16922",
+        "law:LEGIARTI000042771574"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F16922"
+      ],
+      "top_score": 0.8567330029041643,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 186.8,
+      "embedding_tokens": 24,
+      "recall@5": 0.5,
+      "recall@10": 0.5
+    },
+    {
+      "id": "g015",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2728",
+        "fact_sheet:F16922",
+        "fact_sheet:F17319"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2728",
+        "fact_sheet:F15898"
+      ],
+      "top_score": 0.8818486940348476,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 181.6,
+      "embedding_tokens": 23,
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.3333333333333333
+    },
+    {
+      "id": "g016",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "en",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2728",
+        "fact_sheet:F16922"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2229",
+        "fact_sheet:F2728",
+        "fact_sheet:F15898",
+        "fact_sheet:F13519",
+        "fact_sheet:F2713",
+        "fact_sheet:F35796"
+      ],
+      "top_score": 0.7440853976133769,
+      "first_rank": 2,
+      "reciprocal_rank": 0.5,
+      "right_source_wins": null,
+      "latency_ms": 250.5,
+      "embedding_tokens": 15,
+      "recall@5": 0.5,
+      "recall@10": 0.5
+    },
+    {
+      "id": "g017",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F35799"
+      ],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F35799",
+        "fact_sheet:F16922"
+      ],
+      "top_score": 0.848774357546753,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": null,
+      "latency_ms": 193.7,
+      "embedding_tokens": 25,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    {
+      "id": "g018",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "algerian",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "treaty:accord-franco-algerien-1968:article-9",
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:protocole-titre-3",
+      "ranking": [
+        "fact_sheet:F2231",
+        "fact_sheet:F22116",
+        "fact_sheet:F39",
+        "fact_sheet:F2229",
+        "fact_sheet:F2733"
+      ],
+      "top_score": 0.8881583333342628,
+      "first_rank": null,
+      "reciprocal_rank": 0.0,
+      "right_source_wins": false,
+      "latency_ms": 325.9,
+      "embedding_tokens": 29,
+      "recall@5": 0.0,
+      "recall@10": 0.0
+    },
+    {
+      "id": "g019",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "algerian",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "fact_sheet:F2713",
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:protocole-titre-3",
+      "ranking": [
+        "fact_sheet:F2713"
+      ],
+      "top_score": 0.9211866806225502,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": false,
+      "latency_ms": 579.6,
+      "embedding_tokens": 26,
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.3333333333333333
+    },
+    {
+      "id": "g020",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "algerian",
+      "lang": "en",
+      "scored": true,
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "case_law:CETATEXT000053612496",
+        "fact_sheet:F17319"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "ranking": [
+        "fact_sheet:F2733",
+        "fact_sheet:F2713",
+        "fact_sheet:F2229"
+      ],
+      "top_score": 0.8263094581664483,
+      "first_rank": null,
+      "reciprocal_rank": 0.0,
+      "right_source_wins": false,
+      "latency_ms": 212.1,
+      "embedding_tokens": 25,
+      "recall@5": 0.0,
+      "recall@10": 0.0
+    },
+    {
+      "id": "g021",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "algerian",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "fact_sheet:F2215",
+        "fact_sheet:F2733"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "ranking": [
+        "fact_sheet:F2215"
+      ],
+      "top_score": 0.8682804654854854,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": false,
+      "latency_ms": 597.4,
+      "embedding_tokens": 27,
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.3333333333333333
+    },
+    {
+      "id": "g022",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "algerian",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "case_law:CETATEXT000053612496"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "ranking": [
+        "fact_sheet:F16922",
+        "fact_sheet:F2733",
+        "fact_sheet:F2229",
+        "fact_sheet:F2713"
+      ],
+      "top_score": 0.8337644653879385,
+      "first_rank": null,
+      "reciprocal_rank": 0.0,
+      "right_source_wins": false,
+      "latency_ms": 414.5,
+      "embedding_tokens": 22,
+      "recall@5": 0.0,
+      "recall@10": 0.0
+    },
+    {
+      "id": "g023",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "algerian",
+      "lang": "fr",
+      "scored": true,
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7-bis",
+        "fact_sheet:F2257"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7-bis",
+      "ranking": [
+        "fact_sheet:F2257",
+        "fact_sheet:F2215"
+      ],
+      "top_score": 0.906126204569442,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": false,
+      "latency_ms": 213.6,
+      "embedding_tokens": 25,
+      "recall@5": 0.5,
+      "recall@10": 0.5
+    },
+    {
+      "id": "g024",
+      "verified": true,
+      "expected_behaviour": "answer",
+      "nationality": "algerian",
+      "lang": "en",
+      "scored": true,
+      "must_cite": [
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "fact_sheet:F2215",
+      "ranking": [
+        "fact_sheet:F2215"
+      ],
+      "top_score": 0.8289615031503949,
+      "first_rank": 1,
+      "reciprocal_rank": 1.0,
+      "right_source_wins": true,
+      "latency_ms": 225.7,
+      "embedding_tokens": 23,
+      "recall@5": 1.0,
+      "recall@10": 1.0
+    },
+    {
+      "id": "g025",
+      "verified": true,
+      "expected_behaviour": "refuse",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": false,
+      "must_cite": [],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2733",
+        "fact_sheet:F16922",
+        "fact_sheet:F31969",
+        "fact_sheet:F2728",
+        "fact_sheet:F2215",
+        "fact_sheet:F2229",
+        "fact_sheet:F17319"
+      ],
+      "top_score": 0.7991234496121549,
+      "first_rank": null,
+      "reciprocal_rank": null,
+      "right_source_wins": null,
+      "latency_ms": 241.3,
+      "embedding_tokens": 12,
+      "recall@5": null,
+      "recall@10": null
+    },
+    {
+      "id": "g026",
+      "verified": true,
+      "expected_behaviour": "refuse",
+      "nationality": "any",
+      "lang": "en",
+      "scored": false,
+      "must_cite": [],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F2215",
+        "fact_sheet:F2257",
+        "fact_sheet:F2728",
+        "fact_sheet:F35799",
+        "fact_sheet:F35796",
+        "fact_sheet:F15898",
+        "fact_sheet:F15763"
+      ],
+      "top_score": 0.7609639613154742,
+      "first_rank": null,
+      "reciprocal_rank": null,
+      "right_source_wins": null,
+      "latency_ms": 181.5,
+      "embedding_tokens": 15,
+      "recall@5": null,
+      "recall@10": null
+    },
+    {
+      "id": "g027",
+      "verified": true,
+      "expected_behaviour": "refuse",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": false,
+      "must_cite": [],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F39",
+        "fact_sheet:F2728",
+        "fact_sheet:F16922",
+        "fact_sheet:F15898",
+        "fact_sheet:F35799",
+        "fact_sheet:F31969",
+        "fact_sheet:F2733",
+        "fact_sheet:F2215"
+      ],
+      "top_score": 0.8282232254995866,
+      "first_rank": null,
+      "reciprocal_rank": null,
+      "right_source_wins": null,
+      "latency_ms": 170.3,
+      "embedding_tokens": 13,
+      "recall@5": null,
+      "recall@10": null
+    },
+    {
+      "id": "g028",
+      "verified": true,
+      "expected_behaviour": "handoff",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": false,
+      "must_cite": [],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F31969",
+        "fact_sheet:F16922",
+        "fact_sheet:F2733",
+        "fact_sheet:F35799",
+        "fact_sheet:F35796",
+        "fact_sheet:F15898",
+        "fact_sheet:F2728",
+        "fact_sheet:F15763"
+      ],
+      "top_score": 0.8054077625525119,
+      "first_rank": null,
+      "reciprocal_rank": null,
+      "right_source_wins": null,
+      "latency_ms": 181.8,
+      "embedding_tokens": 26,
+      "recall@5": null,
+      "recall@10": null
+    },
+    {
+      "id": "g029",
+      "verified": true,
+      "expected_behaviour": "handoff",
+      "nationality": "any",
+      "lang": "en",
+      "scored": false,
+      "must_cite": [],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F35796",
+        "fact_sheet:F2231",
+        "fact_sheet:F15898",
+        "fact_sheet:F35799",
+        "fact_sheet:F17312",
+        "fact_sheet:F22116"
+      ],
+      "top_score": 0.7285828677583859,
+      "first_rank": null,
+      "reciprocal_rank": null,
+      "right_source_wins": null,
+      "latency_ms": 218.4,
+      "embedding_tokens": 22,
+      "recall@5": null,
+      "recall@10": null
+    },
+    {
+      "id": "g030",
+      "verified": true,
+      "expected_behaviour": "handoff",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": false,
+      "must_cite": [],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F31969",
+        "fact_sheet:F2728",
+        "fact_sheet:F35796",
+        "fact_sheet:F16922",
+        "fact_sheet:F15898",
+        "fact_sheet:F2733",
+        "fact_sheet:F15763",
+        "fact_sheet:F17319",
+        "fact_sheet:F2229",
+        "fact_sheet:F35799"
+      ],
+      "top_score": 0.831064040837812,
+      "first_rank": null,
+      "reciprocal_rank": null,
+      "right_source_wins": null,
+      "latency_ms": 196.8,
+      "embedding_tokens": 29,
+      "recall@5": null,
+      "recall@10": null
+    },
+    {
+      "id": "g031",
+      "verified": true,
+      "expected_behaviour": "abstain",
+      "nationality": "any",
+      "lang": "fr",
+      "scored": false,
+      "must_cite": [],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F31969",
+        "fact_sheet:F35796",
+        "fact_sheet:F16922",
+        "fact_sheet:F15898",
+        "fact_sheet:F2728",
+        "fact_sheet:F2231",
+        "fact_sheet:F17319",
+        "fact_sheet:F17312",
+        "fact_sheet:F15763",
+        "fact_sheet:F2215"
+      ],
+      "top_score": 0.8113629754308523,
+      "first_rank": null,
+      "reciprocal_rank": null,
+      "right_source_wins": null,
+      "latency_ms": 209.5,
+      "embedding_tokens": 30,
+      "recall@5": null,
+      "recall@10": null
+    },
+    {
+      "id": "g032",
+      "verified": true,
+      "expected_behaviour": "abstain",
+      "nationality": "any",
+      "lang": "en",
+      "scored": false,
+      "must_cite": [],
+      "winning_source": null,
+      "ranking": [
+        "fact_sheet:F35796",
+        "fact_sheet:F22116",
+        "fact_sheet:F2231"
+      ],
+      "top_score": 0.7419443172149099,
+      "first_rank": null,
+      "reciprocal_rank": null,
+      "right_source_wins": null,
+      "latency_ms": 223.5,
+      "embedding_tokens": 12,
+      "recall@5": null,
+      "recall@10": null
+    }
+  ]
+}
