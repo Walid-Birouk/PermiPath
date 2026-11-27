@@ -39,8 +39,8 @@ items:
       - "La validation se fait en ligne sur le site de l'administration des étrangers en France (service « Valider un VLS-TS et payer la taxe »)."
       - "Une taxe de 100 € est payée lors de la validation du VLS-TS."
       - "La validation permet d'être en séjour régulier et de franchir à nouveau la frontière de l'espace Schengen."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g002
     question: "I arrived with a long-stay student visa (VLS-TS). How do I validate it online?"
     lang: en
@@ -55,8 +55,8 @@ items:
       - "Le VLS-TS « étudiant » doit être validé dans les 3 mois suivant l'arrivée en France."
       - "La validation se fait en ligne sur le site de l'administration des étrangers en France (service « Valider un VLS-TS et payer la taxe »)."
       - "Une taxe de 100 € est payée lors de la validation du VLS-TS."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g003
     question: "Que se passe-t-il si je ne valide pas mon VLS-TS dans le délai ?"
     lang: fr
@@ -74,8 +74,8 @@ items:
       - "Le VLS-TS « étudiant » ne permet de séjourner au-delà de 3 mois qu'à la condition que son titulaire déclare, dans les 3 mois suivant son entrée, la date d'entrée et son domicile au moyen d'un téléservice (article R431-17)."
       - "Pour se maintenir en France au-delà de la durée du visa, l'étranger demande une carte de séjour et doit justifier avoir accompli cette formalité (article R431-18)."
     notes: "R431-17 and R431-18 indexed through manifest include_articles (2026-11-27). The answer explains the rule in general; a user who is already past the deadline is in a personal, irregular situation and gets the handoff."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g004
     question: "Mon visa étudiant expire bientôt : comment demander une carte de séjour étudiant ?"
     lang: fr
@@ -92,8 +92,8 @@ items:
       - "La démarche se fait uniquement sur internet (service « Demander un titre de séjour étudiant »)."
       - "Une attestation dématérialisée de dépôt est délivrée immédiatement ; elle n'est pas un document provisoire de séjour."
       - "Il faut être inscrit (ou préinscrit) dans un établissement d'enseignement supérieur et justifier de ressources d'au moins 877,5 € par mois."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g005
     question: "What is the difference between a one-year student residence permit and a multi-year one?"
     lang: en
@@ -110,8 +110,8 @@ items:
       - "Après 1 an sous VLS-TS ou carte de séjour temporaire étudiant, un titre de séjour pluriannuel étudiant peut être délivré."
       - "La durée du titre pluriannuel est celle restant à courir du cycle d'études ; elle est supérieure à 12 mois et ne peut pas dépasser 4 ans."
       - "Le titre pluriannuel exige les conditions initiales (inscription, ressources) et le caractère réel et sérieux des études."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g006
     question: "Quels documents faut-il pour renouveler un titre de séjour étudiant ?"
     lang: fr
@@ -129,8 +129,8 @@ items:
       - "Relevés de notes de l'année écoulée, dernier diplôme obtenu en France et attestation de réussite."
       - "Justificatifs de ressources d'au moins 877,5 € par mois."
       - "Exemplaire signé de l'engagement à respecter les principes de la République."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g007
     question: "Combien d'heures un étudiant étranger peut-il travailler par an ?"
     lang: fr
@@ -147,8 +147,8 @@ items:
       - "La période annuelle commence à la délivrance de la carte ou à la validation du VLS-TS."
       - "Le dépassement de cette limite expose au retrait et au refus de renouvellement du titre de séjour."
       - "Les règles sont différentes pour les étudiants algériens."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g008
     question: "Can I do an internship (stage) with a student residence permit?"
     lang: en
@@ -165,8 +165,8 @@ items:
       - "La durée du stage est de 6 mois maximum par organisme d'accueil et par année d'enseignement."
       - "Une gratification minimale est versée si le stage dure plus de 2 mois consécutifs au cours de la même année d'enseignement."
     notes: "F16734 added to the manifest (2026-11-27)."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g009
     question: "Un étudiant étranger doit-il déclarer son emploi à la préfecture ?"
     lang: fr
@@ -181,8 +181,8 @@ items:
       - "La déclaration est faite par l'employeur, pas par l'étudiant : déclaration nominative à la préfecture du département du siège de l'établissement employeur."
       - "L'employeur doit l'accomplir au moins 2 jours ouvrables avant la date d'effet de l'embauche."
       - "Sans réponse du préfet dans un délai de 2 jours ouvrables, la déclaration vaut vérification de l'autorisation de travail."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g010
     question: "J'ai fini mon master : quel titre de séjour pour chercher un emploi en France ?"
     lang: fr
@@ -201,8 +201,8 @@ items:
       - "La carte est valable 1 an et n'est pas renouvelable."
       - "Pendant sa validité, elle permet de travailler comme salarié sans autorisation de travail, pour un emploi en lien avec les études rémunéré plus de 2 800,53 € brut mensuel."
       - "Cette carte ne concerne pas les étudiants algériens."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g011
     question: "After graduating, can I stay in France to create a company?"
     lang: en
@@ -219,8 +219,8 @@ items:
       - "La carte « recherche d'emploi ou création d'entreprise » permet de rester 1 an en France pour créer une entreprise en lien avec les études."
       - "La demande comprend un justificatif d'un projet de création d'entreprise dans un domaine correspondant à la formation."
       - "À la fin de la carte, si l'entreprise est créée, il est possible de demander la carte « entrepreneur/profession libérale » ou la carte pluriannuelle « talent - porteur de projet »."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g012
     question: "Quand faut-il demander la carte « recherche d'emploi ou création d'entreprise » ?"
     lang: fr
@@ -235,8 +235,8 @@ items:
       - "En France : la demande est déposée à la préfecture ou sous-préfecture du domicile dans les 2 mois précédant la fin de validité de la carte étudiant."
       - "Le diplôme doit avoir été obtenu au cours des 12 derniers mois."
       - "Après un retour à l'étranger : la demande prend la forme d'un VLS-TS auprès du consulat, dans un délai maximal de 4 ans après l'obtention du diplôme."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g013
     question: "J'ai une promesse d'embauche après mes études : comment passer d'un titre étudiant à un titre salarié ?"
     lang: fr
@@ -254,8 +254,8 @@ items:
       - "La demande de changement de statut se fait dans les 2 mois précédant la fin de validité de la carte de séjour étudiant."
       - "Pour un diplômé de master, la situation de l'emploi n'est pas opposée si l'emploi est en relation avec la formation et rémunéré au moins 2 800,53 € brut mensuel, ou s'il figure sur la liste des métiers en tension."
       - "Le dossier contient notamment la copie de l'autorisation de travail ; le certificat médical de l'Ofii est remis au moment de la remise du titre."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g014
     question: "What is the \"talent – salarié qualifié\" permit and who can apply after studies?"
     lang: en
@@ -272,8 +272,8 @@ items:
       - "La rémunération brute annuelle doit être supérieure ou égale à 39 582 €."
       - "La carte est valable pour la durée du contrat de travail, dans la limite de 4 ans."
       - "L'employeur n'a pas à demander d'autorisation de travail."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g015
     question: "Mon employeur doit-il demander une autorisation de travail pour mon changement de statut ?"
     lang: fr
@@ -290,8 +290,8 @@ items:
       - "En cas de changement de statut vers une carte « salarié » ou « travailleur temporaire », l'employeur doit demander une autorisation de travail."
       - "Pour la carte « talent - salarié qualifié », l'employeur n'a pas à demander d'autorisation de travail."
       - "Pendant la validité de la carte « recherche d'emploi ou création d'entreprise », l'employeur est dispensé d'autorisation de travail."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g016
     question: "Is there a minimum salary to change from student to employee status?"
     lang: en
@@ -307,8 +307,8 @@ items:
       - "La rémunération ne peut pas être inférieure au Smic (ou au salaire de la convention collective s'il est plus élevé)."
       - "Pour un diplômé de master dont l'emploi est en relation avec la formation, une rémunération d'au moins 2 800,53 € dispense de la publication préalable de l'offre."
       - "La carte « talent - salarié qualifié » exige une rémunération brute annuelle d'au moins 39 582 €."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g017
     question: "Après un premier titre salarié, quand peut-on demander une carte pluriannuelle ?"
     lang: fr
@@ -324,8 +324,8 @@ items:
       - "Il faut continuer à remplir les conditions de la carte temporaire et signer le contrat d'engagement à respecter les principes de la République."
       - "Pour une 1re carte pluriannuelle : niveau A2 en français et réussite à l'examen civique, sauf après 65 ans."
       - "La carte pluriannuelle salarié obtenue après une 1re année de séjour est en principe valable 4 ans."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g018
     question: "Je suis étudiant algérien : quel titre de séjour reçoit-on pour étudier en France ?"
     lang: fr
@@ -343,8 +343,8 @@ items:
       - "Il reçoit un certificat de résidence « étudiant » valable 1 an et renouvelable, sur attestation d'inscription ou de préinscription et justification de moyens d'existence suffisants."
       - "Un visa de long séjour est exigé pour séjourner plus de 3 mois."
       - "Les moyens d'existence sont d'au moins 877,5 € par mois ; la demande se fait sur internet."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g019
     question: "Un étudiant algérien peut-il travailler pendant ses études, et à quelles conditions ?"
     lang: fr
@@ -362,8 +362,8 @@ items:
       - "L'étudiant algérien peut travailler dans la limite d'un mi-temps annuel (50 % de la durée annuelle de travail de la branche ou de la profession)."
       - "Il faut une autorisation provisoire de travail, demandée par l'employeur avant le début de l'activité, sur promesse d'embauche ou contrat de travail."
       - "L'employeur fait une déclaration nominative à la préfecture au moins 2 jours ouvrables avant l'embauche."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g020
     question: "I am an Algerian student finishing my degree: is there a job-search permit for Algerians?"
     lang: en
@@ -382,8 +382,8 @@ items:
       - "L'accord ne prévoit pas de certificat de résidence pour la recherche d'emploi après les études."
       - "Avec un contrat de travail visé par les services du ministre chargé de l'emploi, l'accord prévoit le certificat de résidence « salarié » (article 7 b)."
     notes: "The 'no job-search certificate' fact follows from the CE holding (the agreement is complete) read with article 7, which lists every certificate. Decision indexed as case_law (2026-11-27)."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g021
     question: "Étudiant algérien avec une offre d'emploi : quel certificat de résidence demander ?"
     lang: fr
@@ -401,8 +401,8 @@ items:
       - "La demande d'autorisation de travail est à la charge du futur employeur."
       - "Pour un titulaire d'une carte étudiant, l'administration vérifie l'adéquation entre diplômes et emploi, et un salaire au moins égal au Smic ou au minimum conventionnel."
       - "En cas de changement de statut, le certificat coûte 250 € (taxe de 200 € et droit de timbre de 50 €) ; la demande est déposée à la préfecture du domicile."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g022
     question: "Un Algérien peut-il obtenir le titre « talent » après ses études ?"
     lang: fr
@@ -419,8 +419,8 @@ items:
       - "L'article 7 de l'accord énumère les certificats de résidence (visiteur, salarié, activité soumise à autorisation, vie privée et familiale, travailleur temporaire, scientifique, profession artistique et culturelle) ; aucun ne correspond à la carte « talent »."
       - "Après les études, la voie prévue par l'accord pour un emploi salarié est le certificat de résidence « salarié » (article 7 b)."
     notes: "The CE decision is about a 'commerçant' certificate; its point 3 states the general rule (CESEDA residence titles do not apply to Algerians), which covers the talent card. Decision indexed as case_law (2026-11-27)."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g023
     question: "Comment un Algérien obtient-il un certificat de résidence de 10 ans ?"
     lang: fr
@@ -437,8 +437,8 @@ items:
       - "Le certificat est délivré de plein droit dans certains cas, par exemple après plus de 10 ans de séjour régulier, sauf si l'intéressé a été titulaire d'un certificat « étudiant » pendant toute cette période."
       - "Le certificat de 10 ans est gratuit, renouvelé automatiquement et permet d'exercer la profession de son choix."
       - "La demande est déposée à la préfecture du domicile, avec les justificatifs de 3 ans de séjour régulier et des moyens d'existence ; il cesse d'être valable après une absence de plus de 3 ans consécutifs."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g024
     question: "Where does an Algerian student apply to renew their residence certificate (ANEF or prefecture)?"
     lang: en
@@ -454,8 +454,8 @@ items:
       - "La demande est faite au plus tôt 4 mois et au plus tard 2 mois avant la fin de validité du document de séjour."
       - "Le renouvellement coûte 100 € (droit de timbre de 50 € et taxe de 50 €) ; une demande hors délai entraîne un droit de visa de régularisation de 180 €."
     notes: "Procedure question: per the precedence rule, service-public / CESEDA govern procedure, so winning_source is the fact sheet."
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g025
     question: "Comment demander l'asile en France ?"
     lang: fr
@@ -466,8 +466,8 @@ items:
     must_cite: []
     winning_source: null
     key_facts: []
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g026
     question: "How can my spouse join me in France through family reunification?"
     lang: en
@@ -478,8 +478,8 @@ items:
     must_cite: []
     winning_source: null
     key_facts: []
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g027
     question: "Quelles sont les conditions pour être naturalisé français ?"
     lang: fr
@@ -490,8 +490,8 @@ items:
     must_cite: []
     winning_source: null
     key_facts: []
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g028
     question: "J'ai reçu une OQTF après le refus de mon renouvellement, que faire ?"
     lang: fr
@@ -502,8 +502,8 @@ items:
     must_cite: []
     winning_source: null
     key_facts: []
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g029
     question: "My student permit expired two months ago and I did not renew it. What should I do?"
     lang: en
@@ -514,8 +514,8 @@ items:
     must_cite: []
     winning_source: null
     key_facts: []
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g030
     question: "La préfecture a refusé mon changement de statut, est-ce que je peux faire un recours ?"
     lang: fr
@@ -526,8 +526,8 @@ items:
     must_cite: []
     winning_source: null
     key_facts: []
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g031
     question: "Quel est le délai moyen de traitement à la préfecture de Lyon pour un changement de statut ?"
     lang: fr
@@ -538,8 +538,8 @@ items:
     must_cite: []
     winning_source: null
     key_facts: []
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: g032
     question: "Which bank accepts international students without a residence permit?"
     lang: en
@@ -550,5 +550,5 @@ items:
     must_cite: []
     winning_source: null
     key_facts: []
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
