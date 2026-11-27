@@ -1,0 +1,26 @@
+# Keeps the free Render web service awake: it spins down after 15 minutes without inbound
+# traffic and takes about a minute to wake (render.com/docs/free). One always-on service uses
+# about 744 of the 750 free instance hours a month. GitHub may delay scheduled runs, so a rare
+# cold start remains possible (D-023).
+#
+# Set the repository variable BACKEND_URL (Settings > Secrets and variables > Actions >
+# Variables), e.g. https://permipath-api.onrender.com. Without it the job does nothing.
+name: keepalive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    if: ${{ vars.BACKEND_URL != '' }}
+    steps:
+      - name: GET /health
+        env:
+          BACKEND_URL: ${{ vars.BACKEND_URL }}
+        run: curl --fail --silent --show-error --max-time 90 --retry 2 "$BACKEND_URL/health"
