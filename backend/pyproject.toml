@@ -16,6 +16,10 @@ dependencies = [
 ]
 
 [dependency-groups]
+baseline = [
+    "sentence-transformers>=6.3.0",
+    "torch>=2.15.0",
+]
 dev = [
     "mypy>=2.4.1",
     "pytest>=9.2.0",
@@ -26,6 +30,17 @@ dev = [
 [tool.uv]
 package = false
 
+# Optional group `baseline` (evals only, never installed in the app image or CI): bge-m3 query
+# embeddings for the pre-vectorised service-public baseline (D-014). torch comes from the
+# PyTorch CPU index to avoid the CUDA wheels.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"
@@ -33,19 +48,30 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
 
+[tool.ruff.lint.isort]
+# `evals/` sits at the repository root but is part of this project (D-001).
+known-first-party = ["app", "db", "evals", "guardrails", "ingestion", "rag"]
+
 [tool.mypy]
 python_version = "3.12"
 strict = true
 plugins = ["pydantic.mypy"]
-files = ["app", "db", "ingestion", "rag", "guardrails", "tests"]
+files = ["app", "db", "ingestion", "rag", "guardrails", "tests", "../evals"]
 explicit_package_bases = true
 
 [[tool.mypy.overrides]]
 module = ["pgvector.*"]
 ignore_missing_imports = true
 
+# Optional dependency group `baseline`, not installed in CI.
+[[tool.mypy.overrides]]
+module = ["sentence_transformers.*"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# The evaluation harness (`evals/`) lives at the repository root (D-001).
+pythonpath = [".."]
 markers = ["db: requires a running Postgres + pgvector (DATABASE_URL)"]
 # Any warning (deprecations included) fails the suite.
 filterwarnings = ["error"]

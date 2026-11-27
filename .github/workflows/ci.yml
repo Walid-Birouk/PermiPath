@@ -36,11 +36,14 @@ jobs:
           working-directory: backend
       - run: uv sync --frozen
       - name: Lint
-        run: uv run ruff check . && uv run ruff format --check .
+        run: uv run ruff check . ../evals && uv run ruff format --check . ../evals
       - name: Type check
         run: uv run mypy
       - name: Test
         run: uv run pytest
+      - name: Validate golden set
+        working-directory: .
+        run: uv run --project backend python -m evals.validate
 
   frontend:
     runs-on: ubuntu-latest
