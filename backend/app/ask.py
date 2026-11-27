@@ -6,15 +6,17 @@ request keeps the journey stage, the retrieved chunk ids, latency, token counts 
 """
 
 import logging
+import secrets
 import time
 from collections.abc import Callable
 from datetime import UTC, datetime
 from functools import cache
 from typing import Annotated, Any, Literal
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field, StringConstraints
 
+from app.limits import DatabaseGuard, Guard, Prices
 from ingestion.manifest import JourneyStage
 
 log = logging.getLogger(__name__)
@@ -131,12 +133,66 @@ def log_entry(state: dict[str, Any], stage: str | None, latency_ms: int) -> dict
     }
 
 
-@router.post("/ask", response_model=AskResponse)
+@cache
+def _default_guard() -> Guard:
+    from app.config import get_settings
+    from db.session import make_engine
+
+    settings = get_settings()
+    secret = (
+        settings.ip_hash_secret.get_secret_value().encode()
+        if settings.ip_hash_secret
+        else secrets.token_bytes(32)
+    )
+    prices = Prices(
+        settings.price_chat_input_per_m,
+        settings.price_chat_output_per_m,
+        settings.price_embed_input_per_m,
+    )
+    return DatabaseGuard(
+        make_engine(settings.database_url),
+        settings.daily_question_limit,
+        settings.monthly_spend_cap_eur,
+        prices,
+        secret,
+    )
+
+
+def get_guard() -> Guard:
+    return _default_guard()
+
+
+def client_ip(http_request: Request) -> str:
+    from app.config import get_settings
+
+    if get_settings().trust_forwarded_for:
+        forwarded = http_request.headers.get("x-forwarded-for", "")
+        if first := forwarded.split(",")[0].strip():
+            return first
+    return http_request.client.host if http_request.client else "unknown"
+
+
+@router.post(
+    "/ask",
+    response_model=AskResponse,
+    responses={
+        429: {"description": "Daily question limit reached for this visitor (`Retry-After`)."},
+        503: {"description": "Monthly spend cap reached; paused until next month."},
+    },
+)
 def ask(
     request: AskRequest,
+    http_request: Request,
     agent: Annotated[Agent, Depends(get_agent)],
     query_logger: Annotated[QueryLogger, Depends(get_query_logger)],
+    guard: Annotated[Guard, Depends(get_guard)],
 ) -> AskResponse:
+    admission = guard.admit(client_ip(http_request))
+    if admission.outcome != "ok":
+        status = 429 if admission.outcome == "rate_limited" else 503
+        raise HTTPException(
+            status, admission.outcome, headers={"Retry-After": str(admission.retry_after_s)}
+        )
     started = time.perf_counter()
     state = agent(
         {

@@ -1,15 +1,32 @@
 import json
+from dataclasses import dataclass, field
 from typing import Any
 
 import pytest
 from fastapi.testclient import TestClient
 
-from app.ask import get_agent, get_query_logger
+from app.ask import get_agent, get_guard, get_query_logger
+from app.limits import Admission
 from app.main import create_app
 from rag.graph import Deps, build_graph
 from tests.test_graph import SHEET, SHEET_2, SUPPORTED, FakeAnswerer, FakeRetriever
 
 QUESTION = "Quelle est la durée de la carte étudiant fictive pour Zorglub ?"
+
+
+class AllowAll:
+    def admit(self, client_ip: str) -> Admission:
+        return Admission("ok")
+
+
+@dataclass
+class Refuse:
+    outcome: Any
+    seen: list[str] = field(default_factory=list)
+
+    def admit(self, client_ip: str) -> Admission:
+        self.seen.append(client_ip)
+        return Admission(self.outcome, 3600)
 
 
 @pytest.fixture
@@ -23,6 +40,7 @@ def client(logs: list[dict[str, Any]]) -> TestClient:
     graph = build_graph(Deps(FakeRetriever([SHEET, SHEET_2]), FakeAnswerer(SUPPORTED)))
     app.dependency_overrides[get_agent] = lambda: graph.invoke
     app.dependency_overrides[get_query_logger] = lambda: logs.append
+    app.dependency_overrides[get_guard] = lambda: AllowAll()
     return TestClient(app)
 
 
@@ -74,3 +92,17 @@ def test_a_failing_log_write_does_not_fail_the_answer(client: TestClient) -> Non
 
     client.app.dependency_overrides[get_query_logger] = lambda: broken  # type: ignore[attr-defined]
     assert client.post("/ask", json={"question": QUESTION}).status_code == 200
+
+
+@pytest.mark.parametrize(("outcome", "status"), [("rate_limited", 429), ("spend_cap", 503)])
+def test_guardrails_refuse_before_any_model_call(
+    client: TestClient, logs: list[dict[str, Any]], outcome: str, status: int
+) -> None:
+    guard = Refuse(outcome)
+    client.app.dependency_overrides[get_guard] = lambda: guard  # type: ignore[attr-defined]
+    response = client.post("/ask", json={"question": QUESTION})
+    assert response.status_code == status
+    assert response.json() == {"detail": outcome}
+    assert response.headers["retry-after"] == "3600"
+    assert logs == []  # the agent did not run
+    assert guard.seen == ["testclient"]

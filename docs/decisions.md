@@ -440,3 +440,23 @@ the same figures are usually in the retrieved chunks; the rows fill figures retr
 every number in `key_facts`, including article and decision numbers an answer need not repeat,
 so its absolute value understates figure accuracy; it is used for comparisons only. Thresholds
 that change by decree (salary thresholds, fees) now have one row each to update.
+
+## D-020 — Rate limit and spend cap
+
+**Context.** The public `/ask` endpoint has no accounts and calls billed APIs. CLAUDE.md requires
+rate limiting and spend tracking in Postgres (no Redis) and no stored personal details.
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Visitor | `HMAC(HMAC(IP_HASH_SECRET, day), client IP)`, hex. The raw IP is never stored; the hash changes every day; rows of past days are deleted on every write (table `usage_counters`, migration 0006). Behind a proxy, `TRUST_FORWARDED_FOR=true` reads the first `X-Forwarded-For` entry. |
+| Daily limit | `DAILY_QUESTION_LIMIT` questions per visitor per UTC day; one atomic `INSERT ... ON CONFLICT DO UPDATE ... RETURNING`. Over the limit: HTTP 429 `rate_limited`, `Retry-After` until midnight UTC. |
+| Spend | Month-to-date tokens in `query_logs` (prompt, completion, query embedding) times the configured prices. Mistral list prices in USD per million tokens, read on 2026-11-27 from docs.mistral.ai/inference/pricing and the model cards: Mistral Small 4 input 0.15, output 0.6; Mistral Embed 0.1. Counted 1:1 as EUR, which overestimates while 1 USD < 1 EUR. |
+| Spend cap | Estimated spend ≥ `MONTHLY_SPEND_CAP_EUR`: HTTP 503 `spend_cap`, `Retry-After` until the next month. The check runs before the counter, so a paused service counts no question. |
+| Order | Guard first; a refused request runs no model and writes no log. |
+
+**Consequences.** The spend is an estimate at list prices: the project's Mistral key is on a Pro
+subscription (see `.env.example`), whose billing may differ. Evaluation runs (`evals.agent`) call
+the graph directly and are not counted. Prices are settings (`PRICE_*`), to update when Mistral
+changes them. The user-facing wording for 429 and 503 belongs to the frontend (build step 7).

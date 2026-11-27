@@ -229,3 +229,14 @@ class Rule(Base):
     verified_by: Mapped[str | None] = mapped_column(Text)
     verified_at: Mapped[date | None] = mapped_column(Date)
     loaded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class UsageCounter(Base):
+    """Questions per visitor per day for the rate limit. `visitor` is an HMAC of the client IP
+    keyed with a daily salt: not linkable across days; rows of past days are deleted."""
+
+    __tablename__ = "usage_counters"
+
+    day: Mapped[date] = mapped_column(Date, primary_key=True)
+    visitor: Mapped[str] = mapped_column(Text, primary_key=True)
+    questions: Mapped[int] = mapped_column(Integer, server_default="0")

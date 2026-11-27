@@ -38,7 +38,7 @@ docker compose up --build
 | URL | Service |
 |-----|---------|
 | http://localhost:8000/health | API health check |
-| `POST http://localhost:8000/ask` | Agent: `{"question": "...", "lang": "fr", "stage": "renewing", "nationality": "unknown"}` (only `question` required). Architecture: `docs/architecture.md`. |
+| `POST http://localhost:8000/ask` | Agent: `{"question": "...", "lang": "fr", "stage": "renewing", "nationality": "unknown"}` (only `question` required). 429 when the visitor's daily limit is reached, 503 when the monthly spend cap is reached (D-020). Architecture: `docs/architecture.md`. |
 | http://localhost:8000/docs | OpenAPI documentation |
 | http://localhost:3000 | Frontend |
 
