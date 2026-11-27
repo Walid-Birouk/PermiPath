@@ -30,8 +30,8 @@ rules:
     value: "964 heures par an maximum (60 % de la durée annuelle légale du travail)"
     quote: "L'étudiant peut travailler 964 heures par an maximum (60 % de la durée annuelle légale du travail) sans demander d’autorisation de travail."
     source: fact_sheet:F2713
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: student-work-share-ceseda
     permit: cst_etudiant
     nationality_scope: all
@@ -41,8 +41,8 @@ rules:
     value: "dans la limite de 60 % de la durée de travail annuelle"
     quote: "Cette carte donne droit à l'exercice, à titre accessoire, d'une activité professionnelle salariée dans la limite de 60 % de la durée de travail annuelle."
     source: law:LEGIARTI000042771654
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: algerian-student-work-share
     permit: cr_etudiant
     nationality_scope: algerian
@@ -52,8 +52,8 @@ rules:
     value: "au maximum 50 % de la durée annuelle de travail pratiquée dans la branche ou la profession concernée"
     quote: "Après avoir obtenu l’autorisation de travail, l'étudiant peut travailler au maximum 50 % de la durée annuelle de travail pratiquée dans la branche ou la profession concernée."
     source: fact_sheet:F2713
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: algerian-student-work-agreement
     permit: cr_etudiant
     nationality_scope: algerian
@@ -63,8 +63,8 @@ rules:
     value: "dans la limite d'un mi-temps annuel pour la branche ou la profession concernée"
     quote: "peuvent être autorisés à travailler dans la limite d'un mi-temps annuel pour la branche ou la profession concernée"
     source: treaty:accord-franco-algerien-1968:protocole-titre-3
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: student-resources
     permit: cst_etudiant
     nationality_scope: all
@@ -74,8 +74,8 @@ rules:
     value: "au moins égales à 877,5 € par mois"
     quote: "Vous devez pouvoir justifier de ressources au moins égales à 877,5 € par mois."
     source: fact_sheet:F2231
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: algerian-student-resources
     permit: cr_etudiant
     nationality_scope: algerian
@@ -85,8 +85,8 @@ rules:
     value: "au minimum 877,5 € par mois"
     quote: "Vous devez justifier de moyens d'existence suffisants (bourses ou autres ressources, d'au minimum 877,5 € par mois)."
     source: fact_sheet:F2215
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: vls-ts-validation-deadline
     permit: vls_ts_etudiant
     nationality_scope: all
@@ -96,8 +96,8 @@ rules:
     value: "dans les 3 mois suivant votre arrivée en France"
     quote: "Dans les 3 mois suivant votre arrivée en France, vous devez valider votre VLS-TS et payer une taxe qui s'ajoute aux droits de visa."
     source: fact_sheet:F2231
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: vls-ts-validation-tax
     permit: vls_ts_etudiant
     nationality_scope: all
@@ -107,8 +107,8 @@ rules:
     value: "100 €"
     quote: "Il faut payer 100 € ."
     source: fact_sheet:F2231
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: student-renewal-window
     permit: cst_etudiant
     nationality_scope: all
@@ -118,8 +118,8 @@ rules:
     value: "au plus tôt 4 mois et au plus tard 2 mois avant la fin de validité de votre document de séjour"
     quote: "Vous devez demander votre titre de séjour au plus tôt 4 mois et au plus tard 2 mois avant la fin de validité de votre document de séjour (visa, VLS-TS ou titre)."
     source: fact_sheet:F2231
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: student-multiyear-fee
     permit: csp_etudiant
     nationality_scope: all
@@ -129,8 +129,8 @@ rules:
     value: "150 € (100 € de taxe + 50 € de droit de timbre)"
     quote: "Vous devez régler 150 € (100 € de taxe + 50 € de droit de timbre) par timbres fiscaux."
     source: fact_sheet:F2231
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: late-renewal-fee
     permit: cst_etudiant
     nationality_scope: all
@@ -140,8 +140,8 @@ rules:
     value: "180 euros, sauf cas de force majeure ou présentation d'un visa en cours de validité"
     quote: "le renouvellement d'un titre de séjour demandé après l'expiration du délai requis pour le dépôt de la demande donne lieu, sauf cas de force majeure ou présentation d'un visa en cours de validité, à l'acquittement d'un droit de visa de régularisation de 180 euros."
     source: law:LEGIARTI000042772048
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: student-renewal-documents-grades
     permit: cst_etudiant
     nationality_scope: all
@@ -151,8 +151,8 @@ rules:
     value: "Relevés de notes de l'année écoulée"
     quote: "Relevés de notes de l'année écoulée"
     source: fact_sheet:F2231
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: student-renewal-documents-address
     permit: cst_etudiant
     nationality_scope: all
@@ -162,8 +162,8 @@ rules:
     value: "Justificatif de domicile datant de moins de 6 mois"
     quote: "Justificatif de domicile datant de moins de 6 mois"
     source: fact_sheet:F2231
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: student-renewal-documents-enrolment
     permit: cst_etudiant
     nationality_scope: all
@@ -173,8 +173,8 @@ rules:
     value: "Inscription produite par l'établissement d'enseignement ou préinscription"
     quote: "Inscription produite par l'établissement d'enseignement (qui peut être un établissement public ou privé d'enseignement supérieur) ou préinscription"
     source: fact_sheet:F2231
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: rece-duration
     permit: rece
     nationality_scope: all
@@ -184,8 +184,8 @@ rules:
     value: "valable 1 an"
     quote: "La carte de séjour ou le VLS-TS est valable 1 an."
     source: fact_sheet:F17319
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: rece-salary
     permit: rece
     nationality_scope: all
@@ -195,8 +195,8 @@ rules:
     value: "rémunération mensuelle brute supérieure à 2 800,53 €"
     quote: "Être assorti d’une rémunération mensuelle brute supérieure à 2 800,53 €."
     source: fact_sheet:F17319
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: rece-application-window
     permit: rece
     nationality_scope: all
@@ -206,8 +206,8 @@ rules:
     value: "dans les 2 mois précédant la date de fin de validité de votre carte étudiant"
     quote: "Vous devez déposer votre demande à la préfecture ou sous-préfecture de votre domicile, dans les 2 mois précédant la date de fin de validité de votre carte étudiant ou étudiant-programme de mobilité."
     source: fact_sheet:F17319
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: rece-from-abroad-deadline
     permit: rece
     nationality_scope: all
@@ -217,8 +217,8 @@ rules:
     value: "dans le délai maximal de 4 ans à compter de l'obtention de votre diplôme"
     quote: "Faire votre demande dans le délai maximal de 4 ans à compter de l’obtention de votre diplôme."
     source: fact_sheet:F17319
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: talent-salary
     permit: talent_salarie_qualifie
     nationality_scope: all
@@ -228,8 +228,8 @@ rules:
     value: "rémunération brute annuelle supérieure ou égale à 39 582 €, contrat de travail de plus de 3 mois"
     quote: "Avoir un contrat de travail de plus de 3 mois qui prévoit une rémunération brute annuelle supérieure ou égale à 39 582 €."
     source: fact_sheet:F16922
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: talent-duration
     permit: talent_salarie_qualifie
     nationality_scope: all
@@ -239,8 +239,8 @@ rules:
     value: "durée du contrat de travail, dans la limite de 4 ans"
     quote: "La carte est valable pour une durée identique à celle du contrat de travail dans la limite d'une durée maximale de 4 ans."
     source: fact_sheet:F16922
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: salarie-multiyear-duration
     permit: csp_salarie
     nationality_scope: all
@@ -250,8 +250,8 @@ rules:
     value: "4 ans, en principe"
     quote: "En principe, la carte de séjour pluriannuelle obtenue après une 1re année de séjour a une durée de validité de 4 ans."
     source: fact_sheet:F35799
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: employer-declaration-deadline
     permit: cst_etudiant
     nationality_scope: all
@@ -261,8 +261,8 @@ rules:
     value: "au moins 2 jours ouvrables avant la date d'effet de l'embauche"
     quote: "L'employeur doit accomplir cette formalité au moins 2 jours ouvrables avant la date d'effet de l'embauche par tout moyen permettant de donner date certaine à la réception de la déclaration."
     source: fact_sheet:F2713
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: internship-max-duration
     permit: stage_etudiant
     nationality_scope: all
@@ -272,8 +272,8 @@ rules:
     value: "6 mois maximum par organisme d'accueil et par année d'enseignement"
     quote: "La durée de formation effectuée en milieu professionnel est de 6 mois maximum par organisme d'accueil et par année d'enseignement."
     source: fact_sheet:F16734
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: internship-gratification
     permit: stage_etudiant
     nationality_scope: all
@@ -283,8 +283,8 @@ rules:
     value: "durée du stage supérieure à 2 mois consécutifs"
     quote: "Une gratification minimale est versée au stagiaire si la durée du stage est supérieure à 2 mois consécutifs (soit l'équivalent de 44 jours à 7 heures par jour) au cours de la même année scolaire ou universitaire."
     source: fact_sheet:F16734
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: algerian-student-renewal-fee
     permit: cr_etudiant
     nationality_scope: algerian
@@ -294,8 +294,8 @@ rules:
     value: "100 € (droit de timbre de 50 € + taxe de 50 €)"
     quote: "Vous devez payer 100 € (droit de timbre de 50 € + taxe de 50 € ) par timbres fiscaux."
     source: fact_sheet:F2215
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: algerian-status-change-fee
     permit: cr_salarie
     nationality_scope: algerian
@@ -305,8 +305,8 @@ rules:
     value: "250 € (taxe de 200 € + droit de timbre de 50 €)"
     quote: "Vous devez payer 250 €(taxe de 200 €+ droit de timbre de 50 €) par timbres fiscaux."
     source: fact_sheet:F2215
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
   - id: algerian-10-year-residence
     permit: cr_10_ans
     nationality_scope: algerian
@@ -316,5 +316,5 @@ rules:
     value: "résidence ininterrompue en France de 3 années"
     quote: "Les ressortissants algériens visés à l'article 7 peuvent obtenir un certificat de résidence de 10 ans s'ils justifient d'une résidence ininterrompue en France de 3 années."
     source: treaty:accord-franco-algerien-1968:article-7-bis
-    verified_by: null
-    verified_at: null
+    verified_by: Walid
+    verified_at: 2026-11-27
