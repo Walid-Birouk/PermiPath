@@ -48,7 +48,7 @@ On start, the backend applies all database migrations.
 ```bash
 cd backend
 uv sync
-uv run ruff check . && uv run ruff format --check .
+uv run ruff check . ../evals && uv run ruff format --check . ../evals
 uv run mypy
 uv run pytest                 # tests marked `db` are skipped without TEST_DATABASE_URL
 ```
@@ -97,6 +97,31 @@ uv run python -m ingestion embed                        # fill missing embedding
 | `embed --limit N` | Embeds at most N chunks. |
 
 Exit codes: `0` success, `1` a source or the provider failed, `2` configuration error.
+
+### Evaluation
+
+The golden set is `evals/golden/golden.yaml` (schema and rules: `evals/golden_set.py`). Commands
+run from the repository root with the backend environment:
+
+```bash
+uv run --project backend python -m evals.validate [--check-sources] [--require-verified]
+uv run --project backend python -m evals.draft add --question "..." --lang fr --stage working
+uv run --project backend python -m evals.draft sources F2713          # find must_cite references
+uv run --project backend python -m evals.run_evals --set golden --pipeline vector
+uv run --project backend python -m evals.compare reports/BASE.json reports/NEW.json \
+    --append docs/eval-results.md
+```
+
+| Command | Effect |
+|---------|--------|
+| `evals.validate` | Checks the schema and consistency rules and prints the set's mix. `--check-sources` confirms every `must_cite` source exists in the index; `--require-verified` rejects draft items. Runs in CI. |
+| `evals.draft add` | Appends a draft item (next id, empty answer fields). Expected answers are written by the maintainer. |
+| `evals.draft sources TEXT` | Lists source references whose title, id or URL contains TEXT. |
+| `evals.run_evals` | Runs verified items (`--include-drafts` for all) through a retriever and writes `reports/<date>-<pipeline>.json` (git-ignored). Embeds each question with `mistral-embed`. |
+| `evals.compare` | Renders the summary metrics of two reports and their difference as a markdown table. |
+
+Metrics and report format: D-014 in `docs/decisions.md`; published comparisons:
+`docs/eval-results.md`.
 
 ### Frontend checks
 

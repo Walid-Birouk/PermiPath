@@ -1,0 +1,26 @@
+# Golden question set (PLAN.md, build step 3). Schema and rules: evals/golden_set.py.
+#
+# Questions may come from forums or be drafted (`python -m evals.draft add`); forums are never
+# indexed. Expected answers (`must_cite`, `winning_source`, `key_facts`) are written and
+# verified by the maintainer from official sources only; an item is verified once
+# `verified_by` and `verified_at` are set. Only verified items are scored by default.
+#
+# Fields
+#   id                  g001, g002, ...
+#   question            as a user would ask it; no personal data
+#   lang                fr | en
+#   stage               arriving | renewing | working | finishing | job_offer | settling
+#                       (null for out-of-scope questions)
+#   nationality         any | algerian
+#   expected_behaviour  answer | refuse (out of scope) | handoff (personal or urgent)
+#                       | abstain (in scope, no official source)
+#   must_cite           source references "{source_type}:{source_id}", e.g. fact_sheet:F2713
+#                       (`python -m evals.draft sources TEXT` lists them)
+#   winning_source      the governing source when sources conflict; required for verified
+#                       Algerian answer items (D-009)
+#   key_facts           facts a correct answer states, each found in must_cite
+#   origin              where the question comes from
+#   verified_by, verified_at
+
+version: 1
+items: []

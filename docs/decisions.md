@@ -18,6 +18,7 @@ a superseded decision is marked as such and references the entry that replaces i
 | D-011 | Ingestion: manifest, chunking, identity and removal rules | Accepted | 2026-11-27 |
 | D-012 | Sources without machine-readable official text | Proposed | 2026-11-27 |
 | D-013 | Passage embeddings: mistral-embed through an own client | Accepted | 2026-11-27 |
+| D-014 | Evaluation harness: golden set schema and retrieval metrics | Accepted | 2026-11-27 |
 
 ---
 
@@ -239,4 +240,28 @@ D-010); LangChain and the Mistral SDK are not installed (D-007).
 chunks (460 fact-sheet, 256 law, 21 treaty), 858,135 input characters, 25 requests,
 286,736 prompt tokens, about 20 s; all vectors have unit norm; a second run sends nothing. No
 retrieval quality figure exists until the golden set (build step 3).
+
+## D-014 — Evaluation harness: golden set schema and retrieval metrics
+
+**Context.** Build step 3 requires a golden set, an evaluation CLI and a comparison between a
+baseline and the pipeline (PLAN.md). Expected answers are written and verified by the
+maintainer only (CLAUDE.md). No answer generation exists before build step 4.
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Location | `evals/` at the repository root, run with the backend environment (`uv run --project backend python -m evals.<command>`); `evals/__init__.py` puts `backend/` on the import path (D-001). Tests in `backend/tests/test_evals_*.py` (pytest `pythonpath = [".."]`); ruff and mypy cover `../evals`. |
+| Golden item | `id`, `question`, `lang`, `stage`, `nationality` (any, algerian), `expected_behaviour` (answer, refuse, handoff, abstain), `must_cite`, `winning_source`, `key_facts`, `origin`, `notes`, `verified_by`, `verified_at`. Sources are referenced as `{source_type}:{source_id}`, the identity used in `chunks`. |
+| Consistency | Verification fields are set together. A verified answer item has `must_cite` and `key_facts`; a verified Algerian answer item also has `winning_source`, which must be one of `must_cite`. An answer item has a journey stage. |
+| Drafts | Items without verification are drafts. `run_evals` scores verified items only unless `--include-drafts` is given, and the report then says so. |
+| Retrieval metrics | Computed at source level (a source counts as retrieved when any of its chunks is): recall@5 and @10 of `must_cite`, reciprocal rank of the first expected source (MRR), and right-source-wins (the governing source is retrieved and ranks first among the expected sources). Applied to answer items with `must_cite`. |
+| Other measures | Per item: latency of retrieval (query embedding + search; p50, p95 in the summary), query embedding tokens, top similarity score (reference data for the abstain threshold). |
+| Not measured yet | Answer correctness, faithfulness, citation accuracy, refusal/abstain accuracy: they need generated answers (build step 4). Reports list them under `not_measured`. |
+| Reports | JSON in `reports/` (git-ignored); `evals.compare` appends the markdown comparison to `docs/eval-results.md`. Reports on different set versions or items are marked not comparable. |
+| First pipeline | `vector`: pgvector cosine over the embedded chunks, top 20 chunks, no lexical search, fusion, filters or re-ranking. |
+
+**Consequences.** The baseline retriever over the pre-vectorised service-public dataset is not
+implemented yet; its method is pending (query embeddings must use the dataset's model). Before
+step 4, the reports measure retrieval only.
 

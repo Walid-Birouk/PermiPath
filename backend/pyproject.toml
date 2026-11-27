@@ -33,11 +33,15 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
 
+[tool.ruff.lint.isort]
+# `evals/` sits at the repository root but is part of this project (D-001).
+known-first-party = ["app", "db", "evals", "guardrails", "ingestion", "rag"]
+
 [tool.mypy]
 python_version = "3.12"
 strict = true
 plugins = ["pydantic.mypy"]
-files = ["app", "db", "ingestion", "rag", "guardrails", "tests"]
+files = ["app", "db", "ingestion", "rag", "guardrails", "tests", "../evals"]
 explicit_package_bases = true
 
 [[tool.mypy.overrides]]
@@ -46,6 +50,8 @@ ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# The evaluation harness (`evals/`) lives at the repository root (D-001).
+pythonpath = [".."]
 markers = ["db: requires a running Postgres + pgvector (DATABASE_URL)"]
 # Any warning (deprecations included) fails the suite.
 filterwarnings = ["error"]
