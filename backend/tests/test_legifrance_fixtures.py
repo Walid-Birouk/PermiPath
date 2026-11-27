@@ -10,7 +10,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-import httpx
+import httpx2
 import pytest
 
 from ingestion.legifrance import check
@@ -33,19 +33,19 @@ def _fixture(name: str) -> dict[str, Any]:
     return data
 
 
-def _replay(request: httpx.Request) -> httpx.Response:
+def _replay(request: httpx2.Request) -> httpx2.Response:
     if request.url == ENDPOINTS.oauth_url:
-        return httpx.Response(200, json={"access_token": "tok-replay", "expires_in": 3600})
+        return httpx2.Response(200, json={"access_token": "tok-replay", "expires_in": 3600})
     path = request.url.path.removeprefix("/lf/")
     try:
-        return httpx.Response(200, json=_fixture(f"{path.replace('/', '_')}.json"))
+        return httpx2.Response(200, json=_fixture(f"{path.replace('/', '_')}.json"))
     except FileNotFoundError:
-        return httpx.Response(404, text="no fixture")
+        return httpx2.Response(404, text="no fixture")
 
 
 @pytest.fixture
 def client() -> LegifranceClient:
-    http = httpx.Client(transport=httpx.MockTransport(_replay))
+    http = httpx2.Client(transport=httpx2.MockTransport(_replay))
     return LegifranceClient(ENDPOINTS, CLIENT_ID, CLIENT_SECRET, http=http)
 
 
@@ -80,13 +80,13 @@ def test_article_in_force_on_date(client: LegifranceClient) -> None:
 
 
 def test_cli_against_recorded_responses(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
     monkeypatch.setenv("PISTE_CLIENT_ID", CLIENT_ID)
     monkeypatch.setenv("PISTE_CLIENT_SECRET", CLIENT_SECRET)
     monkeypatch.setenv("PISTE_OAUTH_URL", ENDPOINTS.oauth_url)
     monkeypatch.setenv("PISTE_API_URL", ENDPOINTS.api_url)
-    http = httpx.Client(transport=httpx.MockTransport(_replay))
+    http = httpx2.Client(transport=httpx2.MockTransport(_replay))
 
     code = check.main(["--article", "L422-1", "--date", ON.isoformat()], env_file=None, http=http)
 

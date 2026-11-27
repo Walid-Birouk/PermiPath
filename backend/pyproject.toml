@@ -5,7 +5,7 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "alembic>=1.20.1",
     "fastapi>=0.165.0",
-    "httpx>=0.28.1",
+    "httpx2>=2.16.2",
     "pgvector>=0.5.1",
     "psycopg[binary]>=3.3.9",
     "pydantic>=2.14.4",
@@ -45,3 +45,5 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["db: requires a running Postgres + pgvector (DATABASE_URL)"]
+# Any warning (deprecations included) fails the suite.
+filterwarnings = ["error"]

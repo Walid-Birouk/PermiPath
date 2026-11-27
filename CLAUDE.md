@@ -76,7 +76,7 @@ OUT of scope (detect and say so clearly, do not answer):
 | 6 | Forums / Facebook groups | — | NOT indexed. Eval questions only. |
 
 ## Stack
-- Backend: Python 3.12, FastAPI, Pydantic v2, uv. HTTP client: httpx.
+- Backend: Python 3.12, FastAPI, Pydantic v2, uv. HTTP client: httpx2 (D-010).
 - DB: Postgres + pgvector on **Supabase free tier** (EU region); Postgres `tsvector` (french config)
   for BM25-like lexical retrieval. Keep the corpus lean.
 - LLM + embeddings: **Mistral** (`mistral-small-*` generation, `mistral-embed`), behind a thin
@@ -142,7 +142,7 @@ treaty clause), `prefecture` (nullable), `title`, `url`, `text`, `lang`, `journe
 - Small, typed functions; no hidden global state; config via env vars (`.env.example` kept current).
 - One build step at a time (see PLAN.md), each with tests. Don't start the next step unasked.
 - Every pipeline stage is testable in isolation with fixtures in `backend/tests/fixtures/`.
-  External HTTP is mocked in tests (`httpx.MockTransport`); no test needs real credentials.
+  External HTTP is mocked in tests (`httpx2.MockTransport`); no test needs real credentials.
 - Prompts live in versioned files under `backend/rag/prompts/`, never inline strings.
 - When changing retrieval, chunking or prompts: run evals and paste the metric diff in the PR/commit.
 - Write decisions (and why) in `docs/decisions.md`.

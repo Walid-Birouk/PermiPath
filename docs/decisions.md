@@ -14,6 +14,7 @@ a superseded decision is marked as such and references the entry that replaces i
 | D-007 | Dependency introduction policy | Accepted | 2026-11-25 |
 | D-008 | Own thin Légifrance client instead of pylegifrance | Accepted | 2026-11-26 |
 | D-009 | Algerian nationals in scope with source precedence | Accepted | 2026-11-26 |
+| D-010 | httpx2 as HTTP client; warnings fail the test suite | Accepted | 2026-11-27 |
 
 ---
 
@@ -119,6 +120,8 @@ check passes. The base path `/dila/legifrance/lf-engine-app` and the PROD hosts 
 are confirmed. Recorded responses are kept in `backend/tests/fixtures/legifrance/`. PROD hosts and
 the public article URL pattern remain unverified.
 
+**Amended by D-010** (2026-11-27): the client uses `httpx2` instead of `httpx`.
+
 ## D-009 — Algerian nationals in scope with source precedence
 
 **Context.** CLAUDE.md first listed Algerian nationals as out of scope. The project handoff makes
@@ -130,3 +133,20 @@ service-public apply. Chunks carry `nationality_scope` and `authority`; the agen
 `precedence` node; the golden set has a "right source wins" metric.
 
 **Consequences.** The chunk schema changes in build step 2 (see CLAUDE.md data model).
+
+## D-010 — httpx2 as HTTP client; warnings fail the test suite
+
+**Context.** Starlette 1.10 emits `StarletteDeprecationWarning` when its test client runs on
+`httpx` and recommends `httpx2`, the continuation of HTTPX maintained by Pydantic. Alembic also
+warned that `alembic.ini` declared no `path_separator`. The project does not keep deprecated
+dependencies or configuration.
+
+**Decision.** `httpx` is replaced by `httpx2` (runtime dependency, API-compatible; imports are
+`import httpx2`). `alembic.ini` sets `path_separator = os`. pytest runs with
+`filterwarnings = ["error"]`, so any warning, deprecations included, fails the suite locally and
+in CI.
+
+**Consequences.** A dependency upgrade that introduces a deprecation breaks CI and must be handled
+in the same change (fix the call site or, with a written reason, add a targeted
+`filterwarnings` ignore). The live PISTE sandbox check was repeated on `httpx2` on 2026-11-27
+with the same result.

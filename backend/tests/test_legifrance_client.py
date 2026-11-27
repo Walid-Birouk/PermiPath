@@ -7,7 +7,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-import httpx
+import httpx2
 import pytest
 
 from ingestion.legifrance import check
@@ -60,43 +60,43 @@ class FakePiste:
     """Mock PISTE: OAuth + the three API endpoints. Records every request."""
 
     def __init__(self, search_hit_id: str = CURRENT_ID) -> None:
-        self.requests: list[httpx.Request] = []
+        self.requests: list[httpx2.Request] = []
         self.search_hit_id = search_hit_id
         self.tokens_issued = 0
         self.reject_next_api_call = False
 
-    def __call__(self, request: httpx.Request) -> httpx.Response:
+    def __call__(self, request: httpx2.Request) -> httpx2.Response:
         self.requests.append(request)
         if request.url == ENDPOINTS.oauth_url:
             self.tokens_issued += 1
-            return httpx.Response(
+            return httpx2.Response(
                 200, json={"access_token": f"tok-{self.tokens_issued}", "expires_in": 3600}
             )
         if self.reject_next_api_call:
             self.reject_next_api_call = False
-            return httpx.Response(401, json={"error": "invalid_token"})
+            return httpx2.Response(401, json={"error": "invalid_token"})
         path = request.url.path.removeprefix("/lf/")
         body = json.loads(request.content)
         if path == "list/code":
-            return httpx.Response(200, json={"results": [
+            return httpx2.Response(200, json={"results": [
                 {"id": "LEGITEXT000000000999", "titre": "Code civil", "etat": "VIGUEUR"},
                 {"id": CODE_ID, "titre": CESEDA_CURLY, "etat": "VIGUEUR"},
             ]})  # fmt: skip
         if path == "search":
-            return httpx.Response(200, json={"results": [{"sections": [{"extracts": [
+            return httpx2.Response(200, json={"results": [{"sections": [{"extracts": [
                 {"type": "section", "id": "LEGISCTA000000000001"},
                 {"type": "articles", "id": self.search_hit_id, "num": "L422-1"},
             ]}]}]})  # fmt: skip
         if path == "consult/getArticle":
-            return httpx.Response(200, json=ARTICLES[body["id"]])
-        return httpx.Response(404, text="unknown path")
+            return httpx2.Response(200, json=ARTICLES[body["id"]])
+        return httpx2.Response(404, text="unknown path")
 
     def bodies(self, path: str) -> list[dict[str, Any]]:
         return [json.loads(r.content) for r in self.requests if r.url.path == f"/lf/{path}"]
 
 
 def _client(fake: FakePiste, clock: Callable[[], float] = lambda: 0.0) -> LegifranceClient:
-    http = httpx.Client(transport=httpx.MockTransport(fake))
+    http = httpx2.Client(transport=httpx2.MockTransport(fake))
     return LegifranceClient(ENDPOINTS, CLIENT_ID, CLIENT_SECRET, http=http, clock=clock)
 
 
@@ -108,7 +108,7 @@ def test_token_request_uses_client_credentials_form() -> None:
     _client(fake).access_token()
     sent = fake.requests[0]
     assert sent.method == "POST"
-    form = dict(httpx.QueryParams(sent.content.decode()))
+    form = dict(httpx2.QueryParams(sent.content.decode()))
     assert form == {
         "grant_type": "client_credentials",
         "client_id": CLIENT_ID,
@@ -145,14 +145,14 @@ def test_401_on_api_refreshes_token_once_and_retries() -> None:
 
 
 def test_oauth_failure_raises_without_leaking_secret() -> None:
-    def reject(_: httpx.Request) -> httpx.Response:
-        return httpx.Response(401, json={"error": "invalid_client"})
+    def reject(_: httpx2.Request) -> httpx2.Response:
+        return httpx2.Response(401, json={"error": "invalid_client"})
 
     client = LegifranceClient(
         ENDPOINTS,
         CLIENT_ID,
         CLIENT_SECRET,
-        http=httpx.Client(transport=httpx.MockTransport(reject)),
+        http=httpx2.Client(transport=httpx2.MockTransport(reject)),
     )
     with pytest.raises(PisteAuthError) as exc_info:
         client.access_token()
@@ -161,16 +161,16 @@ def test_oauth_failure_raises_without_leaking_secret() -> None:
 
 
 def test_quota_error_has_hint() -> None:
-    def handler(request: httpx.Request) -> httpx.Response:
+    def handler(request: httpx2.Request) -> httpx2.Response:
         if request.url == ENDPOINTS.oauth_url:
-            return httpx.Response(200, json={"access_token": "t", "expires_in": 3600})
-        return httpx.Response(429, text="Too Many Requests")
+            return httpx2.Response(200, json={"access_token": "t", "expires_in": 3600})
+        return httpx2.Response(429, text="Too Many Requests")
 
     client = LegifranceClient(
         ENDPOINTS,
         CLIENT_ID,
         CLIENT_SECRET,
-        http=httpx.Client(transport=httpx.MockTransport(handler)),
+        http=httpx2.Client(transport=httpx2.MockTransport(handler)),
     )
     with pytest.raises(LegifranceApiError, match="quota") as exc_info:
         client.find_code()
@@ -297,7 +297,7 @@ def test_cli_end_to_end_with_dump(
     monkeypatch.setenv("PISTE_CLIENT_SECRET", CLIENT_SECRET)
     monkeypatch.setenv("PISTE_OAUTH_URL", ENDPOINTS.oauth_url)
     monkeypatch.setenv("PISTE_API_URL", ENDPOINTS.api_url)
-    http = httpx.Client(transport=httpx.MockTransport(FakePiste()))
+    http = httpx2.Client(transport=httpx2.MockTransport(FakePiste()))
     argv = ["--article", "L422-1", "--date", "2026-11-26", "--dump", str(tmp_path)]
 
     assert check.main(argv, env_file=None, http=http) == check.EXIT_OK

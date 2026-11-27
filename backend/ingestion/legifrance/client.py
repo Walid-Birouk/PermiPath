@@ -20,7 +20,7 @@ from dataclasses import dataclass
 from datetime import UTC, date, datetime
 from typing import Any
 
-import httpx
+import httpx2
 
 from ingestion.legifrance.settings import PisteEndpoints
 
@@ -92,14 +92,14 @@ class LegifranceClient:
         client_id: str,
         client_secret: str,
         *,
-        http: httpx.Client | None = None,
+        http: httpx2.Client | None = None,
         clock: Callable[[], float] = time.monotonic,
         on_response: ResponseHook | None = None,
     ) -> None:
         self._endpoints = endpoints
         self._client_id = client_id
         self._client_secret = client_secret
-        self._http = http or httpx.Client(timeout=httpx.Timeout(30.0, connect=5.0))
+        self._http = http or httpx2.Client(timeout=httpx2.Timeout(30.0, connect=5.0))
         self._clock = clock
         self._on_response = on_response
         self._token: str | None = None
@@ -135,7 +135,7 @@ class LegifranceClient:
                     "scope": "openid",
                 },
             )
-        except httpx.HTTPError as exc:
+        except httpx2.HTTPError as exc:
             raise PisteAuthError(f"Cannot reach PISTE OAuth: {type(exc).__name__}") from None
         if response.status_code != 200:
             raise PisteAuthError(
@@ -166,7 +166,7 @@ class LegifranceClient:
             self._on_response(path, payload)
         return payload
 
-    def _send(self, url: str, body: dict[str, Any]) -> httpx.Response:
+    def _send(self, url: str, body: dict[str, Any]) -> httpx2.Response:
         try:
             return self._http.post(
                 url,
@@ -176,7 +176,7 @@ class LegifranceClient:
                     "Accept": "application/json",
                 },
             )
-        except httpx.HTTPError as exc:
+        except httpx2.HTTPError as exc:
             raise LegifranceError(f"Cannot reach Légifrance API: {type(exc).__name__}") from None
 
     # --- operations -----------------------------------------------------------------------

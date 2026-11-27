@@ -14,7 +14,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-import httpx
+import httpx2
 from pydantic import ValidationError
 
 from app.config import ROOT_ENV_FILE
@@ -39,7 +39,7 @@ def main(
     argv: list[str] | None = None,
     *,
     env_file: Path | None = ROOT_ENV_FILE,
-    http: httpx.Client | None = None,
+    http: httpx2.Client | None = None,
 ) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--article", default="L422-1", help="CESEDA article number")
