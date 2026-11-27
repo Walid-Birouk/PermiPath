@@ -143,10 +143,16 @@ treaties:
       note: Same as above.
     - jorf_cid: JORFTEXT000000551016
       title: "Décret n° 94-1103 du 19 décembre 1994 (publication du deuxième avenant)"
-      status: included
+      status: pending
+      note: >-
+        Not indexed as a raw text: its wording is part of the consolidation below, which
+        cites this decree as the official source of the provisions it set.
     - jorf_cid: JORFTEXT000000599731
       title: "Décret n° 2002-1500 du 20 décembre 2002 (publication du troisième avenant)"
-      status: included
+      status: pending
+      note: >-
+        Not indexed as a raw text: its wording is part of the consolidation below, which
+        cites this decree as the official source of the provisions it set.
   consolidations:
     # Current text of the agreement and its Protocol, rebuilt from the 1968 text and the three
     # amendments. Indexed once its `status` is `verified` by the maintainer.
