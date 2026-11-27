@@ -15,6 +15,8 @@ a superseded decision is marked as such and references the entry that replaces i
 | D-008 | Own thin Légifrance client instead of pylegifrance | Accepted | 2026-11-26 |
 | D-009 | Algerian nationals in scope with source precedence | Accepted | 2026-11-26 |
 | D-010 | httpx2 as HTTP client; warnings fail the test suite | Accepted | 2026-11-27 |
+| D-011 | Ingestion: manifest, chunking, identity and removal rules | Accepted | 2026-11-27 |
+| D-012 | Sources without machine-readable official text | Proposed | 2026-11-27 |
 
 ---
 
@@ -150,3 +152,52 @@ in CI.
 in the same change (fix the call site or, with a written reason, add a targeted
 `filterwarnings` ignore). The live PISTE sandbox check was repeated on `httpx2` on 2026-11-27
 with the same result.
+
+## D-011 — Ingestion: manifest, chunking, identity and removal rules
+
+**Context.** Build step 2 loads service-public sheets, CESEDA articles and treaty texts into the
+`chunks` table, with versioning and a changelog (D-003). Re-runs must be idempotent and a single
+edit in an official source must produce a single changelog entry.
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Source list | `sources/manifest.yaml`, validated by `ingestion.manifest.Manifest`. Sheets carry `journey_stages` and `nationality_scope`; the maintainer reviews the file before embedding. |
+| Legal articles | Not listed in the manifest: the in-force articles cited by the selected sheets (`Reference` elements). Section citations are expanded through `consult/legi/tableMatieres`; cited article ids of superseded versions resolve to the version in force on the ingestion date. Each article inherits the union of the journey stages of the sheets citing it. |
+| Sheet chunks | Structure-aware (`ingestion.chunker`): a section under `MAX_CHUNK_CHARS` (2,500) is one chunk; larger sections split along sub-sections, then between blocks. Each chunk text starts with its section path. |
+| Article chunks | One article = one chunk, split only above the limit. `source_id` is the article **cid**, so a new version of an article updates the same chunk ids and writes `modified` entries. |
+| Treaty chunks | One clause (centred "Article …" heading in the JORF text) = one chunk; the preamble and the publishing decree's own articles are separate chunks. `source_type = treaty`, `source_id` = JORFTEXT cid. |
+| Content hash | SHA-256 of title and text. Metadata changes (stages, scope, tags) update rows without a changelog entry. |
+| Removal | Only for sources loaded in full; a source type is complete only when every source of that type loaded without error. A failed fetch never empties the index. |
+| Quotas | The Légifrance client retries HTTP 429 up to four times (`Retry-After`, else 1, 2, 4, 8 s). |
+| Ministry guidance pages | `source_type = fact_sheet`, `authority = official`. |
+
+**Consequences.** A full run (16 sheets) yields about 680 chunks (425 sheet, 227 article, 25
+treaty) from about 260 API calls. `procedure_tags` stay empty until a tag vocabulary is defined.
+Code du travail and Code pénal articles cited by the sheets are not ingested yet.
+
+## D-012 — Sources without machine-readable official text
+
+**Status.** Proposed: requires a maintainer decision.
+
+**Context.**
+
+| Source | Finding (2026-11-27) |
+|---|---|
+| Franco-Algerian agreement of 27 December 1968 (Décret n° 69-243, `JORFTEXT000000694290`) | `consult/jorf` returns metadata only. The official text exists only as a scan of the full JO issue (`JORF_19690322_69.pdf`, 15 MB). No consolidated (LODA) version exists. |
+| First amendment (Décret n° 86-320, `JORFTEXT000000333424`) | Same: scan only (`JORF_19860308_57.pdf`, 28 MB). |
+| Second and third amendments (Décrets n° 94-1103 and 2002-1500) | Full text available; ingested. |
+| Ministry page on bilateral agreements (immigration.interieur.gouv.fr) | Automated requests receive an HTTP 403 JavaScript challenge. Not fetched; the challenge is not bypassed. |
+
+**Options.**
+
+1. Agreement: OCR the official scans (pages 5 and 14), with a manual check of the text against
+   the PDF; `authority = official`.
+2. Agreement: index a consolidated text from GISTI with `authority = secondary` (never outranks
+   an official chunk).
+3. Agreement: index only the official machine-readable texts (second and third amendments) and
+   the service-public Algerian sheets; answer "no official source" for provisions only in the
+   original text.
+4. Ministry page: a maintainer-saved copy read from a local file (freshness checked by hand), or
+   no ministry source.
