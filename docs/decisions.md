@@ -18,7 +18,7 @@ a superseded decision is marked as such and references the entry that replaces i
 | D-011 | Ingestion: manifest, chunking, identity and removal rules | Accepted | 2026-11-27 |
 | D-012 | Sources without machine-readable official text | Proposed | 2026-11-27 |
 | D-013 | Passage embeddings: mistral-embed through an own client | Accepted | 2026-11-27 |
-| D-014 | Evaluation harness: golden set schema and retrieval metrics | Accepted | 2026-11-27 |
+| D-014 | Evaluation harness: golden set, retrieval metrics and baseline | Accepted | 2026-11-27 |
 
 ---
 
@@ -241,7 +241,7 @@ chunks (460 fact-sheet, 256 law, 21 treaty), 858,135 input characters, 25 reques
 286,736 prompt tokens, about 20 s; all vectors have unit norm; a second run sends nothing. No
 retrieval quality figure exists until the golden set (build step 3).
 
-## D-014 — Evaluation harness: golden set schema and retrieval metrics
+## D-014 — Evaluation harness: golden set, retrieval metrics and baseline
 
 **Context.** Build step 3 requires a golden set, an evaluation CLI and a comparison between a
 baseline and the pipeline (PLAN.md). Expected answers are written and verified by the
@@ -260,8 +260,22 @@ maintainer only (CLAUDE.md). No answer generation exists before build step 4.
 | Not measured yet | Answer correctness, faithfulness, citation accuracy, refusal/abstain accuracy: they need generated answers (build step 4). Reports list them under `not_measured`. |
 | Reports | JSON in `reports/` (git-ignored); `evals.compare` appends the markdown comparison to `docs/eval-results.md`. Reports on different set versions or items are marked not comparable. |
 | First pipeline | `vector`: pgvector cosine over the embedded chunks, top 20 chunks, no lexical search, fusion, filters or re-ranking. |
+| Baseline | `baseline-sp`: the pre-vectorised service-public dataset (DINUM, `AgentPublic/service-public`, config `latest`), restricted to the fact sheets of `sources/manifest.yaml` so that both retrievers draw on the same documents. Rows are fetched per sheet through the Hugging Face dataset viewer `/filter` endpoint into a git-ignored snapshot that records the dataset revision. Questions are embedded locally with BAAI/bge-m3 (pinned revision) through sentence-transformers on CPU, and ranked by cosine against the dataset's stored vectors, top 20 chunks. |
+| Baseline dependencies | Optional uv group `baseline` (`sentence-transformers`, `torch` from the PyTorch CPU index). Not installed by default, in CI or in the backend image. |
+| Baseline compatibility | The dataset card does not document query embedding. Each baseline report records `vector_check`: the minimum cosine between stored vectors and the local re-embedding of their chunk texts. |
 
-**Consequences.** The baseline retriever over the pre-vectorised service-public dataset is not
-implemented yet; its method is pending (query embeddings must use the dataset's model). Before
-step 4, the reports measure retrieval only.
+**Options considered for the baseline.** Re-embedding the dataset's chunk texts with
+`mistral-embed` (measures chunking only, not the published vectors); DINUM's Albert API for
+bge-m3 query embeddings (requires an account). Local bge-m3 was chosen by the maintainer
+(2026-11-27).
+
+**Consequences.** Before step 4, the reports measure retrieval only. The baseline holds fact
+sheets only, so it cannot retrieve CESEDA articles or the agreement: its right-source-wins on
+Algerian items whose governing source is the agreement is 0 by construction. Baseline latency
+(local CPU embedding) and pipeline latency (API embedding) are not comparable and are reported
+for information. First snapshot (2026-11-27, dataset revision `1087b4b9191f`): 322 chunks from
+the 19 manifest sheets; local bge-m3 reproduced stored vectors with a minimum cosine of 0.980 over 14 checked
+chunks; about 130 ms per question on CPU. On the 32 draft questions, `mistral-embed` top
+similarities stay high for out-of-scope and no-source questions (0.82 to 0.83) where bge-m3
+drops to 0.44 to 0.58: a raw similarity threshold is a weak abstain signal on the index.
 

@@ -2,6 +2,11 @@
 
     uv run --project backend python -m evals.run_evals --set golden --pipeline vector \\
         [--depth 20] [--include-drafts] [--out reports/YYYY-MM-DD-vector.json]
+    uv run --project backend --group baseline python -m evals.run_evals --pipeline baseline-sp
+
+Pipelines: `vector` (the index of build step 2, `evals.retrievers`) and `baseline-sp` (the
+pre-vectorised service-public dataset, `evals.baseline`; run `python -m evals.baseline fetch`
+first).
 
 Scope (build step 3): retrieval only. Items expecting an answer and listing `must_cite` are
 scored for source recall@k, reciprocal rank and, when `winning_source` is set, whether the
@@ -18,6 +23,7 @@ import json
 import sys
 import time
 from collections.abc import Callable, Sequence
+from contextlib import ExitStack
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -36,6 +42,7 @@ from evals.metrics import (
     source_ranking,
 )
 from evals.retrievers import Retriever
+from rag.embeddings import EmbeddingError
 
 REPORT_SCHEMA = 1
 KS = (5, 10)
@@ -147,36 +154,63 @@ def main(argv: list[str] | None = None) -> int:
         )
         return EXIT_CONFIG_ERROR
 
-    from app.config import get_settings
-    from db.session import make_engine
-    from evals.retrievers import VectorRetriever
-    from rag.embeddings import EmbeddingError, MistralEmbedder
-
-    settings = get_settings()
-    if settings.mistral_api_key is None:
-        print("Config error: MISTRAL_API_KEY is not set in .env", file=sys.stderr)
-        return EXIT_CONFIG_ERROR
-    engine = make_engine(settings.database_url)
     out = args.out or _default_out(args.pipeline)
     try:
-        with MistralEmbedder(settings.mistral_api_key.get_secret_value()) as embedder:
-            retriever = VectorRetriever(engine, embedder)
+        with ExitStack() as stack:
+            retriever = _retriever(args.pipeline, stack)
             report = run(golden, args.set, retriever, args.depth, args.include_drafts)
+    except ConfigError as exc:
+        print(f"Config error: {exc}", file=sys.stderr)
+        return EXIT_CONFIG_ERROR
     except EmbeddingError as exc:
         print(f"FAILED: {exc}", file=sys.stderr)
         return EXIT_RUN_ERROR
-    finally:
-        engine.dispose()
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     _print_summary(report, out)
     return EXIT_OK
 
 
+class ConfigError(Exception):
+    pass
+
+
+def _retriever(pipeline: str, stack: ExitStack) -> Retriever:
+    """Builds the retriever; resources are closed by `stack`."""
+    if pipeline == "baseline-sp":
+        from evals.baseline import (
+            SNAPSHOT_PATH,
+            BaselineRetriever,
+            SentenceTransformerEncoder,
+            load_snapshot,
+        )
+
+        if not SNAPSHOT_PATH.exists():
+            raise ConfigError(f"no snapshot at {SNAPSHOT_PATH}; run python -m evals.baseline fetch")
+        try:
+            encoder = SentenceTransformerEncoder()
+        except ImportError as exc:
+            raise ConfigError(f"{exc}; run with --group baseline") from exc
+        return BaselineRetriever(load_snapshot(SNAPSHOT_PATH), encoder)
+
+    from app.config import get_settings
+    from db.session import make_engine
+    from evals.retrievers import VectorRetriever
+    from rag.embeddings import MistralEmbedder
+
+    settings = get_settings()
+    if settings.mistral_api_key is None:
+        raise ConfigError("MISTRAL_API_KEY is not set in .env")
+    engine = make_engine(settings.database_url)
+    stack.callback(engine.dispose)
+    embedder = stack.enter_context(MistralEmbedder(settings.mistral_api_key.get_secret_value()))
+    return VectorRetriever(engine, embedder)
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m evals.run_evals")
     parser.add_argument("--set", default="golden", help="golden set name (evals/golden/NAME.yaml)")
-    parser.add_argument("--pipeline", choices=("vector",), default="vector")
+    parser.add_argument("--pipeline", choices=("vector", "baseline-sp"), default="vector")
     parser.add_argument("--depth", type=int, default=DEFAULT_DEPTH, help="chunks retrieved")
     parser.add_argument("--include-drafts", action="store_true", help="also run draft items")
     parser.add_argument("--out", type=Path, default=None, help="report path (JSON)")

@@ -16,6 +16,10 @@ dependencies = [
 ]
 
 [dependency-groups]
+baseline = [
+    "sentence-transformers>=6.3.0",
+    "torch>=2.15.0",
+]
 dev = [
     "mypy>=2.4.1",
     "pytest>=9.2.0",
@@ -25,6 +29,17 @@ dev = [
 
 [tool.uv]
 package = false
+
+# Optional group `baseline` (evals only, never installed in the app image or CI): bge-m3 query
+# embeddings for the pre-vectorised service-public baseline (D-014). torch comes from the
+# PyTorch CPU index to avoid the CUDA wheels.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
 
 [tool.ruff]
 line-length = 100
@@ -46,6 +61,11 @@ explicit_package_bases = true
 
 [[tool.mypy.overrides]]
 module = ["pgvector.*"]
+ignore_missing_imports = true
+
+# Optional dependency group `baseline`, not installed in CI.
+[[tool.mypy.overrides]]
+module = ["sentence_transformers.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

@@ -108,6 +108,8 @@ uv run --project backend python -m evals.validate [--check-sources] [--require-v
 uv run --project backend python -m evals.draft add --question "..." --lang fr --stage working
 uv run --project backend python -m evals.draft sources F2713          # find must_cite references
 uv run --project backend python -m evals.run_evals --set golden --pipeline vector
+uv run --project backend python -m evals.baseline fetch               # baseline snapshot
+uv run --project backend --group baseline python -m evals.run_evals --pipeline baseline-sp
 uv run --project backend python -m evals.compare reports/BASE.json reports/NEW.json \
     --append docs/eval-results.md
 ```
@@ -118,6 +120,8 @@ uv run --project backend python -m evals.compare reports/BASE.json reports/NEW.j
 | `evals.draft add` | Appends a draft item (next id, empty answer fields). Expected answers are written by the maintainer. |
 | `evals.draft sources TEXT` | Lists source references whose title, id or URL contains TEXT. |
 | `evals.run_evals` | Runs verified items (`--include-drafts` for all) through a retriever and writes `reports/<date>-<pipeline>.json` (git-ignored). Embeds each question with `mistral-embed`. |
+| `evals.baseline fetch` | Saves the rows of the manifest's fact sheets from the pre-vectorised service-public dataset (`AgentPublic/service-public`) to `reports/cache/service-public-baseline.json`, with the dataset revision. |
+| `run_evals --pipeline baseline-sp` | Runs the baseline: questions embedded locally with BAAI/bge-m3 on CPU (optional dependency group `baseline`, about 2.2 GB of model files on first use), ranked against the dataset's own vectors. |
 | `evals.compare` | Renders the summary metrics of two reports and their difference as a markdown table. |
 
 Metrics and report format: D-014 in `docs/decisions.md`; published comparisons:
@@ -150,3 +154,7 @@ All configuration is read from environment variables. `.env.example` lists every
 
 Content from Service-Public.gouv.fr and Légifrance is reused under Licence Ouverte 2.0
 (credit: Service-Public.gouv.fr / DILA; Légifrance / DILA).
+
+The evaluation baseline uses "Fiches pratiques Service-Public.fr vectorisées" (DINUM,
+<https://huggingface.co/datasets/AgentPublic/service-public>), Licence Ouverte / Etalab 2.0,
+built from Service-Public.gouv.fr / DILA content. It is never indexed by the application.

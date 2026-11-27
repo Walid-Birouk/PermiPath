@@ -23,4 +23,388 @@
 #   verified_by, verified_at
 
 version: 1
-items: []
+items:
+  - id: g001
+    question: "Je viens d'arriver en France avec un visa long séjour étudiant : que dois-je faire pour le valider ?"
+    lang: fr
+    stage: arriving
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g002
+    question: "I arrived with a long-stay student visa (VLS-TS). How do I validate it online?"
+    lang: en
+    stage: arriving
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g003
+    question: "Que se passe-t-il si je ne valide pas mon VLS-TS dans le délai ?"
+    lang: fr
+    stage: arriving
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g004
+    question: "Mon visa étudiant expire bientôt : comment demander une carte de séjour étudiant ?"
+    lang: fr
+    stage: renewing
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g005
+    question: "What is the difference between a one-year student residence permit and a multi-year one?"
+    lang: en
+    stage: renewing
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g006
+    question: "Quels documents faut-il pour renouveler un titre de séjour étudiant ?"
+    lang: fr
+    stage: renewing
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g007
+    question: "Combien d'heures un étudiant étranger peut-il travailler par an ?"
+    lang: fr
+    stage: working
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g008
+    question: "Can I do an internship (stage) with a student residence permit?"
+    lang: en
+    stage: working
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g009
+    question: "Un étudiant étranger doit-il déclarer son emploi à la préfecture ?"
+    lang: fr
+    stage: working
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g010
+    question: "J'ai fini mon master : quel titre de séjour pour chercher un emploi en France ?"
+    lang: fr
+    stage: finishing
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g011
+    question: "After graduating, can I stay in France to create a company?"
+    lang: en
+    stage: finishing
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g012
+    question: "Quand faut-il demander la carte « recherche d'emploi ou création d'entreprise » ?"
+    lang: fr
+    stage: finishing
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g013
+    question: "J'ai une promesse d'embauche après mes études : comment passer d'un titre étudiant à un titre salarié ?"
+    lang: fr
+    stage: job_offer
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g014
+    question: "What is the \"talent – salarié qualifié\" permit and who can apply after studies?"
+    lang: en
+    stage: job_offer
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g015
+    question: "Mon employeur doit-il demander une autorisation de travail pour mon changement de statut ?"
+    lang: fr
+    stage: job_offer
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g016
+    question: "Is there a minimum salary to change from student to employee status?"
+    lang: en
+    stage: job_offer
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g017
+    question: "Après un premier titre salarié, quand peut-on demander une carte pluriannuelle ?"
+    lang: fr
+    stage: settling
+    nationality: any
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g018
+    question: "Je suis étudiant algérien : quel titre de séjour reçoit-on pour étudier en France ?"
+    lang: fr
+    stage: arriving
+    nationality: algerian
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g019
+    question: "Un étudiant algérien peut-il travailler pendant ses études, et à quelles conditions ?"
+    lang: fr
+    stage: working
+    nationality: algerian
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g020
+    question: "I am an Algerian student finishing my degree: is there a job-search permit for Algerians?"
+    lang: en
+    stage: finishing
+    nationality: algerian
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g021
+    question: "Étudiant algérien avec une offre d'emploi : quel certificat de résidence demander ?"
+    lang: fr
+    stage: job_offer
+    nationality: algerian
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g022
+    question: "Un Algérien peut-il obtenir le titre « talent » après ses études ?"
+    lang: fr
+    stage: job_offer
+    nationality: algerian
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g023
+    question: "Comment un Algérien obtient-il un certificat de résidence de 10 ans ?"
+    lang: fr
+    stage: settling
+    nationality: algerian
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g024
+    question: "Where does an Algerian student apply to renew their residence certificate (ANEF or prefecture)?"
+    lang: en
+    stage: renewing
+    nationality: algerian
+    expected_behaviour: answer
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g025
+    question: "Comment demander l'asile en France ?"
+    lang: fr
+    stage: null
+    nationality: any
+    expected_behaviour: refuse
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g026
+    question: "How can my spouse join me in France through family reunification?"
+    lang: en
+    stage: null
+    nationality: any
+    expected_behaviour: refuse
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g027
+    question: "Quelles sont les conditions pour être naturalisé français ?"
+    lang: fr
+    stage: null
+    nationality: any
+    expected_behaviour: refuse
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g028
+    question: "J'ai reçu une OQTF après le refus de mon renouvellement, que faire ?"
+    lang: fr
+    stage: renewing
+    nationality: any
+    expected_behaviour: handoff
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g029
+    question: "My student permit expired two months ago and I did not renew it. What should I do?"
+    lang: en
+    stage: renewing
+    nationality: any
+    expected_behaviour: handoff
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g030
+    question: "La préfecture a refusé mon changement de statut, est-ce que je peux faire un recours ?"
+    lang: fr
+    stage: job_offer
+    nationality: any
+    expected_behaviour: handoff
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g031
+    question: "Quel est le délai moyen de traitement à la préfecture de Lyon pour un changement de statut ?"
+    lang: fr
+    stage: job_offer
+    nationality: any
+    expected_behaviour: abstain
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
+  - id: g032
+    question: "Which bank accepts international students without a residence permit?"
+    lang: en
+    stage: arriving
+    nationality: any
+    expected_behaviour: abstain
+    origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
+    must_cite: []
+    winning_source: null
+    key_facts: []
+    verified_by: null
+    verified_at: null
