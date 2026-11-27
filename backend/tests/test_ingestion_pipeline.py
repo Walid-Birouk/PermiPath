@@ -30,6 +30,9 @@ L422_IDS = {
     "LEGIARTI000042776685": ("LEGIARTI000042771658", "L422-3"),
 }
 THIRD_AMENDMENT = "JORFTEXT000000599731"
+ANNEX_CITED_ID = "LEGIARTI000043472320"
+"""Version 2.0 of Annexe 10, the id cited by the sheets; the fixture is version 5.0."""
+ANNEX_IN_FORCE_ID = "LEGIARTI000049820920"
 
 
 def _json(path: str) -> dict[str, Any]:
@@ -94,6 +97,16 @@ def _article(article_id: str) -> dict[str, Any]:
     return payload
 
 
+def _annex(article_id: str) -> dict[str, Any]:
+    payload = _json("legifrance/consult_getArticle_annex10.json")
+    if article_id == ANNEX_CITED_ID:
+        # Period of version 2.0, from the recorded `articleVersions`.
+        payload["article"].update(
+            id=article_id, etat="MODIFIE", dateDebut=1620000000000, dateFin=1652313600000
+        )
+    return payload
+
+
 class FakeLegifrance:
     def __init__(self) -> None:
         self.article_requests: list[str] = []
@@ -109,6 +122,8 @@ class FakeLegifrance:
             self.article_requests.append(body["id"])
             if body["id"] in L422_IDS:
                 return httpx2.Response(200, json=_article(body["id"]))
+            if body["id"] in (ANNEX_CITED_ID, ANNEX_IN_FORCE_ID):
+                return httpx2.Response(200, json=_annex(body["id"]))
         if path == "consult/jorf" and body["textCid"] == THIRD_AMENDMENT:
             return httpx2.Response(
                 200, json=_json(f"legifrance/consult_jorf_{THIRD_AMENDMENT}.json")
@@ -175,6 +190,41 @@ def test_excluded_articles_are_never_fetched() -> None:
     load_laws(manifest, sheets, _client(fake), ON)
     assert "LEGIARTI000042776687" not in fake.article_requests
     assert "LEGIARTI000042776689" in fake.article_requests
+
+
+def _with_annex(points: list[dict[str, Any]]) -> Manifest:
+    annex = {"article_id": ANNEX_CITED_ID, "label": "Annexe 10", "points": points}
+    code = _manifest().laws.codes[0].model_dump()
+    code.update(exclude_articles=[ANNEX_CITED_ID], annexes=[annex])
+    return _manifest(laws={"codes": [code]})
+
+
+def test_annex_points_use_the_version_in_force_and_manifest_stages() -> None:
+    manifest = _with_annex(
+        [
+            {"point": 25, "journey_stages": ["arriving", "renewing"]},
+            {"point": 1, "journey_stages": ["job_offer"]},
+        ]
+    )
+    sheets, _ = read_sheets(manifest, _feed("F2231"))
+    fake = FakeLegifrance()
+    result = load_laws(manifest, sheets, _client(fake), ON)
+    annex = [d for d in result.drafts if "-point-" in d.source_id]
+    assert {d.source_id for d in annex} == {
+        "LEGIARTI000043464443-point-25",
+        "LEGIARTI000043464443-point-1",
+    }
+    stages = {d.source_id: d.meta.journey_stages for d in annex}
+    assert stages["LEGIARTI000043464443-point-1"] == ("job_offer",)
+    assert fake.article_requests[-2:] == [ANNEX_CITED_ID, ANNEX_IN_FORCE_ID]
+    assert not any("Annexe 10" in e for e in result.errors)
+
+
+def test_missing_annex_point_makes_the_law_set_incomplete() -> None:
+    manifest = _with_annex([{"point": 64, "journey_stages": ["settling"]}])
+    result = load_laws(manifest, [], _client(FakeLegifrance()), ON)
+    assert result.errors == ["CESEDA Annexe 10: point 64 not found"]
+    assert not result.complete
 
 
 def test_treaties_load_included_texts_and_note_pending_ones() -> None:

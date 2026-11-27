@@ -102,10 +102,29 @@ laws:
       title: "Code de l'entrée et du séjour des étrangers et du droit d'asile"
       exclude_articles:
         - LEGIARTI000043472320
+      annexes:
+        # Annexe 10: supporting documents for each residence permit, a table of 69 rows
+        # ("points"). Only the journey rows are indexed, one source per point.
+        - article_id: LEGIARTI000043472320
+          label: Annexe 10
+          points:
+            - {point: 1, journey_stages: [job_offer]}        # CST "salarié"
+            - {point: 2, journey_stages: [job_offer]}        # CST "travailleur temporaire"
+            - {point: 4, journey_stages: [job_offer]}        # talent, salarié qualifié / diplômé
+            - {point: 5, journey_stages: [job_offer]}        # talent, jeune entreprise innovante
+            - {point: 6, journey_stages: [job_offer]}        # talent, carte bleue européenne
+            - {point: 25, journey_stages: [arriving, renewing]}  # "étudiant", "étudiant-programme de mobilité"
+            - {point: 26, journey_stages: [finishing]}       # RECE, after a diploma
+            - {point: 28, journey_stages: [finishing]}       # RECE, return after studies (L. 422-14)
+            - {point: 58, journey_stages: [settling]}        # CR "résident de longue durée-UE"
+            - {point: 62, journey_stages: [working]}         # CST "stagiaire"
+            - {point: 64, journey_stages: [settling]}        # renewal of CR / CR LD-UE
+          note: >-
+            Point 27 (RECE for researchers) and the other categories (family, protection,
+            humanitarian, other grounds, overseas titles) are not in the journey.
       note: >-
-        Excluded: Annexe 10 (list of supporting documents for every permit). Cited by 8 sheets
-        for one point only; the version in force (LEGIARTI000049820920) is about 250,000
-        characters, a table of 69 rows (one per permit). Alternative: index it, or index only the cited points.
+        Annexe 10 is excluded as a whole article (about 250,000 characters in the version in
+        force, LEGIARTI000049820920) and indexed row by row through `annexes`.
         Code du travail and Code pénal articles cited by the sheets are not ingested yet.
 
 treaties:

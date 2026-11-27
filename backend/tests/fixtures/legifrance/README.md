@@ -12,6 +12,7 @@ Raw JSON responses recorded from the PISTE **sandbox** Légifrance API (`lf-engi
 | `consult_legi_tableMatieres.json` | `POST consult/legi/tableMatieres` | `textId` = `LEGITEXT000006070158`, `date` = 2026-11-27, `nature` = `CODE` | 2026-11-27 |
 | `consult_jorf_JORFTEXT000000599731.json` | `POST consult/jorf` | Décret n° 2002-1500 (third amendment to the Franco-Algerian agreement) | 2026-11-27 |
 | `consult_jorf_JORFTEXT000000551016.json` | `POST consult/jorf` | Décret n° 94-1103 (second amendment) | 2026-11-27 |
+| `consult_getArticle_annex10.json` | `POST consult/getArticle` | `id` = `LEGIARTI000049820920` (CESEDA Annexe 10, version in force) | 2026-11-27 |
 
 Files are stored verbatim (no fields removed or edited), with one exception:
 `consult_legi_tableMatieres.json` is **trimmed** from the full table of contents (3.9 MB). It
@@ -19,6 +20,11 @@ keeps the in-force branch Partie législative > Livre IV > Titre II > Chapitre I
 (`LEGISCTA000042771652`, articles L422-1 to L422-3) and one repealed branch (Partie législative
 ancienne > Livre Ier > Titre Ier). Sibling sections and articles outside these branches were
 removed; every remaining entry is unchanged.
+
+`consult_getArticle_annex10.json` is **trimmed** from the full response (about 530 kB):
+`texteHtml` keeps the text before the table, the header row, the rows of points 1, 25 and 27,
+and the text after the table; `texte` keeps only the text up to the end of the header row.
+Kept rows are byte-identical to the recorded ones; all other fields are unchanged.
 
 ## Source and licence
 

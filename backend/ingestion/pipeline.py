@@ -14,11 +14,12 @@ import httpx2
 
 from db.models import JOURNEY_STAGES
 from ingestion.drafts import ChunkDraft, SourceMeta, SourceType
+from ingestion.legifrance.annex import annex_drafts
 from ingestion.legifrance.client import LegifranceClient, LegifranceError, NotFoundError
 from ingestion.legifrance.jorf import jorf_drafts
 from ingestion.legifrance.loader import article_drafts
 from ingestion.legifrance.toc import TocIndex, resolve
-from ingestion.manifest import Code, Manifest
+from ingestion.manifest import Annex, Code, Manifest
 from ingestion.service_public.loader import sheet_drafts
 from ingestion.service_public.parser import Sheet, parse_sheet_bytes
 
@@ -101,7 +102,23 @@ def load_laws(
             for article_id in ids:
                 citing.setdefault(article_id, set()).update(stages.get(sheet.id, ()))
         _fetch_articles(client, code, citing, on, result)
+        for annex in code.annexes:
+            _load_annex(client, code, annex, on, result)
     return result
+
+
+def _load_annex(
+    client: LegifranceClient, code: Code, annex: Annex, on: date, result: LoadResult
+) -> None:
+    try:
+        article = client.version_in_force(annex.article_id, on)
+    except LegifranceError as exc:
+        result.errors.append(f"{code.label} {annex.label}: {exc}")
+        return
+    points = {p.point: SourceMeta(journey_stages=p.journey_stages) for p in annex.points}
+    drafts, missing = annex_drafts(article, annex.label, points, on, code_label=code.label)
+    result.drafts.extend(drafts)
+    result.errors.extend(f"{code.label} {annex.label}: point {p} not found" for p in missing)
 
 
 def _cited_articles(index: TocIndex, code: Code, sheet: Sheet, result: LoadResult) -> list[str]:

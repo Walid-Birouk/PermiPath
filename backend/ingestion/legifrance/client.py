@@ -82,6 +82,8 @@ class ArticleVersion:
     section_path: tuple[str, ...] = ()
     """Titles of the enclosing sections, outermost first."""
     nota: str = ""
+    text_html: str = ""
+    """`texteHtml` as returned; needed for tables (e.g. CESEDA annexes)."""
 
     def in_force_on(self, on: date) -> bool:
         starts_ok = self.in_force_from is None or self.in_force_from <= on
@@ -359,4 +361,5 @@ def _parse_article(article: dict[str, Any]) -> ArticleVersion:
         cid=article.get("cid"),
         section_path=tuple(t.strip() for t in sections.split(" > ") if t.strip()),
         nota=str(nota).strip(),
+        text_html=str(article.get("texteHtml") or ""),
     )

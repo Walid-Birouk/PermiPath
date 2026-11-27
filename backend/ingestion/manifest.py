@@ -40,12 +40,28 @@ class FactSheets(_Model):
     excluded: tuple[SheetEntry, ...] = ()
 
 
+class AnnexPoint(_Model):
+    point: int = Field(ge=1)
+    journey_stages: tuple[JourneyStage, ...]
+
+
+class Annex(_Model):
+    """A tabular annex indexed row by row (only the listed points)."""
+
+    article_id: str = Field(pattern=r"^LEGIARTI\d+$")
+    """Any version of the annex article; the version in force is resolved at ingestion."""
+    label: str
+    points: tuple[AnnexPoint, ...]
+    note: str = ""
+
+
 class Code(_Model):
     text_id: str = Field(pattern=r"^LEGITEXT\d+$")
     label: str
     title: str
     exclude_articles: tuple[str, ...] = ()
-    """LEGIARTI ids (any version) never indexed, even when cited."""
+    """LEGIARTI ids (any version) never indexed as whole articles, even when cited."""
+    annexes: tuple[Annex, ...] = ()
     note: str = ""
 
 
