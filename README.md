@@ -38,6 +38,7 @@ docker compose up --build
 | URL | Service |
 |-----|---------|
 | http://localhost:8000/health | API health check |
+| `POST http://localhost:8000/ask` | Agent: `{"question": "...", "lang": "fr", "stage": "renewing", "nationality": "unknown"}` (only `question` required). Architecture: `docs/architecture.md`. |
 | http://localhost:8000/docs | OpenAPI documentation |
 | http://localhost:3000 | Frontend |
 
@@ -127,6 +128,7 @@ uv run --project backend python -m evals.compare reports/BASE.json reports/NEW.j
 | `run_evals --pipeline baseline-sp` | Runs the baseline: questions embedded locally with BAAI/bge-m3 on CPU (optional dependency group `baseline`, about 2.2 GB of model files on first use), ranked against the dataset's own vectors. |
 | `run_evals --pipeline bge-m3-index` | Model comparison: the index's chunks embedded locally with bge-m3 (cached in `reports/cache/`; the first run embeds every chunk on CPU, several minutes), ranked like `vector`. Needs `--group baseline`. |
 | `evals.grid` | Embeds three corpora (`service-public` dataset chunks, the index's chunks of the same sheets, the whole index) with `mistral-embed` and local bge-m3, runs the golden set on each of the six cells and prints one table. Passage vectors are cached in `reports/cache/grid-*.json`; index vectors for `mistral-embed` come from the database. |
+| `evals.agent` | Runs every verified item through the agent graph (`mistral-embed`, `mistral-small-2603`; billed) and writes `reports/<date>-agent.json`: behaviour accuracy, cited sources, governing source first, sentences removed, tokens, latency. |
 | `evals.compare` | Renders the summary metrics of two reports and their difference as a markdown table. |
 
 Metrics and report format: D-014 in `docs/decisions.md`; published comparisons:

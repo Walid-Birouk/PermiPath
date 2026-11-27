@@ -66,3 +66,47 @@ def test_abstain_gate() -> None:
     assert abstain_reason(3, False, unsupported) == "no_supported_sentence"
     assert abstain_reason(3, False, CheckedAnswer([], [])) == "no_supported_sentence"
     assert abstain_reason(3, False, supported) is None
+
+
+@pytest.mark.parametrize(
+    ("words", "number"),
+    [
+        ("douze", 12),
+        ("dix-huit", 18),
+        ("dix-neuf", 19),
+        ("vingt-et-un", 21),
+        ("vingt-deux", 22),
+        ("soixante-dix", 70),
+        ("soixante-et-onze", 71),
+        ("quatre-vingts", 80),
+        ("quatre-vingt-dix-huit", 98),
+    ],
+)
+def test_french_number_words(words: str, number: int) -> None:
+    from rag.citations import word_number
+
+    assert word_number(words) == number
+
+
+def test_number_words_in_sources_support_digits_but_not_other_figures() -> None:
+    chunks = {
+        "law": "La durée fictive ne peut excéder douze mois, renouvelable quatre-vingt-dix jours."
+    }
+    kept = check(
+        [S("La durée ne peut excéder 12 mois.", "law"), S("Puis 90 jours.", "law")], chunks
+    )
+    assert len(kept.kept) == 2
+    dropped = check([S("La durée ne peut excéder 18 mois.", "law")], chunks)
+    assert dropped.dropped[0].reason == "figure_not_in_source"
+    # Words in the sentence are not figures: the check reads digits written by the model.
+    assert figures("douze mois") == set()
+
+
+def test_articles_and_neuf_are_not_numbers() -> None:
+    assert figures("un délai, une carte, un titre neuf", number_words=True) == set()
+
+
+def test_un_before_a_unit_is_one() -> None:
+    assert figures("valable un an, renouvelable", number_words=True) == {"1"}
+    assert figures("une semaine", number_words=True) == {"1"}
+    assert "1" not in figures("un titre, une carte", number_words=True)

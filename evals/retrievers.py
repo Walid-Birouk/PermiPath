@@ -101,29 +101,18 @@ class HybridEvalRetriever:
 
     def retrieve(self, question: str, depth: int) -> Retrieval:
         from guardrails.nationality import detect_nationality
-        from rag import precedence
         from rag.retrieval import Filters
+        from rag.search import search
 
         algerian = detect_nationality(question) == "algerian"
-        scopes = ("all", "algerian") if algerian else ("all",)
-        fetch = depth * 2 if self.precedence else depth
-        result = self.retriever.retrieve(
-            question, Filters(nationality_scopes=scopes, in_force_on=self.on), depth=fetch
-        )
-        chunks = result.chunks
         if self.precedence:
-            decision = precedence.decide(question, algerian)
-            if decision.governing == "agreement":
-                governing = self.retriever.retrieve(
-                    question,
-                    Filters(
-                        nationality_scopes=scopes,
-                        source_types=precedence.AGREEMENT_FIRST,
-                        in_force_on=self.on,
-                    ),
-                    depth=precedence.GOVERNING_CANDIDATES,
-                )
-                chunks = precedence.merge(chunks, governing.chunks)
-            chunks = precedence.order(chunks, decision)[:depth]
+            found = search(self.retriever, question, algerian, self.on, depth)
+            chunks, tokens = found.chunks, found.embedding_tokens
+        else:
+            scopes = ("all", "algerian") if algerian else ("all",)
+            result = self.retriever.retrieve(
+                question, Filters(nationality_scopes=scopes, in_force_on=self.on), depth=depth
+            )
+            chunks, tokens = result.chunks, result.embedding_tokens
         hits = [Hit(c.id, c.source_ref, c.score) for c in chunks]
-        return Retrieval(hits=hits, embedding_tokens=result.embedding_tokens)
+        return Retrieval(hits=hits, embedding_tokens=tokens)

@@ -169,3 +169,28 @@ Not measured: `answer_correctness`, `faithfulness`, `citation_accuracy`, `refusa
 | g018 | 3 | 1 |
 | g020 | 3 | 1 |
 | g022 | - | 3 |
+
+## Agent, end to end (build step 4, 2026-11-27)
+
+`python -m evals.agent`: the graph of `rag.graph` with `mistral-embed` and `mistral-small-2603`
+on the 32 verified items of golden v1. Prompt versions in D-018; v1 and v2 runs are kept to show
+what each change fixed.
+
+| Metric | Prompt v1 (function calling) | v1 (json_schema) | v2 | v3 | v3, second run |
+|---|---|---|---|---|---|
+| Behaviour accuracy | 0.344 | 0.906 | 0.969 | 1.000 | 1.000 |
+| Answer items answered | 3/24 | 21/24 | 24/24 | 24/24 | 24/24 |
+| Refuse / handoff / abstain correct | 3/3, 3/3, 2/2 | 3/3, 3/3, 2/2 | 3/3, 3/3, 1/2 | 3/3, 3/3, 2/2 | 3/3, 3/3, 2/2 |
+| Expected source cited | 1.000 (3 items) | 0.952 | 0.917 | 0.958 | 0.958 |
+| Citation precision (strict) | 0.333 | 0.591 | 0.539 | 0.574 | 0.629 |
+| Governing source cited first | 0.667 | 0.833 | 0.857 | 0.857 | 0.857 |
+| Sentences removed by the checker | 11.1 % | 6.7 % | 2.8 % | 0.6 % | 0.6 % |
+| Latency p50 (ms) | 2,040 | 1,872 | 1,988 | 2,089 | 1,769 |
+
+What each step fixed: `json_schema` output (sentence objects instead of lists); source labels
+`S1`..`S10` (no more shortened chunk ids); number words and titles in the figure check
+("douze mois", the agreement's date); v3 declines when no source states what is asked (the
+average processing time of one prefecture had been answered with a related deadline).
+
+Retrieval of the agent (`hybrid-precedence`) against the step-3 reference is in the comparison
+above (recall@5 0.708 to 0.764, right source wins 0.143 to 1.000).

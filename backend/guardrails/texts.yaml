@@ -1,0 +1,74 @@
+# User-facing fixed texts: notices and the refuse / handoff / abstain responses (FR, EN).
+#
+# Status: DRAFT. Final wording is the maintainer's (CLAUDE.md, "Things only Walid does").
+# No legal figures (rule 6) and no links other than official ones already in the index.
+
+status: draft
+
+notices:
+  not_legal_advice:
+    fr: >-
+      Information générale, pas un conseil juridique. Pour une analyse de votre situation,
+      adressez-vous à un avocat, à une association d'aide aux étudiants étrangers ou au service
+      des relations internationales de votre établissement.
+    en: >-
+      General information, not legal advice. For an assessment of your situation, contact a
+      lawyer, an association that helps international students, or your school's international
+      office.
+  personal:
+    fr: >-
+      Votre question porte sur une situation personnelle : la réponse ci-dessus présente la règle
+      générale. Seul un avocat peut vous conseiller sur votre cas.
+    en: >-
+      Your question is about a personal situation: the answer above gives the general rule. Only
+      a lawyer can advise you on your case.
+  algerian_rules_differ:
+    fr: >-
+      Si vous êtes de nationalité algérienne, votre séjour relève de l'accord franco-algérien du
+      27 décembre 1968 et non des règles ci-dessus : précisez-le dans votre question.
+    en: >-
+      If you are an Algerian national, your stay is governed by the Franco-Algerian agreement of
+      27 December 1968, not by the rules above: say so in your question.
+  agreement_governs:
+    fr: >-
+      Pour les ressortissants algériens, l'accord franco-algérien régit le droit au séjour ; les
+      règles générales du CESEDA s'appliquent seulement à la procédure.
+    en: >-
+      For Algerian nationals, the Franco-Algerian agreement governs residence rights; the general
+      CESEDA rules apply only to the procedure.
+
+responses:
+  refuse:
+    fr: >-
+      Cette question ({topic}) sort du champ de PermiPath, qui couvre le parcours des étudiants
+      étrangers, du premier titre étudiant jusqu'au changement de statut vers un titre salarié.
+      Consultez Service-Public.fr ou une association spécialisée.
+    en: >-
+      This question ({topic}) is outside PermiPath's scope, which covers the journey of
+      international students from the first student permit to the change of status to an
+      employee permit. See Service-Public.fr or a specialised association.
+  handoff:
+    fr: >-
+      Votre situation ({topic}) demande une analyse personnelle et peut être urgente : des délais
+      de recours courts peuvent s'appliquer. Contactez rapidement un avocat, une association
+      d'aide aux étrangers ou le service des relations internationales de votre établissement.
+    en: >-
+      Your situation ({topic}) needs a personal assessment and may be urgent: short appeal
+      deadlines can apply. Contact a lawyer, an association that helps foreign nationals, or your
+      school's international office without delay.
+  abstain:
+    fr: >-
+      Je n'ai pas de source officielle pour répondre à cette question. Consultez la page
+      officielle indiquée ci-dessous ou le site de votre préfecture.
+    en: >-
+      I don't have an official source for this. See the official page below or your
+      prefecture's website.
+
+topics:
+  asylum: {fr: "asile", en: "asylum"}
+  family_reunification: {fr: "regroupement familial", en: "family reunification"}
+  naturalisation: {fr: "naturalisation", en: "naturalisation"}
+  oqtf: {fr: "obligation de quitter le territoire", en: "order to leave the territory"}
+  refusal_appeal: {fr: "refus ou recours", en: "refusal or appeal"}
+  expired_permit: {fr: "titre expiré ou séjour irrégulier", en: "expired permit or irregular stay"}
+  detention: {fr: "rétention", en: "detention"}
