@@ -1,0 +1,47 @@
+# Render Blueprint: the backend API (D-023). Spec: https://render.com/docs/blueprint-spec
+# Secrets are declared with `sync: false`: their values are entered in the Render Dashboard when
+# the Blueprint is created (or later on the service's Environment page), never stored here.
+services:
+  - type: web
+    name: permipath-api
+    runtime: docker
+    plan: free
+    region: frankfurt # next to the Supabase database (eu-central-1)
+    branch: main
+    dockerContext: ./backend
+    dockerfilePath: ./infra/backend.Dockerfile
+    healthCheckPath: /health
+    # Deploy only commits whose GitHub checks (CI) pass.
+    autoDeployTrigger: checksPass
+    buildFilter:
+      paths:
+        - backend/**
+        - infra/backend.Dockerfile
+    envVars:
+      # --- secrets: entered in the Dashboard -------------------------------------------
+      - key: DATABASE_URL # Supabase session pooler URL, with ?sslmode=require
+        sync: false
+      - key: MISTRAL_API_KEY
+        sync: false
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
+      - key: CORS_ORIGINS # JSON list with the Vercel domain, e.g. ["https://permipath.vercel.app"]
+        sync: false
+      # --- generated once by Render ------------------------------------------------------
+      - key: IP_HASH_SECRET
+        generateValue: true
+      # --- plain settings ----------------------------------------------------------------
+      - key: TRUST_FORWARDED_FOR # behind Render's proxy
+        value: "true"
+      - key: TRACING_MODE # no user text in production traces (D-021)
+        value: metadata
+      - key: LANGFUSE_BASE_URL
+        value: https://cloud.langfuse.com
+      - key: LANGFUSE_ENVIRONMENT
+        value: production
+      - key: DAILY_QUESTION_LIMIT
+        value: "20"
+      - key: MONTHLY_SPEND_CAP_EUR
+        value: "5"
