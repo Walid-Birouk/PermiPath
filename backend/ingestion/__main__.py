@@ -70,7 +70,7 @@ def main(argv: list[str] | None = None) -> int:
                     laws.errors.append("sheet references incomplete (feed errors)")
                 results.append(laws)
             if "treaty" in selected:
-                results.append(load_treaties(manifest, client))
+                results.append(load_treaties(manifest, client, args.manifest.parent))
 
     for result in results:
         _print_result(result)

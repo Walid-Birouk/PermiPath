@@ -13,12 +13,13 @@ from typing import Any
 
 import httpx2
 import pytest
+import yaml
 
 from db.models import JOURNEY_STAGES
 from ingestion import __main__ as cli
 from ingestion.legifrance.client import LegifranceClient
 from ingestion.legifrance.settings import PisteEndpoints
-from ingestion.manifest import JourneyStage, Manifest, load_manifest
+from ingestion.manifest import MANIFEST_PATH, JourneyStage, Manifest, load_manifest
 from ingestion.pipeline import load_fact_sheets, load_laws, load_treaties, read_sheets
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -233,6 +234,35 @@ def test_treaties_load_included_texts_and_note_pending_ones() -> None:
     assert result.sources == {("treaty", THIRD_AMENDMENT)}
     assert {d.meta.nationality_scope for d in result.drafts} == {"algerian"}
     assert result.notes == ["JORFTEXT000000694290: pending (Accord)"]
+
+
+def _with_consolidation(path: str) -> Manifest:
+    treaties = _manifest().treaties.model_dump()
+    treaties["consolidations"] = [{"source_id": "accord-test", "path": path}]
+    return _manifest(treaties=treaties)
+
+
+def test_draft_consolidation_is_noted_not_indexed() -> None:
+    manifest = _with_consolidation("franco-algerian-agreement.yaml")
+    result = load_treaties(manifest, _client(FakeLegifrance()), MANIFEST_PATH.parent)
+    assert result.complete
+    assert not any(d.source_id.startswith("accord-test") for d in result.drafts)
+    assert "franco-algerian-agreement.yaml: draft, not indexed until verified" in result.notes
+
+
+def test_verified_consolidation_is_indexed(tmp_path: Path) -> None:
+    data = yaml.safe_load((MANIFEST_PATH.parent / "franco-algerian-agreement.yaml").read_text())
+    data.update(status="verified", verified_by="test", verified_at="2026-01-01")
+    (tmp_path / "accord.yaml").write_text(yaml.safe_dump(data, allow_unicode=True))
+    result = load_treaties(_with_consolidation("accord.yaml"), _client(FakeLegifrance()), tmp_path)
+    assert result.complete
+    assert ("treaty", "accord-test:article-7-bis") in result.sources
+    assert {d.meta.nationality_scope for d in result.drafts} == {"algerian"}
+
+
+def test_missing_consolidation_file_is_an_error(tmp_path: Path) -> None:
+    result = load_treaties(_with_consolidation("none.yaml"), _client(FakeLegifrance()), tmp_path)
+    assert not result.complete
 
 
 def test_cli_rejects_missing_manifest(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:

@@ -168,6 +168,7 @@ edit in an official source must produce a single changelog entry.
 | Sheet chunks | Structure-aware (`ingestion.chunker`): a section under `MAX_CHUNK_CHARS` (2,500) is one chunk; larger sections split along sub-sections, then between blocks. Each chunk text starts with its section path. |
 | Article chunks | One article = one chunk, split only above the limit. `source_id` is the article **cid**, so a new version of an article updates the same chunk ids and writes `modified` entries. |
 | Annex chunks | Tabular annexes (CESEDA Annexe 10, supporting documents per permit) are excluded as whole articles and indexed row by row for the points listed under `annexes` in the manifest, each with its own journey stages. `source_id` = `{annex cid}-point-{n}`; title "CESEDA, annexe 10, point n". A listed point missing from the version in force is an error. |
+| Consolidated treaty chunks | One provision in force of a consolidation file = one chunk, ending with the instruments that set its wording (D-012). |
 | Treaty chunks | One clause (centred "Article …" heading in the JORF text) = one chunk; the preamble and the publishing decree's own articles are separate chunks. `source_type = treaty`, `source_id` = JORFTEXT cid. |
 | Content hash | SHA-256 of title and text. Metadata changes (stages, scope, tags) update rows without a changelog entry. |
 | Removal | Only for sources loaded in full; a source type is complete only when every source of that type loaded without error. A failed fetch never empties the index. |
@@ -180,7 +181,7 @@ Code du travail and Code pénal articles cited by the sheets are not ingested ye
 
 ## D-012 — Sources without machine-readable official text
 
-**Status.** Proposed: requires a maintainer decision.
+**Status.** Agreement: accepted (2026-11-27), consolidation pending maintainer verification. Ministry page: open.
 
 **Context.**
 
@@ -202,3 +203,14 @@ Code du travail and Code pénal articles cited by the sheets are not ingested ye
    original text.
 4. Ministry page: a maintainer-saved copy read from a local file (freshness checked by hand), or
    no ministry source.
+
+**Decision (agreement).** A consolidated text is maintained in
+`sources/franco-algerian-agreement.yaml` and loaded by `ingestion.consolidation`
+(manifest: `treaties.consolidations`).
+
+| Topic | Rule |
+|---|---|
+| Base texts | 1968 agreement: French authentic text in the UN Treaty Series (vol. 677, No. 9640), as registered by France; text layer checked against the page images. First amendment: UNTS vol. 1485, A-9640, transcribed from the page images. Second and third amendments: Légifrance `consult/jorf`. The JO scans stay the reference publication; the Légifrance site refuses automated downloads (HTTP 403) and the PISTE API (Swagger 2.4.2) has no PDF endpoint. |
+| Consolidation | One entry per provision in force (Accord articles, Protocol titles). Amended passages use only the words quoted by the amending instrument; every change is recorded in `history`. Repealed provisions and obsolete exchanges of letters carry no text. Editorial restorations (missing closing quotation marks in the Légifrance text) are listed in `editorial_notes`. |
+| Checks | `tests/test_consolidation.py` matches every alinéa replaced or inserted by the 1994 and 2001 amendments against the recorded JORF texts, checks each quoted amendment phrase on both sides, and checks that replaced wording is gone. The 1968 and 1985 wording is checked by the maintainer against the UNTS pages. |
+| Indexing | Only with `status: verified`, `verified_by` and `verified_at` set. Chunks: `source_type = treaty`, `authority = official`, `nationality_scope = algerian`, `source_id = accord-franco-algerien-1968:{provision}`; URL = official publication of the instrument that last set the wording; `in_force_from` = latest entry-into-force date of those instruments, empty while the third amendment's date is unconfirmed. |

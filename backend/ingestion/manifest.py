@@ -79,9 +79,19 @@ class TreatyText(_Model):
     note: str = ""
 
 
+class TreatyConsolidation(_Model):
+    """A consolidated text kept in `sources/` (see `ingestion.consolidation`)."""
+
+    source_id: str = Field(pattern=r"^[a-z0-9-]+$")
+    path: str
+    """Relative to the manifest's directory."""
+    note: str = ""
+
+
 class Treaties(_Model):
     nationality_scope: Literal["all", "algerian"] = "algerian"
     texts: tuple[TreatyText, ...]
+    consolidations: tuple[TreatyConsolidation, ...] = ()
 
 
 class Manifest(_Model):

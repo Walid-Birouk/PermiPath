@@ -9,17 +9,20 @@ import zipfile
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import date
+from pathlib import Path
 
 import httpx2
+import yaml
 
 from db.models import JOURNEY_STAGES
+from ingestion.consolidation import consolidation_drafts, load_consolidation
 from ingestion.drafts import ChunkDraft, SourceMeta, SourceType
 from ingestion.legifrance.annex import annex_drafts
 from ingestion.legifrance.client import LegifranceClient, LegifranceError, NotFoundError
 from ingestion.legifrance.jorf import jorf_drafts
 from ingestion.legifrance.loader import article_drafts
 from ingestion.legifrance.toc import TocIndex, resolve
-from ingestion.manifest import Annex, Code, Manifest
+from ingestion.manifest import MANIFEST_PATH, Annex, Code, Manifest
 from ingestion.service_public.loader import sheet_drafts
 from ingestion.service_public.parser import Sheet, parse_sheet_bytes
 
@@ -168,9 +171,13 @@ def _fetch_articles(
 # --- treaties ---------------------------------------------------------------------------
 
 
-def load_treaties(manifest: Manifest, client: LegifranceClient) -> LoadResult:
+def load_treaties(
+    manifest: Manifest, client: LegifranceClient, sources_dir: Path = MANIFEST_PATH.parent
+) -> LoadResult:
     result = LoadResult("treaty")
     meta = SourceMeta(nationality_scope=manifest.treaties.nationality_scope)
+    for entry in manifest.treaties.consolidations:
+        _load_consolidation(sources_dir / entry.path, entry.source_id, meta, result)
     for text in manifest.treaties.texts:
         if text.status != "included":
             result.notes.append(f"{text.jorf_cid}: {text.status} ({text.title})")
@@ -184,3 +191,15 @@ def load_treaties(manifest: Manifest, client: LegifranceClient) -> LoadResult:
             result.errors.append(f"{text.jorf_cid}: no text returned")
         result.drafts.extend(drafts)
     return result
+
+
+def _load_consolidation(path: Path, source_id: str, meta: SourceMeta, result: LoadResult) -> None:
+    try:
+        consolidation = load_consolidation(path)
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        result.errors.append(f"{path.name}: {exc}")
+        return
+    if consolidation.status != "verified":
+        result.notes.append(f"{path.name}: {consolidation.status}, not indexed until verified")
+        return
+    result.drafts.extend(consolidation_drafts(consolidation, source_id, meta))
