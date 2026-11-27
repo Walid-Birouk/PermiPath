@@ -82,3 +82,33 @@ Not measured: `answer_correctness`, `faithfulness`, `citation_accuracy`, `refusa
 | Dense retrieval alone does not apply precedence. | Right source wins 0.143 for `vector` (1 of 7 Algerian items); 0.429 for `bge-m3-index`. Build step 4 (hybrid retrieval, re-ranking, `nationality_scope` filter, precedence node) targets this metric. |
 | Model choice is not settled by v1. | bge-m3 gains on recall@10 and right source wins, `mistral-embed` on recall@5 and MRR; 24 scored items are too few to separate them. |
 | Refusal, handoff and abstain items are not scored yet. | Eight items have no `must_cite`; behaviour accuracy needs the answer graph of build step 4. |
+
+## Model x corpus grid (2026-11-27)
+
+`python -m evals.grid`: each corpus embedded with each model, same 24 scored items of golden v1.
+Index chunks are embedded as `title + text`, dataset chunks as `chunk_text` (each as its
+producer embeds it). Embedding the 322 dataset chunks with `mistral-embed` cost 161,457 tokens.
+
+| Metric | service-public x mistral-embed | service-public x bge-m3 | index-sheets x mistral-embed | index-sheets x bge-m3 | index x mistral-embed | index x bge-m3 |
+|---|---|---|---|---|---|---|
+| Chunks | 322 | 322 | 460 | 460 | 757 | 757 |
+| Source recall@5 | 0.549 | 0.528 | 0.569 | 0.604 | 0.708 | 0.701 |
+| Source recall@10 | 0.549 | 0.528 | 0.569 | 0.618 | 0.722 | 0.785 |
+| MRR | 0.750 | 0.708 | 0.806 | 0.783 | 0.819 | 0.785 |
+| Right source wins | 0.143 | 0.143 | 0.143 | 0.143 | 0.143 | 0.429 |
+| Latency p50 (ms) | 212.1 | 150.0 | 230.6 | 171.3 | 258.8 | 211.1 |
+
+The two fact-sheet corpora cannot hold the CESEDA, agreement and case-law sources: their source
+recall is capped at 0.681 on this set (expected sources that are one of the 19 sheets).
+
+| Effect | Comparison | Result |
+|---|---|---|
+| Chunking (same 19 sheets) | `index-sheets` vs `service-public` | The index's chunks are better under both models: recall@5 +0.020 (mistral-embed) and +0.076 (bge-m3), MRR +0.056 and +0.075. |
+| Corpus breadth | `index` vs `index-sheets` | Largest effect: recall@5 +0.139 (mistral-embed) and +0.097 (bge-m3). |
+| Model (same corpus) | `mistral-embed` vs bge-m3 | No consistent winner. On the full index: same recall@5, bge-m3 ahead on recall@10 (+0.063) and right source wins (3 of 7 vs 1 of 7), `mistral-embed` ahead on MRR (+0.034). |
+| Stored vs local dataset vectors | `baseline-sp` (stored bge-m3 vectors) vs `service-public x bge-m3` (re-embedded locally) | recall@5 0.562 vs 0.528: local re-embedding of the same texts does not reproduce the stored ranking exactly (minimum cosine 0.980 on the checked chunks). |
+
+Decision input for build step 4: chunking and corpus choices are validated; the embedding model
+stays `mistral-embed` (no index rebuild, query cost 748 tokens per run) unless hybrid retrieval
+and re-ranking leave the precedence gap that bge-m3 narrows. With 24 scored items, differences
+below about 0.05 are within one or two items.
