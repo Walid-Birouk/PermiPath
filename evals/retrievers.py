@@ -3,10 +3,13 @@
 - `vector`: pgvector cosine similarity over the embedded `chunks` (query embedded with the same
   model as the passages, `rag.embeddings`). This is the index built in build step 2, without the
   lexical search, fusion, filters or re-ranking planned for build step 4.
+- `hybrid`: full-text and vector rankings fused with RRF, with the metadata filters of the
+  app (`rag.retrieval`, build step 4).
 """
 
 from collections import Counter
 from dataclasses import dataclass, field
+from datetime import date
 from typing import Any, Protocol
 
 from sqlalchemy import Engine, func, select
@@ -68,3 +71,35 @@ class VectorRetriever:
             rows = session.execute(query).all()
         hits = [Hit(r.id, f"{r.source_type}:{r.source_id}", 1.0 - float(r.distance)) for r in rows]
         return Retrieval(hits=hits, embedding_tokens=batch.prompt_tokens)
+
+
+@dataclass
+class HybridEvalRetriever:
+    """`rag.retrieval.HybridRetriever` with the filters the app derives from the question:
+    nationality detected from the text (`guardrails.nationality`), in force on `on`."""
+
+    retriever: Any
+    on: date
+    name: str = field(default="hybrid", init=False)
+
+    def describe(self) -> dict[str, Any]:
+        r = self.retriever
+        return {
+            "name": self.name,
+            "embedding_model": r.embedder.model,
+            "fusion": {"method": "rrf", "k": r.k, "weights": r.weights},
+            "candidates_per_ranking": r.candidates,
+            "lexical_config": "french",
+            "filters": {"nationality": "detected from the question", "in_force_on": str(self.on)},
+        }
+
+    def retrieve(self, question: str, depth: int) -> Retrieval:
+        from guardrails.nationality import detect_nationality
+        from rag.retrieval import Filters
+
+        scopes = ("all", "algerian") if detect_nationality(question) == "algerian" else ("all",)
+        result = self.retriever.retrieve(
+            question, Filters(nationality_scopes=scopes, in_force_on=self.on), depth=depth
+        )
+        hits = [Hit(c.id, c.source_ref, c.score) for c in result.chunks]
+        return Retrieval(hits=hits, embedding_tokens=result.embedding_tokens)

@@ -112,3 +112,31 @@ Decision input for build step 4: chunking and corpus choices are validated; the 
 stays `mistral-embed` (no index rebuild, query cost 748 tokens per run) unless hybrid retrieval
 and re-ranking leave the precedence gap that bge-m3 narrows. With 24 scored items, differences
 below about 0.05 are within one or two items.
+
+## hybrid (mistral-embed) vs vector (mistral-embed)
+
+Reports: base 2026-11-27T17:29:37+00:00, candidate 2026-11-27T17:58:06+00:00. Set `golden` v1, 32 items, 24 scored.
+
+| Metric | Base | Candidate | Δ |
+|---|---|---|---|
+| Source recall@5 | 0.708 | 0.743 | +0.035 |
+| Source recall@10 | 0.722 | 0.792 | +0.069 |
+| MRR | 0.819 | 0.801 | -0.018 |
+| Right source wins | 0.143 | 0.286 | +0.143 |
+| Latency p50 (ms) | 223.800 | 246.500 | +22.700 |
+| Latency p95 (ms) | 571.900 | 572.000 | +0.100 |
+| Query embedding tokens | 748 | 748 | +0 |
+
+Not measured: `answer_correctness`, `faithfulness`, `citation_accuracy`, `refusal_abstain_accuracy`.
+
+| Item | First relevant rank (base) | (candidate) |
+|---|---|---|
+| g002 | 1 | 2 |
+| g004 | 2 | 5 |
+| g005 | 2 | 1 |
+| g006 | 1 | 2 |
+| g008 | 2 | 1 |
+| g013 | 1 | 2 |
+| g016 | 2 | 3 |
+| g018 | 3 | 5 |
+| g020 | 3 | 1 |
