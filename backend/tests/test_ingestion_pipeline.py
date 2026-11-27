@@ -20,7 +20,13 @@ from ingestion import __main__ as cli
 from ingestion.legifrance.client import LegifranceClient
 from ingestion.legifrance.settings import PisteEndpoints
 from ingestion.manifest import MANIFEST_PATH, JourneyStage, Manifest, load_manifest
-from ingestion.pipeline import load_fact_sheets, load_laws, load_treaties, read_sheets
+from ingestion.pipeline import (
+    load_case_law,
+    load_fact_sheets,
+    load_laws,
+    load_treaties,
+    read_sheets,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 ENDPOINTS = PisteEndpoints(oauth_url="https://oauth.test/token", api_url="https://api.test/lf")
@@ -31,6 +37,7 @@ L422_IDS = {
     "LEGIARTI000042776685": ("LEGIARTI000042771658", "L422-3"),
 }
 THIRD_AMENDMENT = "JORFTEXT000000599731"
+DECISION = "CETATEXT000053612496"
 ANNEX_CITED_ID = "LEGIARTI000043472320"
 """Version 2.0 of Annexe 10, the id cited by the sheets; the fixture is version 5.0."""
 ANNEX_IN_FORCE_ID = "LEGIARTI000049820920"
@@ -125,6 +132,10 @@ class FakeLegifrance:
                 return httpx2.Response(200, json=_article(body["id"]))
             if body["id"] in (ANNEX_CITED_ID, ANNEX_IN_FORCE_ID):
                 return httpx2.Response(200, json=_annex(body["id"]))
+        if path == "consult/juri" and body["textId"] == DECISION:
+            return httpx2.Response(200, json=_json(f"legifrance/consult_juri_{DECISION}.json"))
+        if path == "consult/juri":
+            return httpx2.Response(200, json={"text": None, "dereferenced": False})
         if path == "consult/jorf" and body["textCid"] == THIRD_AMENDMENT:
             return httpx2.Response(
                 200, json=_json(f"legifrance/consult_jorf_{THIRD_AMENDMENT}.json")
@@ -191,6 +202,62 @@ def test_excluded_articles_are_never_fetched() -> None:
     load_laws(manifest, sheets, _client(fake), ON)
     assert "LEGIARTI000042776687" not in fake.article_requests
     assert "LEGIARTI000042776689" in fake.article_requests
+
+
+def _with_included(*included: dict[str, Any]) -> Manifest:
+    code = _manifest().laws.codes[0].model_dump()
+    code.update(include_articles=list(included))
+    return _manifest(laws={"codes": [code]})
+
+
+def test_included_articles_are_indexed_without_a_citing_sheet() -> None:
+    manifest = _with_included(
+        {"article_id": "LEGIARTI000042776687", "label": "L422-2", "journey_stages": ["arriving"]}
+    )
+    result = load_laws(manifest, [], _client(FakeLegifrance()), ON)
+    assert [(d.source_id, d.meta.journey_stages) for d in result.drafts] == [
+        ("LEGIARTI000042771656", ("arriving",))
+    ]
+    assert result.complete
+
+
+def test_an_article_both_cited_and_included_is_indexed_once_with_both_stages() -> None:
+    manifest = _with_included(
+        {"article_id": "LEGIARTI000042776689", "label": "L422-1", "journey_stages": ["working"]}
+    )
+    sheets, _ = read_sheets(manifest, _feed("F2231"))
+    result = load_laws(manifest, sheets, _client(FakeLegifrance()), ON)
+    l422_1 = [d for d in result.drafts if d.source_id == "LEGIARTI000042771654"]
+    assert len({d.chunk_index for d in l422_1}) == len(l422_1)
+    assert {d.meta.journey_stages for d in l422_1} == {("arriving", "renewing", "working")}
+
+
+def test_case_law_loads_listed_decisions_with_manifest_metadata() -> None:
+    decision = {
+        "id": DECISION,
+        "title": "CE 2 mars 2026",
+        "journey_stages": ["finishing", "job_offer"],
+        "nationality_scope": "algerian",
+    }
+    manifest = _manifest(case_law={"decisions": [decision]})
+    result = load_case_law(manifest, _client(FakeLegifrance()))
+    assert result.complete
+    assert {(d.source_type, d.source_id) for d in result.drafts} == {("case_law", DECISION)}
+    assert {d.meta.nationality_scope for d in result.drafts} == {"algerian"}
+    assert {d.meta.journey_stages for d in result.drafts} == {("finishing", "job_offer")}
+
+
+def test_unknown_decision_makes_the_case_law_set_incomplete() -> None:
+    decision = {"id": "CETATEXT000000000001", "title": "T", "journey_stages": ["arriving"]}
+    manifest = _manifest(case_law={"decisions": [decision]})
+    result = load_case_law(manifest, _client(FakeLegifrance()))
+    assert not result.drafts
+    assert result.errors == ["CETATEXT000000000001: Decision CETATEXT000000000001 not found"]
+
+
+def test_manifest_without_case_law_loads_nothing() -> None:
+    result = load_case_law(_manifest(), _client(FakeLegifrance()))
+    assert result.complete and not result.drafts
 
 
 def _with_annex(points: list[dict[str, Any]]) -> Manifest:

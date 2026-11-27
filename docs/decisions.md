@@ -280,3 +280,39 @@ chunks; about 130 ms per question on CPU. On the 32 draft questions, `mistral-em
 similarities stay high for out-of-scope and no-source questions (0.82 to 0.83) where bge-m3
 drops to 0.44 to 0.58: a raw similarity threshold is a weak abstain signal on the index.
 
+
+## D-015 — Sources added for golden-set coverage: included articles and case law
+
+**Context.** Four golden items (g003, g008, g020, g022) had no supporting chunk in the index.
+The answer contract (CLAUDE.md, rule 2) allows `abstain` only when no official source exists;
+for these questions official sources exist but were not ingested:
+
+| Item | Question | Missing source |
+|---|---|---|
+| g003 | Consequence of not validating the VLS-TS in time | CESEDA R431-16 to R431-18 (no selected sheet cites them) |
+| g008 | Internship under a student permit | Service-public sheet F16734 |
+| g020 | Job-search permit for Algerian graduates | Ruling that the CESEDA residence titles do not apply to Algerians |
+| g022 | Talent card for Algerians | Same ruling |
+
+The ministry page on the Franco-Algerian agreement (Sources, row 3) refuses automated requests
+(HTTP 403) and is still not ingested.
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Included articles | `laws.codes[].include_articles` lists articles indexed although no sheet cites them: `article_id` (any version), `label`, `journey_stages`, `note`. An article both cited and included is indexed once; its journey stages are the union. |
+| Case law | New source type `case_law` (migration 0004). `case_law.decisions` in the manifest lists decisions by Légifrance id (`CETATEXT…` or `JURITEXT…`) with `journey_stages` and `nationality_scope`. Text from `consult/juri` (`texteHtml`, pseudonymised by Légifrance), split on paragraphs and packed into chunks keyed by the decision id. Title is the Légifrance title with the ECLI; `in_force_from` is the decision date. Licence: Légifrance / DILA, Licence Ouverte 2.0. |
+| Admission rule | A decision is indexed only when it settles how indexed texts apply (for example which source governs). It is not a source of figures. |
+| First entries | CESEDA R431-16, R431-17, R431-18 (stage arriving; R431-18 also renewing); sheet F16734 (working); Conseil d'État, 2 March 2026, n° 500835 (`CETATEXT000053612496`, Lebon tables), nationality scope `algerian`, stages finishing, job_offer, settling. |
+
+`consult/juri` request and response shape come from a live sandbox call recorded as
+`backend/tests/fixtures/legifrance/consult_juri_CETATEXT000053612496.json`; the PISTE Swagger
+was not checked for optional fields.
+
+**Consequences.** The four items are answerable from indexed official sources: g003 from
+R431-17 and R431-18, g008 from F16734, g020 and g022 from point 3 of the decision ("régit
+d'une manière complète…", the CESEDA provisions on residence titles "ne sont pas applicables
+aux ressortissants algériens") read with article 7 of the agreement. Index after ingestion on
+2026-11-27: 20 fact sheets (470 chunks), 245 law sources (261 chunks), 17 treaty sources
+(21 chunks), 1 decision (5 chunks).

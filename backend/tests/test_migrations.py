@@ -149,3 +149,15 @@ def test_settling_stage_is_accepted(migrated_engine: Engine) -> None:
             )
         )
         conn.execute(text("INSERT INTO query_logs (journey_stage) VALUES ('settling')"))
+
+
+def test_case_law_source_type_is_accepted(migrated_engine: Engine) -> None:
+    with migrated_engine.begin() as conn:
+        conn.execute(
+            text(
+                "INSERT INTO chunks (id, source_type, source_id, chunk_index, title, url, text,"
+                " lang, journey_stages, fetched_at, content_hash)"
+                " VALUES ('case_law:CETATEXT0:0', 'case_law', 'CETATEXT0', 0, 'T', 'u', 'x',"
+                " 'fr', ARRAY['finishing'], now(), 'h')"
+            )
+        )

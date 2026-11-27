@@ -55,12 +55,26 @@ class Annex(_Model):
     note: str = ""
 
 
+class IncludedArticle(_Model):
+    """An article indexed although no selected sheet cites it."""
+
+    article_id: str = Field(pattern=r"^LEGIARTI\d+$")
+    """Any version of the article; the version in force is resolved at ingestion."""
+    label: str
+    """Article number, for readers of the manifest (e.g. `R431-17`)."""
+    journey_stages: tuple[JourneyStage, ...]
+    note: str = ""
+
+
 class Code(_Model):
     text_id: str = Field(pattern=r"^LEGITEXT\d+$")
     label: str
     title: str
     exclude_articles: tuple[str, ...] = ()
     """LEGIARTI ids (any version) never indexed as whole articles, even when cited."""
+    include_articles: tuple[IncludedArticle, ...] = ()
+    """Articles indexed in addition to the cited ones. When an article is also cited, its
+    journey stages are the union of both."""
     annexes: tuple[Annex, ...] = ()
     note: str = ""
 
@@ -94,6 +108,27 @@ class Treaties(_Model):
     consolidations: tuple[TreatyConsolidation, ...] = ()
 
 
+class Decision(_Model):
+    """A court decision published on Légifrance (`consult/juri`), indexed as `case_law`."""
+
+    id: str = Field(pattern=r"^(CETA|JURI)TEXT\d+$")
+    title: str
+    journey_stages: tuple[JourneyStage, ...]
+    nationality_scope: Literal["all", "algerian"] = "all"
+    note: str = ""
+
+    def meta(self) -> SourceMeta:
+        return SourceMeta(
+            nationality_scope=self.nationality_scope, journey_stages=self.journey_stages
+        )
+
+
+class CaseLaw(_Model):
+    """Decisions that settle how the indexed texts apply (e.g. which source governs)."""
+
+    decisions: tuple[Decision, ...] = ()
+
+
 class Manifest(_Model):
     version: Literal[1]
     reviewed_by: str | None = None
@@ -101,6 +136,7 @@ class Manifest(_Model):
     fact_sheets: FactSheets
     laws: Laws
     treaties: Treaties
+    case_law: CaseLaw = CaseLaw()
 
 
 def load_manifest(path: Path = MANIFEST_PATH) -> Manifest:
