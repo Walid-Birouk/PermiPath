@@ -8,7 +8,7 @@ model `mistral-small-2603` (Mistral Small 4; listed by the API `/v1/models` on 2
 """
 
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Literal, Protocol
 
@@ -67,6 +67,10 @@ class DraftAnswer:
     sentences: list[AnswerSentence]
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    model: str = ""
+    prompt: str = ""
+    """The rendered prompt; recorded by tracing only in `full` mode (D-021)."""
+    prompt_version: str = ""
 
 
 class Answerer(Protocol):
@@ -159,14 +163,23 @@ class MistralAnswerer:
         decision: PrecedenceDecision,
         rules: Sequence[RuleRow] = (),
     ) -> DraftAnswer:
-        result = self._structured.invoke(render_prompt(question, lang, chunks, decision, rules))
+        prompt = render_prompt(question, lang, chunks, decision, rules)
+        result = self._structured.invoke(prompt)
         parsed = result.get("parsed") if isinstance(result, dict) else None
         raw = result.get("raw") if isinstance(result, dict) else None
         usage = getattr(raw, "usage_metadata", None)
         if not isinstance(parsed, StructuredAnswer):
             # Unparseable output: treated as no supported sentence (the gate abstains).
-            return DraftAnswer(declined=False, sentences=[], **_tokens(usage))
-        return to_draft(parsed, usage, chunks, rules)
+            tokens = _tokens(usage)
+            draft = DraftAnswer(
+                declined=False,
+                sentences=[],
+                prompt_tokens=tokens["prompt_tokens"],
+                completion_tokens=tokens["completion_tokens"],
+            )
+        else:
+            draft = to_draft(parsed, usage, chunks, rules)
+        return replace(draft, model=self.model, prompt=prompt, prompt_version=PROMPT_VERSION)
 
 
 def _tokens(usage: dict[str, Any] | None) -> dict[str, int]:

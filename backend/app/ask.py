@@ -17,6 +17,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field, StringConstraints
 
 from app.limits import DatabaseGuard, Guard, Prices
+from app.tracing import Tracing
 from ingestion.manifest import JourneyStage
 
 log = logging.getLogger(__name__)
@@ -66,26 +67,82 @@ Agent = Callable[[dict[str, Any]], dict[str, Any]]
 QueryLogger = Callable[[dict[str, Any]], None]
 
 
-@cache
-def _default_agent(rules: Literal["verified", "all", "none"] = "verified") -> Agent:
-    """`rules`: rules-table rows the agent may use (`all` includes unverified rows, for evals)."""
+TRACE_NAME = "answer-question"
+
+
+def summarise(state: dict[str, Any]) -> tuple[Any, dict[str, Any]]:
+    """Trace output (text, recorded only in `full` mode) and safe trace metadata."""
+    response = state["response"]
+    checked = state.get("checked")
+    output = {
+        "kind": response["kind"],
+        "sentences": [s["text"] for s in response["sentences"]],
+        "sources": [s["ref"] for s in response["sources"]],
+    }
+    metadata = {
+        "kind": response["kind"],
+        "governing": response.get("governing"),
+        "reason": response.get("reason"),
+        "abstain_reason": response.get("abstain_reason"),
+        "removed_sentences": len(checked.dropped) if checked else 0,
+        "sources_cited": [s["ref"] for s in response["sources"]],
+    }
+    return output, metadata
+
+
+def make_agent(
+    rules: Literal["verified", "all", "none"] = "verified",
+    tracing: Tracing | None = None,
+    tags: tuple[str, ...] = ("api",),
+) -> Agent:
+    """The agent graph wired to the database, Mistral and (optionally) Langfuse. `rules`: rows
+    of the rules table the agent may use (`all` includes unverified rows, for evals). The
+    returned state carries `trace_id` when the question was traced."""
     from app.config import get_settings
+    from app.tracing import OFF
     from db.session import make_engine
     from rag.answer import MistralAnswerer
     from rag.embeddings import MistralEmbedder
     from rag.graph import Deps, build_graph
     from rag.retrieval import HybridRetriever
     from rag.rules import RulesTool
+    from rag.tracing import TracedEmbedder, text
 
+    tracing = tracing or OFF
     settings = get_settings()
     if settings.mistral_api_key is None:
         raise RuntimeError("MISTRAL_API_KEY is not set")
     key = settings.mistral_api_key.get_secret_value()
-    retriever = HybridRetriever(make_engine(settings.database_url), MistralEmbedder(key))
-    engine = retriever.engine
+    engine = make_engine(settings.database_url)
+    embedder = TracedEmbedder(MistralEmbedder(key), tracing.tracer)
+    retriever = HybridRetriever(engine, embedder)
     tool = None if rules == "none" else RulesTool(engine, include_unverified=rules == "all")
-    graph = build_graph(Deps(retriever, MistralAnswerer(key), tool))
-    return graph.invoke  # type: ignore[no-any-return]
+    graph = build_graph(Deps(retriever, MistralAnswerer(key), tool, tracing.tracer))
+
+    def run(request: dict[str, Any]) -> dict[str, Any]:
+        trace_input = text(
+            tracing.tracer,
+            {k: request.get(k) for k in ("question", "lang", "nationality")},
+        )
+        state, trace_id = tracing.run(
+            TRACE_NAME,
+            graph.invoke,
+            request,
+            tags=list(tags),
+            trace_input=trace_input,
+            summarise=summarise,
+        )
+        return {**state, "trace_id": trace_id}
+
+    return run
+
+
+@cache
+def _default_agent(rules: Literal["verified", "all", "none"] = "verified") -> Agent:
+    """The API's agent; traced as `TRACING_MODE` says (`metadata` in production)."""
+    from app.tracing import default_tracing
+
+    return make_agent(rules, default_tracing())
 
 
 def get_agent() -> Agent:

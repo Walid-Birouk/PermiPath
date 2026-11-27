@@ -120,13 +120,19 @@ def summarise(items: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    from app.ask import _default_agent
+    from app.ask import make_agent
+    from app.tracing import OFF, build_tracing
     from rag.answer import ANSWER_MODEL, PROMPT_VERSION
 
     parser = argparse.ArgumentParser(prog="python -m evals.agent")
     parser.add_argument("--set", default="golden")
     parser.add_argument("--include-drafts", action="store_true")
     parser.add_argument("--out", type=Path)
+    parser.add_argument(
+        "--trace",
+        action="store_true",
+        help="send full traces to Langfuse (tag `eval`) with per-item scores (D-021)",
+    )
     parser.add_argument(
         "--rules",
         choices=("verified", "all", "none"),
@@ -137,13 +143,21 @@ def main(argv: list[str] | None = None) -> int:
 
     golden = load_golden_set(set_path(args.set))
     selected = [i for i in golden.items if args.include_drafts or i.verified]
-    agent = _default_agent(rules=args.rules)
+    tracing = build_tracing("full") if args.trace else OFF
+    agent = make_agent(args.rules, tracing, tags=("eval", f"golden-v{golden.version}"))
     today = datetime.now(UTC).date()
     items = []
     for item in selected:
         started = time.perf_counter()
         state = agent({"question": item.question, "on": today})
         items.append(score(item, state, (time.perf_counter() - started) * 1000))
+        if trace_id := state.get("trace_id"):
+            items[-1]["trace_id"] = trace_id
+            tracing.score(trace_id, "behaviour_correct", float(items[-1]["correct"]), item.id)
+            if items[-1]["key_fact_figure_recall"] is not None:
+                tracing.score(
+                    trace_id, "key_fact_figure_recall", items[-1]["key_fact_figure_recall"], item.id
+                )
         print(f"{item.id} {item.expected_behaviour:>8} -> {items[-1]['kind']}", flush=True)
     report = {
         "schema": REPORT_SCHEMA,
@@ -158,6 +172,7 @@ def main(argv: list[str] | None = None) -> int:
         "summary": summarise(items),
         "items": items,
     }
+    tracing.flush()
     out = args.out or REPO_ROOT / "reports" / f"{today.isoformat()}-agent.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

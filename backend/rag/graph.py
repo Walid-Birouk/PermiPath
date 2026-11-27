@@ -33,6 +33,7 @@ from rag.citations import CheckedAnswer, check
 from rag.retrieval import RetrievedChunk
 from rag.rules import RuleRow
 from rag.search import Retriever, SearchResult, search
+from rag.tracing import NOOP, Tracer, text
 
 Kind = Literal["answer", "refuse", "handoff", "abstain"]
 Nationality = Literal["algerian", "other", "unknown"]
@@ -64,6 +65,8 @@ class Deps:
     answerer: Answerer
     rules: RulesLookup | None = None
     """None: no rules table (the `eligibility` node returns no row)."""
+    tracer: Tracer = NOOP
+    """One typed observation per node (D-021); text recorded only when `tracer.capture`."""
 
 
 def _notices(state: AskState, *names: str) -> list[str]:
@@ -103,11 +106,24 @@ def _rule_source(rule: RuleRow, number: int, on: date) -> dict[str, Any]:
 
 
 def build_graph(deps: Deps) -> Any:
+    tracer = deps.tracer
+
     def route(state: AskState) -> AskState:
-        return {
-            "scope": classify(state["question"]),
-            "lang": state.get("lang") or texts.detect_lang(state["question"]),
-        }
+        with tracer.observe(
+            "classify-scope", "guardrail", input=text(tracer, state["question"])
+        ) as obs:
+            scope = classify(state["question"])
+            lang = state.get("lang") or texts.detect_lang(state["question"])
+            obs.update(
+                output={"route": scope.route, "reason": scope.reason},
+                metadata={
+                    "route": scope.route,
+                    "reason": scope.reason,
+                    "personal": scope.personal,
+                    "lang": lang,
+                },
+            )
+        return {"scope": scope, "lang": lang}
 
     def after_route(state: AskState) -> str:
         return {"out_of_scope": "refuse", "handoff": "handoff"}.get(state["scope"].route, "clarify")
@@ -121,12 +137,36 @@ def build_graph(deps: Deps) -> Any:
     def eligibility(state: AskState) -> AskState:
         if deps.rules is None:
             return {"rules": []}
-        return {"rules": deps.rules.lookup(state["question"], state["nationality"] == "algerian")}
+        with tracer.observe("lookup-rules", "tool", input=text(tracer, state["question"])) as obs:
+            rows = deps.rules.lookup(state["question"], state["nationality"] == "algerian")
+            obs.update(
+                output=text(tracer, [{"id": r.id, "value": r.value} for r in rows]),
+                metadata={"rule_ids": [r.id for r in rows]},
+            )
+        return {"rules": rows}
 
     def retrieve(state: AskState) -> AskState:
-        found = search(
-            deps.retriever, state["question"], state["nationality"] == "algerian", state["on"]
-        )
+        with tracer.observe(
+            "retrieve-sources", "retriever", input=text(tracer, state["question"])
+        ) as obs:
+            found = search(
+                deps.retriever, state["question"], state["nationality"] == "algerian", state["on"]
+            )
+            obs.update(
+                output=text(
+                    tracer,
+                    [
+                        {"id": c.id, "title": c.title, "score": round(c.score, 4), "text": c.text}
+                        for c in found.chunks
+                    ],
+                ),
+                metadata={
+                    "retrieved_chunk_ids": [c.id for c in found.chunks],
+                    "governing": found.decision.governing,
+                    "topic": found.decision.topic,
+                    "embedding_tokens": found.embedding_tokens,
+                },
+            )
         return {"search": found}
 
     def after_retrieve(state: AskState) -> str:
@@ -134,17 +174,69 @@ def build_graph(deps: Deps) -> Any:
 
     def answer(state: AskState) -> AskState:
         found = state["search"]
-        draft = deps.answerer.answer(
-            state["question"], state["lang"], found.chunks, found.decision, state.get("rules", [])
-        )
+        with tracer.observe("generate-answer", "generation") as obs:
+            draft = deps.answerer.answer(
+                state["question"],
+                state["lang"],
+                found.chunks,
+                found.decision,
+                state.get("rules", []),
+            )
+            obs.update(
+                model=draft.model or None,
+                input=text(tracer, [{"role": "user", "content": draft.prompt}]),
+                output=text(
+                    tracer,
+                    {
+                        "declined": draft.declined,
+                        "sentences": [
+                            {"text": s.text, "source_ids": list(s.chunk_ids)}
+                            for s in draft.sentences
+                        ],
+                    },
+                ),
+                usage_details={
+                    "input_tokens": draft.prompt_tokens,
+                    "output_tokens": draft.completion_tokens,
+                },
+                metadata={"prompt_version": draft.prompt_version},
+            )
         return {"draft": draft}
 
     def check_citations(state: AskState) -> AskState:
         # Titles carry figures too (e.g. the agreement's date); both are shown to the model.
         citable = {c.id: f"{c.title}\n{c.text}" for c in state["search"].chunks}
         citable |= {r.ref: r.text() for r in state.get("rules", [])}
-        checked = check(state["draft"].sentences, citable)
-        reason = abstain_reason(len(state["search"].chunks), state["draft"].declined, checked)
+        with tracer.observe(
+            "check-citations",
+            "guardrail",
+            input=text(
+                tracer,
+                [
+                    {"text": s.text, "source_ids": list(s.chunk_ids)}
+                    for s in state["draft"].sentences
+                ],
+            ),
+        ) as obs:
+            checked = check(state["draft"].sentences, citable)
+            reason = abstain_reason(len(state["search"].chunks), state["draft"].declined, checked)
+            obs.update(
+                output=text(
+                    tracer,
+                    {
+                        "removed": [
+                            {"text": d.sentence.text, "reason": d.reason, "detail": d.detail}
+                            for d in checked.dropped
+                        ]
+                    },
+                ),
+                metadata={
+                    "kept_sentences": len(checked.kept),
+                    "removed_sentences": len(checked.dropped),
+                    "removed_reasons": [d.reason for d in checked.dropped],
+                    "abstain_reason": reason,
+                },
+            )
         return {"checked": checked, "abstain_reason": reason or ""}
 
     def after_check(state: AskState) -> str:

@@ -143,6 +143,16 @@ npm ci
 npm run lint && npm run typecheck && npm run build
 ```
 
+## Tracing
+
+Langfuse tracing is off by default (`TRACING_MODE=off`). Set `TRACING_MODE=full` and the
+`LANGFUSE_*` keys in `.env` to trace local runs; production uses `TRACING_MODE=metadata`, which
+exports structure, model, tokens and cost without any question or answer text (D-021).
+
+```bash
+uv run --project backend python -m evals.agent --trace   # full traces + per-item scores
+```
+
 ## Configuration
 
 All configuration is read from environment variables. `.env.example` lists every variable.

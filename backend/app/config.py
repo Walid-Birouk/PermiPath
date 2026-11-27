@@ -2,6 +2,7 @@
 
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 
 from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -36,6 +37,14 @@ class Settings(BaseSettings):
     price_chat_input_per_m: float = Field(default=0.15, ge=0)
     price_chat_output_per_m: float = Field(default=0.6, ge=0)
     price_embed_input_per_m: float = Field(default=0.1, ge=0)
+    tracing_mode: Literal["off", "full", "metadata"] = "off"
+    """Langfuse tracing (D-021): `full` in development and evals, `metadata` (no text) in
+    production."""
+    langfuse_public_key: str | None = None
+    langfuse_secret_key: SecretStr | None = None
+    langfuse_base_url: str = "https://cloud.langfuse.com"
+    """EU region by default."""
+    langfuse_environment: str = "development"
 
     @field_validator("database_url")
     @classmethod

@@ -19,6 +19,8 @@ results are in `eval-results.md`.
 | Answer | `backend/rag/answer.py`, `rag/prompts/` | Structured answer from `mistral-small-2603`; versioned prompts. |
 | Citation check | `backend/rag/citations.py` | Removes sentences without valid citations or with figures absent from the cited chunks. |
 | Abstain gate | `backend/rag/abstain.py` | No retrieval, model declined, or no supported sentence. |
+| Tracing | `backend/app/tracing.py`, `rag/tracing.py` | One typed Langfuse observation per node; no text exported in production (`TRACING_MODE=metadata`, D-021). |
+| Guardrails | `backend/app/limits.py` | Per-visitor daily limit and monthly spend cap before any model call (D-020). |
 | Fixed texts | `backend/guardrails/texts.yaml` | Notices and refuse / handoff / abstain responses (FR, EN; wording approved by the maintainer). |
 
 ## Request flow
