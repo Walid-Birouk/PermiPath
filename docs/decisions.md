@@ -460,3 +460,31 @@ rate limiting and spend tracking in Postgres (no Redis) and no stored personal d
 subscription (see `.env.example`), whose billing may differ. Evaluation runs (`evals.agent`) call
 the graph directly and are not counted. Prices are settings (`PRICE_*`), to update when Mistral
 changes them. The user-facing wording for 429 and 503 belongs to the frontend (build step 7).
+
+## D-021 — Tracing with Langfuse, without user text in production
+
+**Context.** Build step 6 adds tracing for development, evaluation runs and production
+(PLAN.md). CLAUDE.md, rule 5: production traces carry no user text. Langfuse was chosen by the
+maintainer (EU cloud region); the Langfuse agent skill (github.com/langfuse/skills, commit
+`d3b7123`) and the Langfuse docs read on 2026-11-27 (best practices, Python SDK v5,
+observation types, masking) were followed.
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| SDK | `langfuse` 5.2.0 (Python SDK v5), client built from settings (`LANGFUSE_*`), environment from `LANGFUSE_ENVIRONMENT`. |
+| Modes | `TRACING_MODE=off` (default), `full` (development, `evals.agent --trace`), `metadata` (production). |
+| Instrumentation | Manual, one typed observation per graph node: root `answer-question` (agent), `classify-scope` (guardrail), `lookup-rules` (tool), `retrieve-sources` (retriever) with `embed-question` (embedding) nested, `generate-answer` (generation: model, usage, role-labelled input, structured output, prompt version), `check-citations` (guardrail). The LangChain `CallbackHandler` is not used: it records every LangGraph node as a generic span whose input and output are the whole graph state, and it sends prompt text that `metadata` mode must not export. |
+| No text in production | Text goes through `rag.tracing.text()` and is never passed to the SDK when capture is off; at export, `metadata_only_mask` (`mask_otel_spans`) deletes every attribute not on an allowlist (observation type, model, usage, cost, level, trace name and tags, environment, named safe metadata keys). An attribute added by a later integration is dropped by default. |
+| Cost | Langfuse had no price for `mistral-small-2603` and `mistral-embed` (empty cost on 2026-11-27); `cost_details` are sent from the configured list prices (`PRICE_*`, D-020). |
+| Evaluation | `evals.agent --trace` sends full traces tagged `eval` and `golden-v1`, with scores `behaviour_correct` and `key_fact_figure_recall` per item (comment: golden item id). |
+| Identity | No `user_id` or `session_id`: there are no accounts and no conversation, and a per-visitor id would be personal data. |
+| Shutdown | The API flushes buffered traces at shutdown (FastAPI lifespan); `evals.agent` flushes at the end. |
+| Reading traces | Observations API v2 (`@langfuse/cli api observations list --trace-id`); the `traces` endpoints return HTTP 410. |
+
+**Consequences.** Verified against Langfuse on 2026-11-27 by sending the same question in both
+modes and reading the traces back: in `full` mode the tree, model, usage, cost and inputs and
+outputs are present; in `metadata` mode the same tree, model, usage, cost and metadata are
+present and the question text appears nowhere in the exported data. Cost per answered question
+at list prices: about $0.0007.

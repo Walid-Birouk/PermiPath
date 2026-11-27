@@ -8,6 +8,7 @@ dependencies = [
     "httpx2>=2.16.2",
     "langchain-core>=1.8.5",
     "langchain-mistralai>=1.2.0",
+    "langfuse>=5.2.0",
     "langgraph>=1.2.24",
     "pgvector>=0.5.1",
     "psycopg[binary]>=3.3.9",
