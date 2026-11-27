@@ -89,7 +89,7 @@ All configuration is read from environment variables. `.env.example` lists every
 |----------|----------|-------------|
 | `DATABASE_URL` | Yes | Postgres URL. `postgresql://` URLs are converted to the psycopg 3 driver. |
 | `TEST_DATABASE_URL` | No | Disposable database for `db`-marked tests. |
-| `MISTRAL_API_KEY` | Later phases | Mistral API key (generation and embeddings). |
+| `MISTRAL_API_KEY` | Later phases | Mistral API key (generation, embeddings, OCR). The project uses a Mistral Pro subscription; a key without a billing plan is refused with HTTP 402. |
 | `PISTE_CLIENT_ID`, `PISTE_CLIENT_SECRET` | For Légifrance | PISTE OAuth credentials for the Légifrance API. |
 | `PISTE_ENV` | No | `sandbox` (default) or `prod`. `PISTE_OAUTH_URL` / `PISTE_API_URL` override the hosts. |
 | `DAILY_QUESTION_LIMIT` | No | Per-client daily question limit. |

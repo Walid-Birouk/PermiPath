@@ -242,9 +242,14 @@ def _with_consolidation(path: str) -> Manifest:
     return _manifest(treaties=treaties)
 
 
-def test_draft_consolidation_is_noted_not_indexed() -> None:
+def test_draft_consolidation_is_noted_not_indexed(tmp_path: Path) -> None:
+    data = yaml.safe_load((MANIFEST_PATH.parent / "franco-algerian-agreement.yaml").read_text())
+    data.update(status="draft", verified_by=None, verified_at=None)
+    (tmp_path / "franco-algerian-agreement.yaml").write_text(
+        yaml.safe_dump(data, allow_unicode=True)
+    )
     manifest = _with_consolidation("franco-algerian-agreement.yaml")
-    result = load_treaties(manifest, _client(FakeLegifrance()), MANIFEST_PATH.parent)
+    result = load_treaties(manifest, _client(FakeLegifrance()), tmp_path)
     assert result.complete
     assert not any(d.source_id.startswith("accord-test") for d in result.drafts)
     assert "franco-algerian-agreement.yaml: draft, not indexed until verified" in result.notes

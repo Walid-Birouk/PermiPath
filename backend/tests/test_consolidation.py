@@ -81,9 +81,10 @@ def _provision_text(provision_id: str) -> str:
     return next(p.text for p in _repo_consolidation().provisions if p.id == provision_id)
 
 
-def test_repository_consolidation_is_valid_and_not_yet_verified() -> None:
+def test_repository_consolidation_is_valid_and_signed_off() -> None:
     consolidation = _repo_consolidation()
-    assert consolidation.status == "draft"
+    assert consolidation.status == "verified"
+    assert consolidation.verified_by and consolidation.verified_at
     repealed = {p.id for p in consolidation.provisions if p.status == "repealed"}
     assert repealed == {"article-1", "article-2", "annexe"}
 
@@ -196,7 +197,7 @@ def test_history_must_reference_known_instruments() -> None:
 
 def test_verified_status_requires_a_reviewer() -> None:
     data = _raw()
-    data["status"] = "verified"
+    data.update(status="verified", verified_by=None)
     with pytest.raises(ValidationError, match="verified_by"):
         Consolidation.model_validate(data)
 
