@@ -1,0 +1,875 @@
+{
+  "schema": "permipath.agent-eval.v1",
+  "created_at": "2026-11-27T18:25:16+00:00",
+  "set": {
+    "name": "golden",
+    "version": 1,
+    "items": 32
+  },
+  "agent": {
+    "answer_model": "mistral-small-2603",
+    "prompt": "answer.v3",
+    "in_force_on": "2026-11-27"
+  },
+  "summary": {
+    "items": 32,
+    "behaviour_accuracy": 1.0,
+    "behaviour_accuracy_by_expected": {
+      "abstain": {
+        "accuracy": 1.0,
+        "items": 2
+      },
+      "answer": {
+        "accuracy": 1.0,
+        "items": 24
+      },
+      "handoff": {
+        "accuracy": 1.0,
+        "items": 3
+      },
+      "refuse": {
+        "accuracy": 1.0,
+        "items": 3
+      }
+    },
+    "expected_source_cited": 0.958,
+    "citation_precision": 0.629,
+    "governing_source_cited_first": 0.857,
+    "removed_sentence_rate": 0.006,
+    "tokens": {
+      "embedding_tokens": 631,
+      "prompt_tokens": 99286,
+      "completion_tokens": 9723
+    },
+    "latency_ms_p50": 1768.85,
+    "latency_ms_p95": 4097.0
+  },
+  "items": [
+    {
+      "id": "g001",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 32,
+      "prompt_tokens": 3056,
+      "completion_tokens": 191,
+      "latency_ms": 1649.1
+    },
+    {
+      "id": "g002",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 3,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 3668,
+      "completion_tokens": 170,
+      "latency_ms": 1355.2
+    },
+    {
+      "id": "g003",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2231",
+        "fact_sheet:F17319",
+        "fact_sheet:F15898"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231",
+        "law:LEGIARTI000042801344",
+        "law:LEGIARTI000042801346"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.3333333333333333,
+      "governing_first": null,
+      "sentences_kept": 3,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 27,
+      "prompt_tokens": 3894,
+      "completion_tokens": 155,
+      "latency_ms": 1651.2
+    },
+    {
+      "id": "g004",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F35799",
+        "fact_sheet:F22116",
+        "fact_sheet:F16922"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231",
+        "law:LEGIARTI000042771654"
+      ],
+      "winning_source": null,
+      "expected_source_cited": false,
+      "citation_precision": 0.0,
+      "governing_first": null,
+      "sentences_kept": 9,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 26,
+      "prompt_tokens": 4365,
+      "completion_tokens": 530,
+      "latency_ms": 3456.0
+    },
+    {
+      "id": "g005",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231",
+        "fact_sheet:F35799"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 5,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 21,
+      "prompt_tokens": 2577,
+      "completion_tokens": 216,
+      "latency_ms": 1887.2
+    },
+    {
+      "id": "g006",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F22116",
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 18,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 23,
+      "prompt_tokens": 4413,
+      "completion_tokens": 1024,
+      "latency_ms": 5076.0
+    },
+    {
+      "id": "g007",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2713",
+        "fact_sheet:F2728"
+      ],
+      "must_cite": [
+        "fact_sheet:F2713",
+        "law:LEGIARTI000042771654"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 6,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 24,
+      "prompt_tokens": 3984,
+      "completion_tokens": 265,
+      "latency_ms": 1897.5
+    },
+    {
+      "id": "g008",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F16734",
+        "fact_sheet:F17312",
+        "law:LEGIARTI000042801280",
+        "law:LEGIARTI000042801286"
+      ],
+      "must_cite": [
+        "fact_sheet:F16734"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.25,
+      "governing_first": null,
+      "sentences_kept": 12,
+      "sentences_removed": 1,
+      "removed_reasons": [
+        "figure_not_in_source"
+      ],
+      "embedding_tokens": 17,
+      "prompt_tokens": 2906,
+      "completion_tokens": 536,
+      "latency_ms": 3400.6
+    },
+    {
+      "id": "g009",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2713"
+      ],
+      "must_cite": [
+        "fact_sheet:F2713"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 4093,
+      "completion_tokens": 289,
+      "latency_ms": 1740.4
+    },
+    {
+      "id": "g010",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "law:LEGIARTI000042771690",
+        "law:LEGIARTI000051739510",
+        "fact_sheet:F17319",
+        "fact_sheet:F2229"
+      ],
+      "must_cite": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2229",
+        "law:LEGIARTI000042771680"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 12,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 3338,
+      "completion_tokens": 692,
+      "latency_ms": 4097.0
+    },
+    {
+      "id": "g011",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F17319",
+        "law:LEGIARTI000042771690",
+        "law:LEGIARTI000042771680",
+        "law:LEGIARTI000042771684",
+        "fact_sheet:F16922"
+      ],
+      "must_cite": [
+        "fact_sheet:F17319",
+        "law:LEGIARTI000042771680",
+        "law:LEGIARTI000042771684"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.6,
+      "governing_first": null,
+      "sentences_kept": 10,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 16,
+      "prompt_tokens": 3671,
+      "completion_tokens": 598,
+      "latency_ms": 3736.6
+    },
+    {
+      "id": "g012",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F17319"
+      ],
+      "must_cite": [
+        "fact_sheet:F17319"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 3,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 29,
+      "prompt_tokens": 3416,
+      "completion_tokens": 191,
+      "latency_ms": 1746.6
+    },
+    {
+      "id": "g013",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2713",
+        "fact_sheet:F2229"
+      ],
+      "must_cite": [
+        "fact_sheet:F2229",
+        "fact_sheet:F15898",
+        "fact_sheet:F2728"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 10,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 35,
+      "prompt_tokens": 3032,
+      "completion_tokens": 667,
+      "latency_ms": 3454.3
+    },
+    {
+      "id": "g014",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F16922",
+        "fact_sheet:F17319"
+      ],
+      "must_cite": [
+        "fact_sheet:F16922",
+        "law:LEGIARTI000042771574"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 9,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 24,
+      "prompt_tokens": 3793,
+      "completion_tokens": 462,
+      "latency_ms": 2837.5
+    },
+    {
+      "id": "g015",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2728"
+      ],
+      "must_cite": [
+        "fact_sheet:F2728",
+        "fact_sheet:F16922",
+        "fact_sheet:F17319"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 10,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 23,
+      "prompt_tokens": 4089,
+      "completion_tokens": 542,
+      "latency_ms": 3785.9
+    },
+    {
+      "id": "g016",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2229",
+        "fact_sheet:F2728"
+      ],
+      "must_cite": [
+        "fact_sheet:F2728",
+        "fact_sheet:F16922"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 3,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 15,
+      "prompt_tokens": 2982,
+      "completion_tokens": 144,
+      "latency_ms": 1367.5
+    },
+    {
+      "id": "g017",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F35799"
+      ],
+      "must_cite": [
+        "fact_sheet:F35799"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 7,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 3911,
+      "completion_tokens": 413,
+      "latency_ms": 2294.2
+    },
+    {
+      "id": "g018",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "case_law:CETATEXT000053612496",
+        "fact_sheet:F2215",
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "treaty:accord-franco-algerien-1968:article-9",
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:protocole-titre-3",
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": true,
+      "sentences_kept": 7,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 29,
+      "prompt_tokens": 4406,
+      "completion_tokens": 367,
+      "latency_ms": 2537.3
+    },
+    {
+      "id": "g019",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "treaty:accord-franco-algerien-1968:article-7",
+        "fact_sheet:F2713"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "fact_sheet:F2713",
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:protocole-titre-3",
+      "expected_source_cited": true,
+      "citation_precision": 0.6666666666666666,
+      "governing_first": true,
+      "sentences_kept": 8,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 26,
+      "prompt_tokens": 4347,
+      "completion_tokens": 523,
+      "latency_ms": 2898.7
+    },
+    {
+      "id": "g020",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "treaty:accord-franco-algerien-1968:protocole-titre-3"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "case_law:CETATEXT000053612496",
+        "fact_sheet:F17319"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": true,
+      "sentences_kept": 5,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 2979,
+      "completion_tokens": 211,
+      "latency_ms": 1791.1
+    },
+    {
+      "id": "g021",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:article-7"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "fact_sheet:F2215",
+        "fact_sheet:F2733"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": true,
+      "sentences_kept": 5,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 27,
+      "prompt_tokens": 4924,
+      "completion_tokens": 230,
+      "latency_ms": 1732.3
+    },
+    {
+      "id": "g022",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:article-7-bis",
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "treaty:accord-franco-algerien-1968:article-7",
+        "fact_sheet:F16922"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "case_law:CETATEXT000053612496"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "expected_source_cited": true,
+      "citation_precision": 0.25,
+      "governing_first": false,
+      "sentences_kept": 6,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 22,
+      "prompt_tokens": 4497,
+      "completion_tokens": 391,
+      "latency_ms": 2873.7
+    },
+    {
+      "id": "g023",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:article-7-bis",
+        "fact_sheet:F2257"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7-bis",
+        "fact_sheet:F2257"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7-bis",
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": true,
+      "sentences_kept": 11,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 4900,
+      "completion_tokens": 739,
+      "latency_ms": 4244.6
+    },
+    {
+      "id": "g024",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "fact_sheet:F2215",
+        "fact_sheet:F2257"
+      ],
+      "must_cite": [
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "fact_sheet:F2215",
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": true,
+      "sentences_kept": 3,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 23,
+      "prompt_tokens": 4852,
+      "completion_tokens": 151,
+      "latency_ms": 1598.2
+    },
+    {
+      "id": "g025",
+      "expected": "refuse",
+      "kind": "refuse",
+      "correct": true,
+      "reason": "asylum",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 1.0
+    },
+    {
+      "id": "g026",
+      "expected": "refuse",
+      "kind": "refuse",
+      "correct": true,
+      "reason": "family_reunification",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g027",
+      "expected": "refuse",
+      "kind": "refuse",
+      "correct": true,
+      "reason": "naturalisation",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g028",
+      "expected": "handoff",
+      "kind": "handoff",
+      "correct": true,
+      "reason": "oqtf",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g029",
+      "expected": "handoff",
+      "kind": "handoff",
+      "correct": true,
+      "reason": "expired_permit",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g030",
+      "expected": "handoff",
+      "kind": "handoff",
+      "correct": true,
+      "reason": "refusal_appeal",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g031",
+      "expected": "abstain",
+      "kind": "abstain",
+      "correct": true,
+      "reason": "model_declined",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 30,
+      "prompt_tokens": 3621,
+      "completion_tokens": 13,
+      "latency_ms": 758.5
+    },
+    {
+      "id": "g032",
+      "expected": "abstain",
+      "kind": "abstain",
+      "correct": true,
+      "reason": "model_declined",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "embedding_tokens": 12,
+      "prompt_tokens": 3572,
+      "completion_tokens": 13,
+      "latency_ms": 718.3
+    }
+  ]
+}

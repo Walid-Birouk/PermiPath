@@ -381,3 +381,34 @@ golden v2 needs held-out refuse, handoff and Algerian items. The figure check ma
 mechanical for generated text: a sentence whose number is not in its cited chunk is removed,
 even if the number is correct elsewhere. Behaviour accuracy (answer, refuse, handoff, abstain)
 is measured once the graph runs (part 3).
+
+## D-018 — Agent graph, answer model and structured output
+
+**Context.** Build step 4 assembles the agent: LangGraph orchestration, answer generation with
+article-level citations, and the `POST /ask` endpoint (PLAN.md). Decision logic stays in project
+modules (D-017).
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Orchestration | `langgraph` `StateGraph` with a `TypedDict` state (`rag.graph`): `route`, `clarify`, `retrieve`, `answer`, `check_citations`, `respond`, `refuse`, `handoff`, `abstain`. Retriever and model injected, so every path is tested with fakes. |
+| Answer model | `mistral-small-2603` (Mistral Small 4), pinned by dated id; listed by the API `/v1/models` on 2026-11-27 with no deprecation. Temperature 0. |
+| Structured output | `langchain_mistralai.ChatMistralAI.with_structured_output(..., method="json_schema")`. With `function_calling` the model returned sentences as `[text, "[id]"]` lists that failed validation (21 of 24 answer items abstained on golden v1). |
+| Source labels | Sources are labelled `S1`..`S10` in the prompt and mapped back; with full chunk ids the model shortened them (`fact_sheet:F17319:4` to `fact_sheet:F4`). |
+| Prompts | `rag/prompts/answer.v<N>.md`, every version kept; the report records the version. v1 first version; v2 labels and partial answers; v3 "a related rule is not an answer". |
+| Citation figures | Titles and texts of cited chunks are checked; French number words in sources count (D-017), "un"/"une" only before a unit. |
+| Language | Requested language, else detected from the question (French unless English markers dominate). |
+| API | `POST /ask {question (5 to 1000 characters), lang?, stage?, nationality?}`. One `query_logs` row per request, metadata only. A failed log write does not fail the answer. |
+| Dependencies | `langgraph`, `langchain-mistralai`, `langchain-core`. `langchain-mistralai` depends on `httpx`; project code uses `httpx2` (D-010) and the suite runs with warnings as errors. |
+| Fixed texts | `guardrails/texts.yaml`, status `draft`: final wording by the maintainer. |
+
+**Consequences.** Results on golden v1 (`evals.agent`, prompt v3, 32 items, 2026-11-27): behaviour
+accuracy 1.000 (answer 24/24, refuse 3/3, handoff 3/3, abstain 2/2); expected source cited
+0.958; governing source cited first 6 of 7 (the seventh cites article 7 bis before article 7);
+sentences removed by the checker 0.6 %; p50 latency about 2 s; 3,813 prompt and 381 completion tokens
+per model call on average (26 calls: the 24 answer and 2 abstain items). A second identical run gave the same figures except
+citation precision (0.574 and 0.629). Prompts v2 and v3 were revised after reading golden v1
+failures, so these figures are optimistic; golden v2 needs held-out items. `key_facts`
+coverage and faithfulness need a judge and are not measured yet. Rate limiting and the spend
+cap (`DAILY_QUESTION_LIMIT`, `MONTHLY_SPEND_CAP_EUR`) are not enforced by `/ask` yet.

@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from app.ask import router as ask_router
 from app.config import get_settings
 
 
@@ -27,6 +28,7 @@ def create_app() -> FastAPI:
         # and by the keep-alive job, and must stay cheap.
         return HealthResponse(status="ok")
 
+    application.include_router(ask_router)
     return application
 
 

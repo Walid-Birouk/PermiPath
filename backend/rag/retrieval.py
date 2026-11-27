@@ -9,7 +9,7 @@ is the cosine distance to the question embedded with the index's model.
 
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, datetime
 
 from sqlalchemy import ColumnElement, Engine, Select, Text, and_, cast, func, literal, or_, select
 from sqlalchemy.dialects.postgresql import REGCONFIG, TSQUERY
@@ -50,6 +50,10 @@ class RetrievedChunk:
     score: float
     lexical_rank: int | None
     vector_rank: int | None
+    in_force_from: date | None = None
+    source_updated_at: datetime | None = None
+    fetched_at: datetime | None = None
+    """When the source was last checked (rule 3)."""
 
     @property
     def source_ref(self) -> str:
@@ -62,6 +66,7 @@ class RetrievalResult:
     embedding_tokens: int
     lexical_hits: int
     vector_hits: int
+    query_vector: list[float] = field(default_factory=list)
 
 
 @dataclass
@@ -75,12 +80,23 @@ class HybridRetriever:
     """`ts_rank_cd` normalization bitmask (0: none; 1: divide by 1 + log(length); 32: rank /
     (rank + 1)). PostgreSQL documentation, "Ranking Search Results"."""
 
-    def retrieve(self, question: str, filters: Filters, depth: int = 10) -> RetrievalResult:
-        batch = self.embedder.embed([question])
+    def retrieve(
+        self,
+        question: str,
+        filters: Filters,
+        depth: int = 10,
+        query_vector: Sequence[float] | None = None,
+    ) -> RetrievalResult:
+        """`query_vector`: the question already embedded with the index's model (no API call)."""
+        if query_vector is None:
+            batch = self.embedder.embed([question])
+            vector, tokens = list(batch.vectors[0]), batch.prompt_tokens
+        else:
+            vector, tokens = list(query_vector), 0
         with Session(self.engine) as session:
             lexical = [r.id for r in session.execute(self._lexical(question, filters))]
-            vector = [r.id for r in session.execute(self._vector(batch.vectors[0], filters))]
-            fused = rrf({"lexical": lexical, "vector": vector}, k=self.k, weights=self.weights)
+            by_vector = [r.id for r in session.execute(self._vector(vector, filters))]
+            fused = rrf({"lexical": lexical, "vector": by_vector}, k=self.k, weights=self.weights)
             top = fused[:depth]
             rows = {
                 r.id: r
@@ -89,7 +105,7 @@ class HybridRetriever:
                 ).scalars()
             }
         lexical_rank = {doc_id: i for i, doc_id in enumerate(lexical, start=1)}
-        vector_rank = {doc_id: i for i, doc_id in enumerate(vector, start=1)}
+        vector_rank = {doc_id: i for i, doc_id in enumerate(by_vector, start=1)}
         chunks = [
             RetrievedChunk(
                 id=doc_id,
@@ -103,10 +119,13 @@ class HybridRetriever:
                 score=score,
                 lexical_rank=lexical_rank.get(doc_id),
                 vector_rank=vector_rank.get(doc_id),
+                in_force_from=rows[doc_id].in_force_from,
+                source_updated_at=rows[doc_id].source_updated_at,
+                fetched_at=rows[doc_id].fetched_at,
             )
             for doc_id, score in top
         ]
-        return RetrievalResult(chunks, batch.prompt_tokens, len(lexical), len(vector))
+        return RetrievalResult(chunks, tokens, len(lexical), len(by_vector), vector)
 
     def _lexical(self, question: str, filters: Filters) -> Select[str]:
         config = cast(literal(QUERY_CONFIG), REGCONFIG)
