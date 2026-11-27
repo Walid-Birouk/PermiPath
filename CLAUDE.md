@@ -17,6 +17,8 @@ IN scope (the "journey"):
 3. Working while studying — hour limits, internships
 4. Finishing studies — job-search / business-creation permit (RECE)
 5. Job offer — change of status to salarié or talent – salarié qualifié
+6. Settling — long-term residence after the job offer (multi-year, resident and 10-year
+   Algerian certificates), as information only
 
 **Algerian nationals are IN scope, as a deliberate feature.** Their residence rights are governed
 by the Franco-Algerian agreement of 27 December 1968 (amended 1985, 1994, 2001), not by CESEDA.

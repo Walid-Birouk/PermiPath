@@ -3,13 +3,14 @@
 # Status: DRAFT, pending maintainer review. Nothing is embedded until `reviewed_by` and
 # `reviewed_at` are set.
 #
-# Journey stages: arriving | renewing | working | finishing | job_offer (CLAUDE.md, Scope).
+# Journey stages: arriving | renewing | working | finishing | job_offer | settling
+# (CLAUDE.md, Scope).
 # Legal articles are not listed here: they are the CESEDA articles cited by the sheets below,
 # and each inherits the journey stages of the sheets that cite it.
 
 version: 1
-reviewed_by: null
-reviewed_at: null
+reviewed_by: Walid
+reviewed_at: 2026-11-27
 
 fact_sheets:
   # Service-Public.gouv.fr / DILA, Licence Ouverte 2.0. Feed schema 3.5.
@@ -75,20 +76,23 @@ fact_sheets:
       journey_stages: [working, job_offer]
       nationality_scope: algerian
       note: Sheet last modified 2021-04-02 (oldest in this list).
-  excluded:
+    # --- Settling (long-term residence after the job offer) -------------------------------
     - id: F2257
       title: "Certificat de résidence de 10 ans - Personne de nationalité algérienne"
-      journey_stages: []
+      journey_stages: [settling]
       nationality_scope: algerian
-      note: Ten-year residence certificate; after the journey's last stage.
-    - id: F13519
-      title: "Un étudiant européen peut-il travailler en France ?"
-      journey_stages: []
-      note: EU/EEA students need no residence permit; outside the target users.
+    # --- EU/EEA students (no residence permit required) --------------------------------
     - id: F22116
       title: "Carte de séjour d'un étudiant européen"
-      journey_stages: []
-      note: Same reason as F13519.
+      journey_stages: [arriving]
+      note: >-
+        Lets the assistant tell EU/EEA students that the non-EU rules do not apply to them.
+        The sheet text names EU nationals explicitly; there is no "eu" nationality scope.
+    - id: F13519
+      title: "Un étudiant européen peut-il travailler en France ?"
+      journey_stages: [working]
+      note: Same purpose as F22116.
+  excluded: []
 
 laws:
   # Légifrance / DILA, Licence Ouverte 2.0. Articles in force on the ingestion date.
@@ -100,8 +104,8 @@ laws:
         - LEGIARTI000043472320
       note: >-
         Excluded: Annexe 10 (list of supporting documents for every permit). Cited by 8 sheets
-        for one point only; the version in force (LEGIARTI000049820920) is about 430,000
-        characters (about 170 chunks). Alternative: index it, or index only the cited points.
+        for one point only; the version in force (LEGIARTI000049820920) is about 250,000
+        characters, a table of 69 rows (one per permit). Alternative: index it, or index only the cited points.
         Code du travail and Code pénal articles cited by the sheets are not ingested yet.
 
 treaties:

@@ -12,6 +12,7 @@ from datetime import date
 
 import httpx2
 
+from db.models import JOURNEY_STAGES
 from ingestion.drafts import ChunkDraft, SourceMeta, SourceType
 from ingestion.legifrance.client import LegifranceClient, LegifranceError, NotFoundError
 from ingestion.legifrance.jorf import jorf_drafts
@@ -143,11 +144,8 @@ def _fetch_articles(
         if key in seen or article.id in code.exclude_articles:
             continue
         seen.add(key)
-        meta = SourceMeta(journey_stages=tuple(s for s in _STAGE_ORDER if s in stage_set))
+        meta = SourceMeta(journey_stages=tuple(s for s in JOURNEY_STAGES if s in stage_set))
         result.drafts.extend(article_drafts(article, on, meta, code_label=code.label))
-
-
-_STAGE_ORDER = ("arriving", "renewing", "working", "finishing", "job_offer")
 
 
 # --- treaties ---------------------------------------------------------------------------

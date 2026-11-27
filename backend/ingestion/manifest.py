@@ -1,6 +1,7 @@
 """`sources/manifest.yaml`: the list of indexed sources and their metadata, reviewed by the
 maintainer before embedding (PLAN.md, build step 2)."""
 
+from datetime import date
 from pathlib import Path
 from typing import Literal
 
@@ -12,7 +13,7 @@ from ingestion.drafts import SourceMeta
 
 MANIFEST_PATH = ROOT_ENV_FILE.parent / "sources" / "manifest.yaml"
 
-JourneyStage = Literal["arriving", "renewing", "working", "finishing", "job_offer"]
+JourneyStage = Literal["arriving", "renewing", "working", "finishing", "job_offer", "settling"]
 """Same values as `db.models.JOURNEY_STAGES` (checked by tests)."""
 
 
@@ -70,7 +71,7 @@ class Treaties(_Model):
 class Manifest(_Model):
     version: Literal[1]
     reviewed_by: str | None = None
-    reviewed_at: str | None = None
+    reviewed_at: date | None = None
     fact_sheets: FactSheets
     laws: Laws
     treaties: Treaties

@@ -136,3 +136,16 @@ def test_upgrade_remaps_existing_source_types(monkeypatch: pytest.MonkeyPatch) -
         engine.dispose()
         command.downgrade(cfg, "base")
         get_settings.cache_clear()
+
+
+def test_settling_stage_is_accepted(migrated_engine: Engine) -> None:
+    with migrated_engine.begin() as conn:
+        conn.execute(
+            text(
+                "INSERT INTO chunks (id, source_type, source_id, chunk_index, title, url, text,"
+                " lang, journey_stages, fetched_at, content_hash)"
+                " VALUES ('t:4:0', 'fact_sheet', 'F0000', 0, 'T', 'u', 'x', 'fr',"
+                " ARRAY['job_offer', 'settling'], now(), 'h')"
+            )
+        )
+        conn.execute(text("INSERT INTO query_logs (journey_stage) VALUES ('settling')"))
