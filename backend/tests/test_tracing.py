@@ -7,7 +7,7 @@ from types import MappingProxyType
 from typing import Any
 
 import pytest
-from langfuse.types import MaskOtelSpansParams, OtelSpanData
+from langfuse.types import MaskOtelSpansParams, OtelSpanData, OtelSpanIdentifier
 
 from app.tracing import LangfuseTracer, cost_details, is_safe_attribute, metadata_only_mask
 from rag.graph import Deps, build_graph
@@ -15,6 +15,7 @@ from rag.tracing import NOOP, TracedEmbedder, text
 from tests.test_graph import ON, SHEET, SHEET_2, SUPPORTED, FakeAnswerer, FakeRetriever
 
 QUESTION = "Quelle est la durée de la carte fictive de Zorglub ?"
+SPAN_ID = OtelSpanIdentifier(trace_id="t", span_id="s")
 
 
 @pytest.mark.parametrize(
@@ -59,8 +60,8 @@ def test_mask_deletes_every_unsafe_attribute() -> None:
             "some.future.integration.text": QUESTION,
         }
     )
-    result = metadata_only_mask(params=MaskOtelSpansParams(spans=MappingProxyType({"id": span})))
-    patch = result.span_patches["id"]
+    result = metadata_only_mask(params=MaskOtelSpansParams(spans=MappingProxyType({SPAN_ID: span})))
+    patch = result.span_patches[SPAN_ID]
     assert set(patch.delete_attributes) == {
         "langfuse.observation.input",
         "some.future.integration.text",
@@ -68,7 +69,7 @@ def test_mask_deletes_every_unsafe_attribute() -> None:
     clean = _snapshot({"langfuse.observation.type": "span"})
     assert (
         metadata_only_mask(
-            params=MaskOtelSpansParams(spans=MappingProxyType({"id": clean}))
+            params=MaskOtelSpansParams(spans=MappingProxyType({SPAN_ID: clean}))
         ).span_patches
         == {}
     )
