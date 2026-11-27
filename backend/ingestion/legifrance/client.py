@@ -12,6 +12,7 @@ Used endpoints (all POST, JSON):
 - `consult/getArticle` one article version by LEGIARTI id (with all its versions)
 """
 
+import html
 import re
 import time
 import unicodedata
@@ -75,6 +76,11 @@ class ArticleVersion:
     in_force_to: date | None
     """Exclusive end date; None when the version has no planned end."""
     text: str
+    cid: str | None = None
+    """Chronical id, stable across versions of the article."""
+    section_path: tuple[str, ...] = ()
+    """Titles of the enclosing sections, outermost first."""
+    nota: str = ""
 
     def in_force_on(self, on: date) -> bool:
         starts_ok = self.in_force_from is None or self.in_force_from <= on
@@ -181,6 +187,20 @@ class LegifranceClient:
 
     # --- operations -----------------------------------------------------------------------
 
+    def table_of_contents(self, text_id: str, on: date, nature: str = "CODE") -> dict[str, Any]:
+        """`consult/legi/tableMatieres` (the `consult/code/tableMatieres` variant is deprecated
+        in the Swagger)."""
+        payload: dict[str, Any] = self.post(
+            "consult/legi/tableMatieres",
+            {"textId": text_id, "date": on.isoformat(), "nature": nature},
+        )
+        return payload
+
+    def jorf_text(self, text_cid: str) -> dict[str, Any]:
+        """`consult/jorf`: a text as published in the Journal officiel."""
+        payload: dict[str, Any] = self.post("consult/jorf", {"textCid": text_cid})
+        return payload
+
     def find_code(self, title: str = CESEDA_TITLE) -> CodeRef:
         payload = self.post(
             "list/code",
@@ -215,7 +235,13 @@ class LegifranceClient:
         self, num: str, on: date, code_title: str = CESEDA_TITLE
     ) -> ArticleVersion:
         """The version of article `num` in force on `on`, checked against its own dates."""
-        article, versions = self.get_article(self.find_article_id(num, on, code_title))
+        return self.version_in_force(self.find_article_id(num, on, code_title), on, label=num)
+
+    def version_in_force(self, article_id: str, on: date, label: str = "") -> ArticleVersion:
+        """The version in force on `on` of the article that `article_id` (any version) belongs
+        to. Raises `NotFoundError` if none is."""
+        article, versions = self.get_article(article_id)
+        num = label or article.num
         if article.in_force_on(on):
             return article
         # The search hit was another version: pick the one whose period covers `on`.
@@ -301,6 +327,8 @@ def _html_to_text(html: str) -> str:
 
 def _parse_article(article: dict[str, Any]) -> ArticleVersion:
     text = article.get("texte") or _html_to_text(article.get("texteHtml") or "")
+    nota = article.get("nota") or _html_to_text(article.get("notaHtml") or "")
+    sections = html.unescape(str(article.get("fullSectionsTitre") or ""))
     return ArticleVersion(
         id=str(article["id"]),
         num=str(article.get("num", "")),
@@ -308,4 +336,7 @@ def _parse_article(article: dict[str, Any]) -> ArticleVersion:
         in_force_from=_parse_date(article.get("dateDebut")),
         in_force_to=_parse_date(article.get("dateFin")),
         text=str(text).strip(),
+        cid=article.get("cid"),
+        section_path=tuple(t.strip() for t in sections.split(" > ") if t.strip()),
+        nota=str(nota).strip(),
     )
