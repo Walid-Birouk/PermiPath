@@ -76,11 +76,16 @@ class VectorRetriever:
 @dataclass
 class HybridEvalRetriever:
     """`rag.retrieval.HybridRetriever` with the filters the app derives from the question:
-    nationality detected from the text (`guardrails.nationality`), in force on `on`."""
+    nationality detected from the text (`guardrails.nationality`), in force on `on`. With
+    `precedence`, retrieves twice the depth, orders it by `rag.precedence` and keeps `depth`."""
 
     retriever: Any
     on: date
-    name: str = field(default="hybrid", init=False)
+    precedence: bool = False
+    name: str = field(init=False)
+
+    def __post_init__(self) -> None:
+        self.name = "hybrid-precedence" if self.precedence else "hybrid"
 
     def describe(self) -> dict[str, Any]:
         r = self.retriever
@@ -91,15 +96,34 @@ class HybridEvalRetriever:
             "candidates_per_ranking": r.candidates,
             "lexical_config": "french",
             "filters": {"nationality": "detected from the question", "in_force_on": str(self.on)},
+            "precedence": self.precedence,
         }
 
     def retrieve(self, question: str, depth: int) -> Retrieval:
         from guardrails.nationality import detect_nationality
+        from rag import precedence
         from rag.retrieval import Filters
 
-        scopes = ("all", "algerian") if detect_nationality(question) == "algerian" else ("all",)
+        algerian = detect_nationality(question) == "algerian"
+        scopes = ("all", "algerian") if algerian else ("all",)
+        fetch = depth * 2 if self.precedence else depth
         result = self.retriever.retrieve(
-            question, Filters(nationality_scopes=scopes, in_force_on=self.on), depth=depth
+            question, Filters(nationality_scopes=scopes, in_force_on=self.on), depth=fetch
         )
-        hits = [Hit(c.id, c.source_ref, c.score) for c in result.chunks]
+        chunks = result.chunks
+        if self.precedence:
+            decision = precedence.decide(question, algerian)
+            if decision.governing == "agreement":
+                governing = self.retriever.retrieve(
+                    question,
+                    Filters(
+                        nationality_scopes=scopes,
+                        source_types=precedence.AGREEMENT_FIRST,
+                        in_force_on=self.on,
+                    ),
+                    depth=precedence.GOVERNING_CANDIDATES,
+                )
+                chunks = precedence.merge(chunks, governing.chunks)
+            chunks = precedence.order(chunks, decision)[:depth]
+        hits = [Hit(c.id, c.source_ref, c.score) for c in chunks]
         return Retrieval(hits=hits, embedding_tokens=result.embedding_tokens)
