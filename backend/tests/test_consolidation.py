@@ -33,10 +33,14 @@ def _verified() -> Consolidation:
     )
 
 
+_UNACCENTED_CAPITALS = str.maketrans("ÉÈÊÀÂÎÔÛÇ", "EEEAAIOUC")
+"""Older JO issues print capitals without accents (e.g. "Evian")."""
+
+
 def _normalise(text: str) -> str:
     """Quotation marks and the spaces around them removed: the Légifrance text of the third
     amendment drops closing quotation marks."""
-    spaced = " ".join(re.sub(r'[«»"]', " ", text).split())
+    spaced = " ".join(re.sub(r'[«»"]', " ", text.translate(_UNACCENTED_CAPITALS)).split())
     return re.sub(r" ([,;.:])", r"\1", spaced)
 
 
