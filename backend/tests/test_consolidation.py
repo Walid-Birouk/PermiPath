@@ -166,8 +166,7 @@ def test_drafts_cover_provisions_in_force_with_their_last_instrument() -> None:
     assert article.source_type == "treaty"
     assert article.meta.nationality_scope == "algerian"
     assert article.meta.journey_stages == ("settling",)
-    # The third amendment's entry-into-force date is not established in the sources.
-    assert article.in_force_from is None
+    assert article.in_force_from == date(2003, 1, 1)
     eight = by_source[f"{SOURCE_ID}:article-8"]
     assert eight.in_force_from == date(1994, 9, 28)
     title = by_source[f"{SOURCE_ID}:protocole-titre-3"].title
@@ -263,3 +262,18 @@ def test_1968_and_1985_wording_matches_the_jo_scans(provision_id: str) -> None:
             segment = segment.strip(" ,;.:")
             if len(segment) >= 12:
                 assert segment in scan, (provision_id, segment)
+
+
+THIRD_AMENDMENT_SCAN = "jo_scan_JORF_20021226_300_p14.txt"
+
+
+def test_third_amendment_in_force_date_matches_the_jo_footnote() -> None:
+    """Footnote (1) to the title of Décret n° 2002-1500 (JO of 26 December 2002) states the
+    entry into force; the Légifrance API text omits it. The text layer reads "1er" as "1~"."""
+    raw = (FIXTURES / THIRD_AMENDMENT_SCAN).read_text(encoding="utf-8")
+    assert "Décret n° 2002-1500" in raw
+    footnote = r"\(1\) Le présent avenant entrera en vigueur le 1\S{0,2} janvier (\d{4})"
+    found = re.search(footnote, raw)
+    assert found is not None
+    third = next(i for i in _repo_consolidation().instruments if i.id == THIRD)
+    assert third.in_force_from == date(int(found.group(1)), 1, 1)

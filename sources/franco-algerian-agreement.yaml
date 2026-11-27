@@ -59,11 +59,14 @@ instruments:
   - id: avenant-2001
     title: Troisième avenant (ensemble un échange de lettres), signé à Paris le 11 juillet 2001
     signed_on: 2001-07-11
-    in_force_from: null
+    in_force_from: 2003-01-01
     in_force_note: >-
-      Article 12: in force on the first day of the second month after the last notification.
-      The date is not stated in the published decree; to be confirmed from an official source.
-    publication: Décret n° 2002-1500 du 20 décembre 2002
+      Footnote (1) to the title of Décret n° 2002-1500, JO n° 300 du 26 décembre 2002, p. 21614
+      (JORF_20021226_300.pdf, page 14 of the PDF): "Le présent avenant entrera en vigueur le
+      1er janvier 2003." Checked by tests/test_consolidation.py against the scan's text layer.
+      Article 12 of the amendment sets the rule (first day of the second month after the last
+      notification); the Légifrance API text omits the footnote.
+    publication: Décret n° 2002-1500 du 20 décembre 2002, JORF n° 300 du 26 décembre 2002
     publication_url: https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000599731
     transcribed_from: Légifrance API, consult/jorf JORFTEXT000000599731 (recorded 2026-11-27).
     transcription_url: https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000599731

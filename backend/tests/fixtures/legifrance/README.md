@@ -37,6 +37,7 @@ only to browsers; they were saved by the maintainer.
 | `jo_scan_JORF_19690322_69_p5-7.txt` | JO of 22 March 1969 | 5-7 | Décret n° 69-243 and the agreement of 27 December 1968 |
 | `jo_scan_JORF_19860308_57_p14-16.txt` | JO of 8 March 1986 | 14-16 | Décret n° 86-320 and the first amendment |
 | `jo_scan_JORF_19941220_294_p23-24.txt` | JO of 20 December 1994 | 23-24 | Décret n° 94-1103 and the second amendment |
+| `jo_scan_JORF_20021226_300_p14.txt` | JO of 26 December 2002 | 14 | Décret n° 2002-1500 with footnote (1) on the entry into force of the third amendment, and the start of the amendment |
 
 ## Source and licence
 
