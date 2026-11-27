@@ -8,7 +8,8 @@
 # - Wording is reproduced from the source named in `transcribed_from` of the instrument that
 #   last set it. Amended passages are built only from the words quoted in the amending
 #   instrument; each change is listed in `history`.
-# - Wording and typography follow the Journal officiel. Missing closing quotation marks in the
+# - Wording and typography follow the Journal officiel, except that figures are written in
+#   digits (see `editorial_notes`). Missing closing quotation marks in the
 #   Légifrance text of the third amendment are restored; see `editorial_notes`.
 # - Provisions repealed and not replaced have `status: repealed` and no text.
 
@@ -155,12 +156,12 @@ provisions:
     text: |-
       Les dispositions du présent article, ainsi que celles des deux articles suivants, fixent les conditions de délivrance et de renouvellement du certificat de résidence aux ressortissants algériens établis en France ainsi qu'à ceux qui s'y établissent, sous réserve que leur situation matrimoniale soit conforme à la législation française.
       Le certificat de résidence d'un an portant la mention « vie privée et familiale » est délivré de plein droit :
-      1. Au ressortissant algérien, qui justifie par tout moyen résider en France habituellement depuis plus de dix ans ou plus de quinze ans si, au cours de cette période, il a séjourné en qualité d'étudiant ;
+      1. Au ressortissant algérien, qui justifie par tout moyen résider en France habituellement depuis plus de 10 ans ou plus de 15 ans si, au cours de cette période, il a séjourné en qualité d'étudiant ;
       2. Au ressortissant algérien, marié avec un ressortissant de nationalité française, à condition que son entrée sur le territoire français ait été régulière, que le conjoint ait conservé la nationalité française et, lorsque le mariage a été célébré à l'étranger, qu'il ait été transcrit préalablement sur les registres de l'état civil français ;
       3. Au ressortissant algérien marié à un ressortissant étranger titulaire d'un titre de séjour d'un an portant la mention « scientifique », à condition que son entrée sur le territoire français ait été régulière ;
       4. Au ressortissant algérien ascendant direct d'un enfant français mineur résidant en France, à la condition qu'il exerce même partiellement l'autorité parentale à l'égard de cet enfant ou qu'il subvienne effectivement à ses besoins. Lorsque la qualité d'ascendant direct d'un enfant français résulte d'une reconnaissance de l'enfant postérieure à la naissance, le certificat de résidence d'un an n'est délivré au ressortissant algérien que s'il subvient à ses besoins depuis sa naissance ou depuis au moins un an ;
       5. Au ressortissant algérien qui n'entre pas dans les catégories précédentes ou dans celles qui ouvrent droit au regroupement familial dont les liens personnels et familiaux en France sont tels que le refus d'autoriser son séjour porterait à son droit au respect de sa vie privée et familiale une atteinte disproportionnée au regard des motifs du refus ;
-      6. Au ressortissant algérien né en France qui justifie par tout moyen y avoir résidé pendant au moins huit ans de façon continue, et suivi, après l'âge de dix ans, une scolarité d'au moins cinq ans dans un établissement scolaire français, à la condition qu'il fasse sa demande entre l'âge de seize et vingt et un ans ;
+      6. Au ressortissant algérien né en France qui justifie par tout moyen y avoir résidé pendant au moins 8 ans de façon continue, et suivi, après l'âge de 10 ans, une scolarité d'au moins 5 ans dans un établissement scolaire français, à la condition qu'il fasse sa demande entre l'âge de 16 et 21 ans ;
       7. Au ressortissant algérien, résidant habituellement en France, dont l'état de santé nécessite une prise en charge médicale dont le défaut pourrait entraîner pour lui des conséquences d'une exceptionnelle gravité, sous réserve qu'il ne puisse effectivement bénéficier d'un traitement approprié dans son pays.
       Le certificat de résidence délivré au titre du présent article donne droit à l'exercice d'une activité professionnelle.
       Le premier renouvellement du certificat de résidence délivré au titre du 2 ci-dessus est subordonné à une communauté de vie effective entre les époux.
@@ -182,7 +183,7 @@ provisions:
       d) Les ressortissants algériens autorisés à séjourner en France au titre du regroupement familial, s'ils rejoignent un ressortissant algérien lui-même titulaire d'un certificat de résidence d'un an, reçoivent de plein droit un certificat de résidence de même durée de validité, renouvelable et portant la mention « vie privée et familiale ».
       e) Les ressortissants algériens autorisés à exercer à titre temporaire, en application de la législation française, une activité salariée chez un employeur déterminé, reçoivent un certificat de résidence portant la mention « travailleur temporaire », faisant référence à l'autorisation provisoire de travail dont ils bénéficient et de même durée de validité ;
       f) Les ressortissants algériens qui viennent en France pour mener des travaux de recherche ou dispenser un enseignement du niveau universitaire reçoivent, sous réserve d'une entrée régulière, un certificat de résidence valable un an portant la mention « scientifique » ;
-      g) Les artistes-interprètes algériens tels que définis par la législation française ou les auteurs algériens d'oeuvre littéraire ou artistique au sens de la législation française, titulaires d'un contrat de plus de trois mois passé avec une entreprise ou un établissement dont l'activité principale comporte la création ou l'exploitation d'une oeuvre de l'esprit, reçoivent un certificat de résidence valable un an portant la mention « profession artistique et culturelle ».
+      g) Les artistes-interprètes algériens tels que définis par la législation française ou les auteurs algériens d'oeuvre littéraire ou artistique au sens de la législation française, titulaires d'un contrat de plus de 3 mois passé avec une entreprise ou un établissement dont l'activité principale comporte la création ou l'exploitation d'une oeuvre de l'esprit, reçoivent un certificat de résidence valable un an portant la mention « profession artistique et culturelle ».
       Ces certificats de résidence sont délivrés gratuitement.
     history:
       - {instrument: accord-1968, change: original}
@@ -202,19 +203,19 @@ provisions:
     label: Article 7 bis
     journey_stages: [settling]
     text: |-
-      Les ressortissants algériens visés à l'article 7 peuvent obtenir un certificat de résidence de dix ans s'ils justifient d'une résidence ininterrompue en France de trois années.
+      Les ressortissants algériens visés à l'article 7 peuvent obtenir un certificat de résidence de 10 ans s'ils justifient d'une résidence ininterrompue en France de 3 années.
       Il est statué sur leur demande en tenant compte des moyens d'existence dont ils peuvent faire état, parmi lesquels les conditions de leur activité professionnelle et, le cas échéant, des justifications qu'ils peuvent invoquer à l'appui de leur demande.
-      Le certificat de résidence valable dix ans, renouvelé automatiquement, confère à son titulaire le droit d'exercer en France la profession de son choix, dans le respect des dispositions régissant l'exercice des professions réglementées.
-      Le certificat de résidence valable dix ans est délivré de plein droit sous réserve de la régularité du séjour pour ce qui concerne les catégories visées au a, au b, au c, et au g :
+      Le certificat de résidence valable 10 ans, renouvelé automatiquement, confère à son titulaire le droit d'exercer en France la profession de son choix, dans le respect des dispositions régissant l'exercice des professions réglementées.
+      Le certificat de résidence valable 10 ans est délivré de plein droit sous réserve de la régularité du séjour pour ce qui concerne les catégories visées au a, au b, au c, et au g :
       a) Au ressortissant algérien, marié depuis au moins un an avec un ressortissant de nationalité française, dans les mêmes conditions que celles prévues à l'article 6 nouveau 2, et au dernier alinéa de ce même article.
-      b) A l'enfant algérien d'un ressortissant français si cet enfant a moins de vingt et un ans ou s'il est à la charge de ses parents, ainsi qu'aux ascendants d'un ressortissant français et de son conjoint qui sont à sa charge ;
-      c) Au ressortissant algérien titulaire d'une rente d'accident du travail ou de maladie professionnelle servie par un organisme français et dont le taux d'incapacité permanente est égal ou supérieur à 20 p. 100 ainsi qu'aux ayants droit d'un ressortissant algérien, bénéficiaires d'une rente de décès pour accident de travail ou maladie professionnelle versée par un organisme français ;
-      d) Aux membres de la famille d'un ressortissant algérien titulaire d'un certificat de résidence valable dix ans qui sont autorisés à résider en France au titre du regroupement familial ;
-      e) Au ressortissant algérien qui justifie résider habituellement en France depuis qu'il a atteint au plus l'âge de dix ans ;
-      f) Au ressortissant algérien qui est en situation régulière depuis plus de dix ans, sauf s'il a été, pendant toute cette période, titulaire d'un certificat de résidence portant la mention « étudiant » ;
+      b) A l'enfant algérien d'un ressortissant français si cet enfant a moins de 21 ans ou s'il est à la charge de ses parents, ainsi qu'aux ascendants d'un ressortissant français et de son conjoint qui sont à sa charge ;
+      c) Au ressortissant algérien titulaire d'une rente d'accident du travail ou de maladie professionnelle servie par un organisme français et dont le taux d'incapacité permanente est égal ou supérieur à 20 % ainsi qu'aux ayants droit d'un ressortissant algérien, bénéficiaires d'une rente de décès pour accident de travail ou maladie professionnelle versée par un organisme français ;
+      d) Aux membres de la famille d'un ressortissant algérien titulaire d'un certificat de résidence valable 10 ans qui sont autorisés à résider en France au titre du regroupement familial ;
+      e) Au ressortissant algérien qui justifie résider habituellement en France depuis qu'il a atteint au plus l'âge de 10 ans ;
+      f) Au ressortissant algérien qui est en situation régulière depuis plus de 10 ans, sauf s'il a été, pendant toute cette période, titulaire d'un certificat de résidence portant la mention « étudiant » ;
       g) Au ressortissant algérien ascendant direct d'un enfant français résidant en France, à la condition qu'il exerce, même partiellement, l'autorité parentale à l'égard de cet enfant ou qu'il subvienne effectivement à ses besoins, à l'échéance de son certificat de résidence d'un an ;
-      h) Au ressortissant algérien titulaire d'un certificat de résidence d'une validité d'un an portant la mention « vie privée et familiale », lorsqu'il remplit les conditions prévues aux alinéas précédents ou, à défaut, lorsqu'il justifie de cinq années de résidence régulière ininterrompue en France.
-      Les certificats de résidence valables dix ans sont délivrés et renouvelés gratuitement.
+      h) Au ressortissant algérien titulaire d'un certificat de résidence d'une validité d'un an portant la mention « vie privée et familiale », lorsqu'il remplit les conditions prévues aux alinéas précédents ou, à défaut, lorsqu'il justifie de 5 années de résidence régulière ininterrompue en France.
+      Les certificats de résidence valables 10 ans sont délivrés et renouvelés gratuitement.
     history:
       - {instrument: avenant-1985, provision: Article 3, change: inserted}
       - instrument: avenant-2001
@@ -233,7 +234,7 @@ provisions:
     label: Article 7 ter
     journey_stages: [settling]
     text: |-
-      Le ressortissant algérien, qui, après avoir résidé en France sous couvert d'un certificat de résidence valable dix ans, a établi ou établit sa résidence habituelle hors de France et qui est titulaire d'une pension contributive de vieillesse, de droit propre ou de droit dérivé, liquidée au titre d'un régime de base français de sécurité sociale, bénéficie, à sa demande, d'un certificat de résidence valable dix ans portant la mention « retraité ». Ce certificat lui permet d'entrer à tout moment sur le territoire français pour y effectuer des séjours n'excédant pas un an. Il est renouvelé de plein droit. Il n'ouvre pas droit à l'exercice d'une activité professionnelle.
+      Le ressortissant algérien, qui, après avoir résidé en France sous couvert d'un certificat de résidence valable 10 ans, a établi ou établit sa résidence habituelle hors de France et qui est titulaire d'une pension contributive de vieillesse, de droit propre ou de droit dérivé, liquidée au titre d'un régime de base français de sécurité sociale, bénéficie, à sa demande, d'un certificat de résidence valable 10 ans portant la mention « retraité ». Ce certificat lui permet d'entrer à tout moment sur le territoire français pour y effectuer des séjours n'excédant pas un an. Il est renouvelé de plein droit. Il n'ouvre pas droit à l'exercice d'une activité professionnelle.
       Le conjoint du titulaire d'un certificat de résidence portant la mention « retraité » ayant résidé régulièrement en France avec lui bénéficie d'un certificat de résidence conférant les mêmes droits et portant la mention « conjoint de retraité ».
       Le certificat de résidence portant la mention « retraité » est assimilé à la carte de séjour portant la mention « retraité » pour l'application de la législation française en vigueur tant en matière d'entrée et de séjour qu'en matière sociale.
     history:
@@ -244,7 +245,7 @@ provisions:
     label: Article 8
     journey_stages: [renewing, settling]
     text: |-
-      Le certificat de résidence d'un ressortissant algérien qui aura quitté le territoire français pendant une période de plus de trois ans consécutifs est périmé.
+      Le certificat de résidence d'un ressortissant algérien qui aura quitté le territoire français pendant une période de plus de 3 ans consécutifs est périmé.
       Toutefois, il lui sera possible de demander la prolongation de la période visée au premier alinéa soit avant son départ de France, soit par l'intermédiaire des Ambassades ou Consultats français.
     history:
       - {instrument: accord-1968, change: original}
@@ -255,8 +256,8 @@ provisions:
     label: Article 9
     journey_stages: [arriving]
     text: |-
-      Sans préjudice des stipulations du titre Ier du protocole annexé au présent Accord et de l'échange de lettres modifié du 31 août 1983, les ressortissants algériens venant en France pour un séjour inférieur à trois mois doivent présenter un passeport en cours de validité muni d'un visa délivré par les autorités françaises.
-      Pour être admis à entrer et séjourner plus de trois mois sur le territoire français au titre des articles 4, 5, 7, 7 bis, alinéa 4 (lettres c et d), et du titre III du protocole, les ressortissants algériens doivent présenter un passeport en cours de validité muni d'un visa de long séjour délivré par les autorités françaises.
+      Sans préjudice des stipulations du titre Ier du protocole annexé au présent Accord et de l'échange de lettres modifié du 31 août 1983, les ressortissants algériens venant en France pour un séjour inférieur à 3 mois doivent présenter un passeport en cours de validité muni d'un visa délivré par les autorités françaises.
+      Pour être admis à entrer et séjourner plus de 3 mois sur le territoire français au titre des articles 4, 5, 7, 7 bis, alinéa 4 (lettres c et d), et du titre III du protocole, les ressortissants algériens doivent présenter un passeport en cours de validité muni d'un visa de long séjour délivré par les autorités françaises.
       Ce visa de long séjour accompagné de pièces et documents justificatifs permet d'obtenir un certificat de résidence dont la durée de validité est fixée par les articles et titre mentionnés à l'alinéa précédent.
     history:
       - {instrument: accord-1968, change: original}
@@ -270,10 +271,10 @@ provisions:
     part: accord
     label: Article 10
     text: |-
-      Les mineurs algériens de dix-huit ans résidant en France, qui ne sont pas titulaires d'un certificat de résidence reçoivent sur leur demande un document de circulation pour étrangers mineurs qui tient lieu de visa lorsqu'ils relèvent de l'une des catégories mentionnées ci-après:
-      a) Le mineur algérien dont l'un au moins des parents est titulaire du certificat de résidence de dix ans ou du certificat de résidence d'un an et qui a été autorisé à séjourner en France au titre du regroupement familial;
-      b) Le mineur algérien qui justifie par tous moyens avoir sa résidence habituelle en France depuis qu'il a atteint au plus l'âge de dix ans et pendant une durée d'au moins de six ans;
-      c) Le mineur algérien entré en France pour y suivre des études sous couvert d'un visa d'une durée supérieure à trois mois;
+      Les mineurs algériens de 18 ans résidant en France, qui ne sont pas titulaires d'un certificat de résidence reçoivent sur leur demande un document de circulation pour étrangers mineurs qui tient lieu de visa lorsqu'ils relèvent de l'une des catégories mentionnées ci-après:
+      a) Le mineur algérien dont l'un au moins des parents est titulaire du certificat de résidence de 10 ans ou du certificat de résidence d'un an et qui a été autorisé à séjourner en France au titre du regroupement familial;
+      b) Le mineur algérien qui justifie par tous moyens avoir sa résidence habituelle en France depuis qu'il a atteint au plus l'âge de 10 ans et pendant une durée d'au moins de 6 ans;
+      c) Le mineur algérien entré en France pour y suivre des études sous couvert d'un visa d'une durée supérieure à 3 mois;
       d) Le mineur algérien né en France dont l'un au moins des parents réside régulièrement en France.
     history:
       - {instrument: accord-1968, change: original}
@@ -332,7 +333,7 @@ provisions:
     label: Titre II. Départ des familles
     journey_stages: [settling]
     text: |-
-      Les membres de la famille s'entendent du conjoint d'un ressortissant algérien, de ses enfants mineurs ainsi que des enfants de moins de dix-huit ans dont il a juridiquement la charge en vertu d'une décision de l'autorité judiciaire algérienne, dans l'intérêt supérieur de l'enfant.
+      Les membres de la famille s'entendent du conjoint d'un ressortissant algérien, de ses enfants mineurs ainsi que des enfants de moins de 18 ans dont il a juridiquement la charge en vertu d'une décision de l'autorité judiciaire algérienne, dans l'intérêt supérieur de l'enfant.
       Le cas des ascendants du travailleur désireux de résider en France fera l'objet d'un examen particulier.
     history:
       - {instrument: avenant-1985, provision: Article 5 (Protocole), change: replaced}
@@ -350,7 +351,7 @@ provisions:
     text: |-
       Les ressortissants algériens qui suivent un enseignement, un stage ou font des études en France et justifient de moyens d'existence suffisants (bourse ou autres ressources) reçoivent, sur présentation, soit d'une attestation de préinscription ou d'inscription dans un établissement d'enseignement français, soit d'une attestation de stage, un certificat de résidence valable un an, renouvelable et portant la mention « étudiant » ou « stagiaire ».
       Les ressortissants algériens titulaires d'un certificat de résidence portant la mention « étudiant », sous réserve de leur inscription dans un établissement ouvrant droit au régime de sécurité sociale des étudiants, peuvent être autorisés à travailler dans la limite d'un mi-temps annuel pour la branche ou la profession concernée. L'autorisation est délivrée sous forme d'autorisation provisoire de travail sur présentation d'une promesse d'embauche ou d'un contrat de travail.
-      Les fonctionnaires ou agents des organismes algériens reçoivent, sur présentation d'une attestation délivrée par l'autorité algérienne compétente, un certificat de résidence valable deux ans, renouvelable et portant la mention « agent officiel ».
+      Les fonctionnaires ou agents des organismes algériens reçoivent, sur présentation d'une attestation délivrée par l'autorité algérienne compétente, un certificat de résidence valable 2 ans, renouvelable et portant la mention « agent officiel ».
       Les travailleurs saisonniers reçoivent, sur présentation d'un contrat de travail qui est visé par les services du ministre chargé de l'emploi et dont la durée n'atteint pas une année, un certificat de résidence valable pour la durée du contrat portant la mention « travailleur temporaire » conformément à l'article 7 e de l'accord.
       Les ressortissants algériens admis dans des établissements de soins français et n'ayant pas leur résidence habituelle en France peuvent se voir délivrer par l'autorité française compétente, après examen de leur situation médicale, une autorisation provisoire de séjour, renouvelable le cas échéant.
     history:
@@ -369,10 +370,10 @@ provisions:
     label: Titre IV
     journey_stages: [arriving]
     text: |-
-      Les ressortissants algériens résidant en France doivent être titulaires d'un certificat de résidence à partir de l'âge de dix-huit ans.
-      Les ressortissants algériens âgés de seize à dix-huit ans qui déclarent vouloir exercer une activité professionnelle salariée reçoivent de plein droit un certificat de résidence:
+      Les ressortissants algériens résidant en France doivent être titulaires d'un certificat de résidence à partir de l'âge de 18 ans.
+      Les ressortissants algériens âgés de 16 à 18 ans qui déclarent vouloir exercer une activité professionnelle salariée reçoivent de plein droit un certificat de résidence:
       - d'une durée de validité d'un an, lorsqu'ils ont été autorisés à séjourner en France au titre du regroupement familial et que l'un au moins de leurs parents est titulaire d'un certificat de résidence de même durée;
-      - d'une durée de validité de dix ans lorsqu'ils remplissent les conditions prévues à l'article 7 bis, 4e alinéa.
+      - d'une durée de validité de 10 ans lorsqu'ils remplissent les conditions prévues à l'article 7 bis, 4e alinéa.
       Ils peuvent, dans les autres cas, solliciter un certificat de résidence valable un an.
     history:
       - {instrument: avenant-1985, provision: Article 5 (Protocole), change: replaced}
@@ -387,7 +388,8 @@ not_consolidated:
 editorial_notes:
   - Third amendment (Légifrance text) omits the closing quotation mark of every quoted permit mention (e.g. « "vie privée et familiale est délivré »). Closing marks are restored in articles 6, 7 (d to g), 7 bis (f, h), 7 ter and Protocol title III; mentions are written « … ».
   - Article 7, "a) les ressortissants" (lower case) and the colon closing the first alinéa are as printed in the JO of 8 March 1986.
-  - Article 8 "Consultats français", article 10 "Les mineurs algériens de dix-huit ans" and "d'au moins de six ans" are as printed in the JO of 20 December 1994 (sic), not Légifrance errors.
+  - Article 8 "Consultats français", article 10 "Les mineurs algériens de 18 ans" and "d'au moins de 6 ans" are as printed in the JO of 20 December 1994 (sic), not Légifrance errors.
   - Article 7 a) and article 7 bis c), the 2001 insertions are made without added punctuation, as worded in the amendment.
   - Preamble, "Évian" is written with the accent; the JO of 22 March 1969 prints unaccented capitals ("Evian").
+  - Figures are written in digits (e.g. "10 ans", "21 ans", "3 mois", "20 %" for "20 p. 100"), as a maintainer convention; the official texts spell most of them out. "un an" and "une année" stay in words.
   - The UN Treaty Series reprint differs in typography from the JO (figures in digits, "20 %", capital A) to D) in article 7, some commas); the JO wording is used.

@@ -37,10 +37,36 @@ _UNACCENTED_CAPITALS = str.maketrans("ÉÈÊÀÂÎÔÛÇ", "EEEAAIOUC")
 """Older JO issues print capitals without accents (e.g. "Evian")."""
 
 
+_FIGURES = {
+    "vingt et un": "21",
+    "dix-huit": "18",
+    "quinze": "15",
+    "seize": "16",
+    "dix": "10",
+    "huit": "8",
+    "six": "6",
+    "cinq": "5",
+    "trois": "3",
+    "deux": "2",
+}
+_UNIT = (
+    r"(?=(?: et \w[\w -]*?)?\s(?:ans|an|mois|années|année|jours)\b"
+    r"|\s(?:à|et) (?:dix-huit|vingt et un|18|21) ans)"
+)
+
+
+def _digits(text: str) -> str:
+    """Figures in digits, as written in the consolidation (see its `editorial_notes`)."""
+    text = text.replace("20 p. 100", "20 %")
+    for word, number in _FIGURES.items():
+        text = re.sub(rf"\b{word}\b{_UNIT}", number, text)
+    return text
+
+
 def _normalise(text: str) -> str:
     """Quotation marks and the spaces around them removed: the Légifrance text of the third
     amendment drops closing quotation marks."""
-    spaced = " ".join(re.sub(r'[«»"]', " ", text.translate(_UNACCENTED_CAPITALS)).split())
+    spaced = " ".join(re.sub(r'[«»"]', " ", _digits(text).translate(_UNACCENTED_CAPITALS)).split())
     return re.sub(r" ([,;.:])", r"\1", spaced)
 
 
