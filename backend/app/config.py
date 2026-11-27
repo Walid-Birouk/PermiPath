@@ -1,11 +1,12 @@
 """Application settings, loaded from environment variables (see `.env.example`)."""
 
+import json
 from functools import lru_cache
 from pathlib import Path
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import Field, SecretStr, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 # Repository-root `.env`, used for local runs outside Docker. Absent inside the container.
 ROOT_ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
@@ -26,7 +27,11 @@ class Settings(BaseSettings):
     """Questions per visitor per day (visitor = salted hash of the client IP, D-020)."""
     monthly_spend_cap_eur: float = Field(default=5.0, gt=0)
     """`/ask` pauses for the rest of the month once the estimated spend reaches this."""
-    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
+    cors_origins: Annotated[list[str], NoDecode] = Field(
+        default_factory=lambda: ["http://localhost:3000"]
+    )
+    """Allowed browser origins: a JSON list (`["https://a.app"]`), comma-separated URLs or one
+    URL. Trailing slashes are removed (a browser's Origin header never has one)."""
     ip_hash_secret: SecretStr | None = None
     """Secret for the daily visitor hash. Unset: a random secret per process (counts reset on
     restart); set it in production."""
@@ -45,6 +50,18 @@ class Settings(BaseSettings):
     langfuse_base_url: str = "https://cloud.langfuse.com"
     """EU region by default."""
     langfuse_environment: str = "development"
+
+    @field_validator("cors_origins", mode="before")
+    @classmethod
+    def _parse_origins(cls, value: object) -> object:
+        if isinstance(value, str):
+            text = value.strip()
+            items = json.loads(text) if text.startswith("[") else text.split(",")
+        else:
+            items = value
+        if isinstance(items, list):
+            return [str(o).strip().strip("'\"").rstrip("/") for o in items if str(o).strip()]
+        return value
 
     @field_validator("database_url")
     @classmethod

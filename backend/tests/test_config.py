@@ -30,3 +30,20 @@ def test_empty_values_count_as_unset(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("PISTE_OAUTH_URL", "")
     piste = PisteSettings(_env_file=None, client_id="i", client_secret="s")
     assert piste.endpoints().oauth_url.startswith("https://sandbox-oauth.piste.gouv.fr")
+
+
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    [
+        ('["https://permipath.vercel.app"]', ["https://permipath.vercel.app"]),
+        ("https://permipath.vercel.app", ["https://permipath.vercel.app"]),
+        ("https://permipath.vercel.app/", ["https://permipath.vercel.app"]),
+        ("https://a.app, https://b.app", ["https://a.app", "https://b.app"]),
+        ('["https://a.app/", "http://localhost:3000"]', ["https://a.app", "http://localhost:3000"]),
+    ],
+)
+def test_cors_origins_accept_json_or_plain_urls(
+    monkeypatch: pytest.MonkeyPatch, raw: str, expected: list[str]
+) -> None:
+    monkeypatch.setenv("CORS_ORIGINS", raw)
+    assert Settings(_env_file=None, database_url="postgresql://u:p@h/d").cors_origins == expected
