@@ -27,7 +27,7 @@ services:
         sync: false
       - key: LANGFUSE_SECRET_KEY
         sync: false
-      - key: CORS_ORIGINS # JSON list with the Vercel domain, e.g. ["https://permipath.vercel.app"]
+      - key: CORS_ORIGINS # the Vercel domain, e.g. https://permipath.vercel.app (JSON list or comma-separated)
         sync: false
       # --- generated once by Render ------------------------------------------------------
       - key: IP_HASH_SECRET
