@@ -4,7 +4,6 @@ Destructive: runs `downgrade base`. Only runs when TEST_DATABASE_URL is set.
 """
 
 import os
-from collections.abc import Iterator
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -20,25 +19,6 @@ pytestmark = pytest.mark.db
 TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
 BACKEND_DIR = Path(__file__).resolve().parents[1]
 EXPECTED_TABLES = {"chunks", "chunk_versions", "changelog", "query_logs"}
-
-
-@pytest.fixture
-def migrated_engine(monkeypatch: pytest.MonkeyPatch) -> Iterator[Engine]:
-    if not TEST_DATABASE_URL:
-        pytest.skip("TEST_DATABASE_URL not set")
-    monkeypatch.setenv("DATABASE_URL", TEST_DATABASE_URL)
-    get_settings.cache_clear()
-    url = Settings(database_url=TEST_DATABASE_URL).database_url
-    cfg = Config(str(BACKEND_DIR / "alembic.ini"))
-    command.downgrade(cfg, "base")
-    command.upgrade(cfg, "head")
-    engine = create_engine(url)
-    try:
-        yield engine
-    finally:
-        engine.dispose()
-        command.downgrade(cfg, "base")
-        get_settings.cache_clear()
 
 
 def test_schema_has_expected_tables(migrated_engine: Engine) -> None:
