@@ -37,7 +37,7 @@ from ingestion.pipeline import (
 from ingestion.service_public.parser import Sheet
 
 EXIT_OK, EXIT_SOURCE_ERROR, EXIT_CONFIG_ERROR = 0, 1, 2
-SOURCES = ("sp", "legifrance", "treaty", "case_law")
+SOURCES = ("sp", "legifrance", "treaty", "case_law", "rules")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -81,11 +81,15 @@ def main(argv: list[str] | None = None) -> int:
 
     for result in results:
         _print_result(result)
-    if not args.dry_run:
+    if not args.dry_run and results:
         if manifest.reviewed_by is None:
             print("Note: manifest not reviewed yet (reviewed_by is null).")
         _sync(results)
-    return EXIT_OK if all(r.complete for r in results) else EXIT_SOURCE_ERROR
+    status = EXIT_OK if all(r.complete for r in results) else EXIT_SOURCE_ERROR
+    if "rules" in selected:
+        # After the sources: rules are checked against the index as it now stands.
+        status = max(status, _rules(args.dry_run))
+    return status
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -156,6 +160,39 @@ def _sync(results: list[LoadResult]) -> None:
                 print(f"[{result.source_type}] synced: {dict(counts) or 'no changes'}")
     finally:
         engine.dispose()
+
+
+def _rules(dry_run: bool) -> int:
+    from sqlalchemy.orm import Session
+
+    from app.config import get_settings
+    from db.session import make_engine
+    from ingestion.rules import check_rules, indexed_sources, load_rules_file, sync_rules
+
+    try:
+        rules = load_rules_file()
+    except (OSError, ValidationError) as exc:
+        print(f"Config error: rules file: {exc}", file=sys.stderr)
+        return EXIT_CONFIG_ERROR
+    engine = make_engine(get_settings().database_url)
+    try:
+        with Session(engine) as session, session.begin():
+            if dry_run:
+                sources = indexed_sources(session, {r.source for r in rules.rules})
+                loaded, errors = 0, check_rules(rules, sources)
+            else:
+                loaded, errors = sync_rules(session, rules, datetime.now(UTC))
+    finally:
+        engine.dispose()
+    verified = sum(1 for r in rules.rules if r.verified_at is not None)
+    for error in errors:
+        print(f"  error: {error}", file=sys.stderr)
+    state = "checked" if dry_run else f"{loaded} loaded"
+    print(
+        f"[rules] {len(rules.rules)} rows, {verified} verified, {state}"
+        f"{' - FAILED' if errors else ''}"
+    )
+    return EXIT_SOURCE_ERROR if errors else EXIT_OK
 
 
 def _embed(dry_run: bool, limit: int | None) -> int:

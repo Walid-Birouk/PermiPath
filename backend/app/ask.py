@@ -46,6 +46,7 @@ class SourceOut(BaseModel):
     in_force_on: str
     in_force_from: str | None
     checked_at: str | None
+    rule: str | None = Field(default=None, description="Rules-table row behind this source.")
 
 
 class AskResponse(BaseModel):
@@ -64,20 +65,24 @@ QueryLogger = Callable[[dict[str, Any]], None]
 
 
 @cache
-def _default_agent() -> Agent:
+def _default_agent(rules: Literal["verified", "all", "none"] = "verified") -> Agent:
+    """`rules`: rules-table rows the agent may use (`all` includes unverified rows, for evals)."""
     from app.config import get_settings
     from db.session import make_engine
     from rag.answer import MistralAnswerer
     from rag.embeddings import MistralEmbedder
     from rag.graph import Deps, build_graph
     from rag.retrieval import HybridRetriever
+    from rag.rules import RulesTool
 
     settings = get_settings()
     if settings.mistral_api_key is None:
         raise RuntimeError("MISTRAL_API_KEY is not set")
     key = settings.mistral_api_key.get_secret_value()
     retriever = HybridRetriever(make_engine(settings.database_url), MistralEmbedder(key))
-    graph = build_graph(Deps(retriever, MistralAnswerer(key)))
+    engine = retriever.engine
+    tool = None if rules == "none" else RulesTool(engine, include_unverified=rules == "all")
+    graph = build_graph(Deps(retriever, MistralAnswerer(key), tool))
     return graph.invoke  # type: ignore[no-any-return]
 
 

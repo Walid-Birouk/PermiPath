@@ -1,0 +1,1420 @@
+{
+  "schema": "permipath.agent-eval.v1",
+  "created_at": "2026-11-27T18:58:02+00:00",
+  "set": {
+    "name": "golden",
+    "version": 1,
+    "items": 32
+  },
+  "agent": {
+    "answer_model": "mistral-small-2603",
+    "prompt": "answer.v4",
+    "in_force_on": "2026-11-27",
+    "rules": "all"
+  },
+  "summary": {
+    "items": 32,
+    "behaviour_accuracy": 1.0,
+    "behaviour_accuracy_by_expected": {
+      "abstain": {
+        "accuracy": 1.0,
+        "items": 2
+      },
+      "answer": {
+        "accuracy": 1.0,
+        "items": 24
+      },
+      "handoff": {
+        "accuracy": 1.0,
+        "items": 3
+      },
+      "refuse": {
+        "accuracy": 1.0,
+        "items": 3
+      }
+    },
+    "expected_source_cited": 0.958,
+    "key_fact_figure_recall": 0.522,
+    "items_citing_rules": 2,
+    "citation_precision": 0.608,
+    "governing_source_cited_first": 0.857,
+    "removed_sentence_rate": 0.0,
+    "tokens": {
+      "embedding_tokens": 631,
+      "prompt_tokens": 101634,
+      "completion_tokens": 8804
+    },
+    "latency_ms_p50": 1745.95,
+    "latency_ms_p95": 3550.9
+  },
+  "items": [
+    {
+      "id": "g001",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2231",
+        "fact_sheet:F17319"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Vous devez valider votre VLS-TS « étudiant » dans les 3 mois suivant votre arrivée en France.",
+        "La validation se fait en ligne sur le service : Valider un visa de long séjour valant titre de séjour (VLS-TS) et payer la taxe.",
+        "Cette démarche permet d'être en séjour régulier et de pouvoir franchir à nouveau la frontière de l'espace Schengen.",
+        "Vous devez payer une taxe qui s'ajoute aux droits de visa lors de la validation en ligne."
+      ],
+      "key_fact_figures": [
+        "100",
+        "3"
+      ],
+      "key_fact_figures_stated": [
+        "3"
+      ],
+      "key_fact_figure_recall": 0.5,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 32,
+      "prompt_tokens": 3103,
+      "completion_tokens": 184,
+      "latency_ms": 1417.7
+    },
+    {
+      "id": "g002",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 5,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "You must validate your long-stay visa equivalent to a residence permit (VLS-TS) within 3 months of your arrival in France.",
+        "The validation must be done online.",
+        "A tax is added to the visa fees and must be paid during the online validation process.",
+        "The online validation allows you to be in regular status and to cross the borders of the Schengen area again.",
+        "The online service for validation is: Valider un visa de long séjour valant titre de séjour (VLS-TS) et payer la taxe (https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/#/)."
+      ],
+      "key_fact_figures": [
+        "100",
+        "3"
+      ],
+      "key_fact_figures_stated": [
+        "3"
+      ],
+      "key_fact_figure_recall": 0.5,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 3715,
+      "completion_tokens": 226,
+      "latency_ms": 1624.9
+    },
+    {
+      "id": "g003",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2231",
+        "fact_sheet:F17319",
+        "fact_sheet:F15898"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231",
+        "law:LEGIARTI000042801344",
+        "law:LEGIARTI000042801346"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.3333333333333333,
+      "governing_first": null,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Le VLS-TS doit être validé dans un délai de 3 mois suivant votre arrivée en France.",
+        "Si vous ne validez pas votre VLS-TS dans ce délai, vous n'êtes plus en séjour régulier.",
+        "La validation du VLS-TS se fait uniquement en ligne sur le service dédié.",
+        "La validation du VLS-TS permet de pouvoir franchir à nouveau la frontière de l'espace Schengen."
+      ],
+      "key_fact_figures": [
+        "17",
+        "18",
+        "3",
+        "431"
+      ],
+      "key_fact_figures_stated": [
+        "3"
+      ],
+      "key_fact_figure_recall": 0.25,
+      "rules_offered": [
+        "vls-ts-validation-deadline"
+      ],
+      "rules_cited": [],
+      "embedding_tokens": 27,
+      "prompt_tokens": 4021,
+      "completion_tokens": 185,
+      "latency_ms": 1415.0
+    },
+    {
+      "id": "g004",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F35799",
+        "fact_sheet:F22116",
+        "fact_sheet:F16922"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231",
+        "law:LEGIARTI000042771654"
+      ],
+      "winning_source": null,
+      "expected_source_cited": false,
+      "citation_precision": 0.0,
+      "governing_first": null,
+      "sentences_kept": 7,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Pour demander le renouvellement d'une carte de séjour étudiant, vous devez déposer votre demande sur le site de l'ANEF au plus tôt 4 mois et au plus tard 2 mois avant la fin de validité de votre carte de séjour.",
+        "Le service en ligne pour faire la demande est : Faire une demande sur internet pour un titre de séjour, un changement de situation, un titre de voyage, une demande de naturalisation - ANEF (https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/#/).",
+        "Vous obtenez immédiatement, lors du dépôt de votre demande de titre de séjour sur internet, une attestation dématérialisée de dépôt.",
+        "Cette attestation n'est pas un document provisoire de séjour et ne justifie pas de la régularité de votre séjour.",
+        "Les documents à fournir pour une carte de séjour étudiant incluent : titre d'identité ou passeport en cours de validité, justificatif d'inscription dans un établissement d'enseignement, attestation de prise en charge par une assurance des frais de couverture maladie, et déclaration de ressources suffisantes.",
+        "Pour la première année de séjour, la carte européenne d'assurance maladie ou le formulaire européen de continuité de la prise en charge dans le pays d'origine peut être accepté comme attestation de couverture maladie.",
+        "Le renouvellement de la carte de séjour Citoyen UE/EEE/Suisse est gratuit."
+      ],
+      "key_fact_figures": [
+        "2",
+        "4",
+        "877.5"
+      ],
+      "key_fact_figures_stated": [
+        "2",
+        "4"
+      ],
+      "key_fact_figure_recall": 0.6666666666666666,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 26,
+      "prompt_tokens": 4412,
+      "completion_tokens": 445,
+      "latency_ms": 2954.5
+    },
+    {
+      "id": "g005",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231",
+        "fact_sheet:F35799"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 5,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "A one-year student residence permit (titre de séjour temporaire étudiant) is valid for 1 year.",
+        "A multi-year student residence permit (titre de séjour pluriannuel étudiant) is issued after 1 year of stay in France under a VLS-TS or a temporary residence permit.",
+        "The duration of a multi-year student residence permit is equal to the number of years remaining in the study cycle in which you are enrolled.",
+        "For example, if you have completed your first year of a bachelor's degree in France, you will receive a multi-year permit valid for 2 years.",
+        "If you are pursuing studies in a grande école, the multi-year permit covers the remainder of your training until you obtain your engineering diploma."
+      ],
+      "key_fact_figures": [
+        "1",
+        "12",
+        "4"
+      ],
+      "key_fact_figures_stated": [
+        "1"
+      ],
+      "key_fact_figure_recall": 0.3333333333333333,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 21,
+      "prompt_tokens": 2624,
+      "completion_tokens": 226,
+      "latency_ms": 1858.1
+    },
+    {
+      "id": "g006",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F22116",
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "fact_sheet:F2231"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 20,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Pour renouveler un titre de séjour étudiant, vous devez déposer votre demande sur internet au plus tôt 4 mois et au plus tard 2 mois avant la fin de validité de votre carte de séjour.",
+        "La démarche se fait uniquement sur internet via le service en ligne : Faire une demande sur internet pour un titre de séjour, un changement de situation, un titre de voyage, une demande de naturalisation - ANEF (https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/#/).",
+        "Vous obtenez immédiatement, lors du dépôt de votre demande de titre de séjour sur internet, une attestation dématérialisée de dépôt.",
+        "Cette attestation n'est pas un document provisoire de séjour et ne justifie pas de la régularité de votre séjour.",
+        "Les documents à fournir pour le renouvellement incluent : un titre d'identité ou passeport en cours de validité.",
+        "Les documents à fournir pour le renouvellement incluent : un justificatif d'inscription dans un établissement d'enseignement pour y suivre à titre principal des études ou, dans ce cadre, une formation professionnelle.",
+        "Les documents à fournir pour le renouvellement incluent : une attestation de prise en charge par une assurance des frais de couverture maladie et, éventuellement, maternité (pour la 1re année de séjour, la carte européenne d'assurance maladie ou le formulaire européen de continuité de la prise en charge dans le pays d'origine peut être accepté).",
+        "Les documents à fournir pour le renouvellement incluent : une déclaration (ou tout autre moyen équivalent) garantissant que vous avez des ressources suffisantes pour vous et les membres de votre famille, s'ils vous accompagnent.",
+        "Les documents à fournir pour le renouvellement incluent : un justificatif de domicile datant de moins de 6 mois.",
+        "Les documents à fournir pour le renouvellement incluent : une e-photo (indiquez le code de la e-photo fourni par le photographe ou la cabine agréée).",
+        "Les documents à fournir pour le renouvellement incluent : une inscription produite par l'établissement d'enseignement ou une préinscription.",
+        "Les documents à fournir pour le renouvellement incluent : les relevés de notes de l'année écoulée.",
+        "Les documents à fournir pour le renouvellement incluent : le dernier diplôme obtenu en France.",
+        "Les documents à fournir pour le renouvellement incluent : une attestation de réussite délivrée par l'établissement.",
+        "Les documents à fournir pour le renouvellement incluent : des justificatifs de ressources mensuelles d'au moins 877,5 €.",
+        "Si vous êtes boursier du gouvernement français ou bénéficiaire de programmes européens, vous devez fournir un justificatif de cette situation.",
+        "Si vous êtes boursier dans votre pays d'origine, vous devez fournir une attestation de bourse de l'organisme payeur précisant le montant et la durée de la bourse.",
+        "Si vous travaillez, vous devez fournir vos 3 dernières fiches de paie.",
+        "Si vous êtes pris en charge par un tiers, vous devez fournir un justificatif d'identité du tiers et des attestations bancaires de la programmation de virements réguliers (ou une attestation sur l'honneur de versement des sommes permettant d'atteindre le montant de 877,5 € par mois).",
+        "Si vous avez des ressources suffisantes, vous devez fournir une attestation bancaire de solde créditeur suffisant."
+      ],
+      "key_fact_figures": [
+        "6",
+        "877.5"
+      ],
+      "key_fact_figures_stated": [
+        "6",
+        "877.5"
+      ],
+      "key_fact_figure_recall": 1.0,
+      "rules_offered": [
+        "student-renewal-documents-address",
+        "student-renewal-documents-enrolment",
+        "student-renewal-documents-grades"
+      ],
+      "rules_cited": [],
+      "embedding_tokens": 23,
+      "prompt_tokens": 4644,
+      "completion_tokens": 1093,
+      "latency_ms": 5208.5
+    },
+    {
+      "id": "g007",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2713",
+        "fact_sheet:F2728",
+        "law:LEGIARTI000042771654"
+      ],
+      "must_cite": [
+        "fact_sheet:F2713",
+        "law:LEGIARTI000042771654"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.6666666666666666,
+      "governing_first": null,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Un étudiant étranger non européen peut travailler jusqu’à 964 heures par an sans autorisation de travail.",
+        "Cette limite correspond à 60 % de la durée annuelle légale du travail.",
+        "Pour un séjour de 6 mois, la durée de travail autorisée est proportionnelle à la durée des études (par exemple, 482 heures maximum pour un enseignement de 6 mois).",
+        "Un étudiant algérien peut travailler au maximum 50 % de la durée annuelle de travail pratiquée dans la branche ou la profession concernée."
+      ],
+      "key_fact_figures": [
+        "60",
+        "964"
+      ],
+      "key_fact_figures_stated": [
+        "60",
+        "964"
+      ],
+      "key_fact_figure_recall": 1.0,
+      "rules_offered": [
+        "student-work-hours",
+        "student-work-share-ceseda"
+      ],
+      "rules_cited": [
+        "student-work-share-ceseda"
+      ],
+      "embedding_tokens": 24,
+      "prompt_tokens": 4193,
+      "completion_tokens": 213,
+      "latency_ms": 1534.6
+    },
+    {
+      "id": "g008",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F16734",
+        "fact_sheet:F17312",
+        "law:LEGIARTI000042801280",
+        "law:LEGIARTI000042801286"
+      ],
+      "must_cite": [
+        "fact_sheet:F16734"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.25,
+      "governing_first": null,
+      "sentences_kept": 8,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "An international student in France can do an internship if they are in a regular situation in France.",
+        "A student residence permit allows the holder to do an internship in France.",
+        "The maximum duration of a stage for a foreign student is 18 months in total, including possible extensions.",
+        "A stage cannot be extended more than once.",
+        "The administration must validate the internship convention at least 2 months before the start of the stage, unless the stage is part of an EU or intergovernmental cooperation program (1 month in that case).",
+        "If the administration does not respond within 30 days (or 15 days for EU or intergovernmental programs), the request for validation is refused.",
+        "To renew a stage, an avenant to the initial internship convention must be validated by the administration.",
+        "If the administration does not respond within 15 days to a request to validate an avenant, the request is accepted."
+      ],
+      "key_fact_figures": [
+        "2",
+        "6"
+      ],
+      "key_fact_figures_stated": [
+        "2"
+      ],
+      "key_fact_figure_recall": 0.5,
+      "rules_offered": [
+        "internship-gratification",
+        "internship-max-duration"
+      ],
+      "rules_cited": [],
+      "embedding_tokens": 17,
+      "prompt_tokens": 3105,
+      "completion_tokens": 329,
+      "latency_ms": 2409.3
+    },
+    {
+      "id": "g009",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2713"
+      ],
+      "must_cite": [
+        "fact_sheet:F2713"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "L'embauche d'un étudiant étranger ne peut avoir lieu qu'après déclaration nominative de l'employeur auprès de la préfecture du département où l'établissement employeur a son siège.",
+        "Les documents à fournir pour cette déclaration sont fixés par la préfecture.",
+        "L'employeur doit accomplir cette formalité au moins 2 jours ouvrables avant la date d'effet de l'embauche, par tout moyen permettant de donner date certaine à la réception de la déclaration.",
+        "En l’absence de réponse du préfet dans un délai de 2 jours ouvrables à compter de la réception de cette déclaration, celle-ci vaut accomplissement de la vérification de l'existence de l’autorisation de travail."
+      ],
+      "key_fact_figures": [
+        "2"
+      ],
+      "key_fact_figures_stated": [
+        "2"
+      ],
+      "key_fact_figure_recall": 1.0,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 4140,
+      "completion_tokens": 289,
+      "latency_ms": 1643.5
+    },
+    {
+      "id": "g010",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "law:LEGIARTI000042771690",
+        "law:LEGIARTI000051739510",
+        "law:LEGIARTI000043464443-point-28",
+        "fact_sheet:F17319",
+        "fact_sheet:F2229"
+      ],
+      "must_cite": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2229",
+        "law:LEGIARTI000042771680"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.4,
+      "governing_first": null,
+      "sentences_kept": 11,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Si vous avez obtenu un diplôme au moins équivalent au grade de master en France, vous pouvez demander une carte de séjour temporaire portant la mention \"recherche d'emploi ou création d'entreprise\" d'une durée d'un an.",
+        "Cette carte peut être demandée dans un délai maximal de 4 ans à compter de l'obtention du diplôme en France.",
+        "Si vous résidez en France à l'issue de vos études, vous devez avoir obtenu votre diplôme au cours des 12 derniers mois pour demander cette carte.",
+        "Si vous résidez à l'étranger après vos études, vous pouvez demander cette carte dans un délai maximal de 4 ans à compter de l'obtention du diplôme.",
+        "Si vous avez trouvé un emploi, vous pouvez demander une carte de séjour à titre professionnel en fonction de votre salaire et de votre situation.",
+        "Pour un emploi rémunéré au moins 2 800,53 € bruts mensuels et en relation avec votre formation, vous pouvez demander une carte de séjour temporaire salarié ou travailleur temporaire.",
+        "Pour un salaire annuel brut d'au moins 39 582 €, vous pouvez demander une carte de séjour pluriannuelle talent - salarié qualifié.",
+        "Pour un salaire annuel brut d'au moins 41 386,48 €, vous pouvez demander une carte de séjour pluriannuelle talent - professions médicales et de la pharmacie.",
+        "Pour un salaire annuel brut d'au moins 59 373,00 €, vous pouvez demander une carte de séjour pluriannuelle talent - carte bleue européenne.",
+        "Si vous créez votre entreprise, vous pouvez demander une carte de séjour Entrepreneur/profession libérale ou une carte de séjour pluriannuelle talent - porteur de projet.",
+        "Si vous avez signé un contrat de travail ou une promesse d'embauche, vous devez effectuer votre demande de changement de statut dans les 2 mois précédant la date de fin de validité de votre carte de séjour étudiant."
+      ],
+      "key_fact_figures": [
+        "1",
+        "12",
+        "2800.53"
+      ],
+      "key_fact_figures_stated": [
+        "12",
+        "2800.53"
+      ],
+      "key_fact_figure_recall": 0.6666666666666666,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 3385,
+      "completion_tokens": 623,
+      "latency_ms": 3550.9
+    },
+    {
+      "id": "g011",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F17319",
+        "law:LEGIARTI000042771690",
+        "law:LEGIARTI000042771680",
+        "law:LEGIARTI000042771684"
+      ],
+      "must_cite": [
+        "fact_sheet:F17319",
+        "law:LEGIARTI000042771680",
+        "law:LEGIARTI000042771684"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.75,
+      "governing_first": null,
+      "sentences_kept": 8,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "After graduating, you can stay in France to create a company if you meet the conditions for a temporary residence permit with the mention \"research employment or company creation\".",
+        "If you reside in France after your studies, you must have obtained a professional license, a specialized master's degree, a Master of Science (labelled by the conference of grandes écoles), or another diploma at least equivalent to a master's degree within the last 12 months.",
+        "If you reside abroad after your studies, you must have obtained a diploma at least equivalent to a master's degree in France and apply within a maximum of 4 years from the date of obtaining your diploma.",
+        "The temporary residence permit with the mention \"research employment or company creation\" is valid for a duration of 1 year.",
+        "If you have created a viable company during the first year, you may be eligible for a temporary residence permit with the mention \"entrepreneur/liberal profession\" or a multi-year residence permit with the mention \"talent\".",
+        "To apply for the residence permit while residing in France, you must submit your request to the prefecture or sub-prefecture of your domicile within the 2 months preceding the expiry date of your student residence permit.",
+        "Required documents include a valid student residence permit, proof of nationality, proof of address, a sworn statement of non-polygamy (if applicable), 3 identity photos, proof of health insurance, and a diploma or attestation of success equivalent to a master's degree obtained within the last 12 months.",
+        "If your goal is company creation, you must provide proof of a company creation project in a field corresponding to your training."
+      ],
+      "key_fact_figures": [
+        "1"
+      ],
+      "key_fact_figures_stated": [
+        "1"
+      ],
+      "key_fact_figure_recall": 1.0,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 16,
+      "prompt_tokens": 3718,
+      "completion_tokens": 467,
+      "latency_ms": 2858.1
+    },
+    {
+      "id": "g012",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F17319",
+        "fact_sheet:F2229"
+      ],
+      "must_cite": [
+        "fact_sheet:F17319"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "La carte de séjour « recherche d'emploi ou création d'entreprise » peut être demandée dans les 2 mois précédant la date de fin de validité de votre carte étudiant ou étudiant-programme de mobilité.",
+        "Si vous avez obtenu un diplôme de licence professionnelle, vous pouvez demander la carte de séjour « recherche d'emploi ou création d'entreprise » avant l'échéance de votre carte de séjour étudiant.",
+        "Si vous avez obtenu un diplôme de master ou équivalent, vous pouvez demander la carte de séjour « recherche d'emploi ou création d'entreprise » avant l'échéance de votre carte de séjour étudiant.",
+        "Vous pouvez également faire votre demande dans le délai maximal de 4 ans à compter de l’obtention de votre diplôme."
+      ],
+      "key_fact_figures": [
+        "12",
+        "2",
+        "4"
+      ],
+      "key_fact_figures_stated": [
+        "2",
+        "4"
+      ],
+      "key_fact_figure_recall": 0.6666666666666666,
+      "rules_offered": [
+        "rece-application-window",
+        "rece-from-abroad-deadline"
+      ],
+      "rules_cited": [
+        "rece-application-window"
+      ],
+      "embedding_tokens": 29,
+      "prompt_tokens": 3656,
+      "completion_tokens": 228,
+      "latency_ms": 1802.5
+    },
+    {
+      "id": "g013",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2713",
+        "fact_sheet:F2229"
+      ],
+      "must_cite": [
+        "fact_sheet:F2229",
+        "fact_sheet:F15898",
+        "fact_sheet:F2728"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 13,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Un étudiant non européen (hors Algérien) doit avoir un visa de long séjour valant titre de séjour (VLS-TS) étudiant ou une carte de séjour étudiant pour travailler pendant ses études.",
+        "Un étudiant non européen (hors Algérien) peut travailler jusqu’à 964 heures par an sans autorisation de travail.",
+        "Pour travailler au-delà de 964 heures par an, l’employeur doit demander et obtenir une autorisation de travail avant le début de l’activité.",
+        "La demande d’autorisation de travail se fait uniquement en ligne via le service : Demander en ligne une autorisation de travail pour embaucher un salarié étranger.",
+        "L’embauche ne peut commencer qu’après une déclaration nominative de l’employeur auprès de la préfecture du département où l’établissement a son siège.",
+        "L’employeur doit effectuer cette déclaration au moins 2 jours ouvrables avant la date d’effet de l’embauche.",
+        "En l’absence de réponse du préfet dans un délai de 2 jours ouvrables après réception de la déclaration, celle-ci vaut accomplissement de la vérification de l’autorisation de travail.",
+        "Un étudiant algérien doit avoir un certificat de résidence étudiant pour travailler pendant ses études.",
+        "Un étudiant algérien peut travailler au maximum 50 % de la durée annuelle de travail pratiquée dans la branche ou la profession concernée après obtention de l’autorisation de travail.",
+        "Pour passer d’un titre étudiant à un titre salarié après vos études, vous pouvez demander une carte de séjour salarié ou travailleur temporaire si vous avez une promesse d’embauche et que votre employeur a obtenu une autorisation de travail.",
+        "La demande de changement de statut doit être effectuée dans les 2 mois précédant la date de fin de validité de votre carte de séjour étudiant.",
+        "La situation de l’emploi peut vous être opposée, sauf si vous trouvez un emploi figurant dans la liste des métiers en tension.",
+        "Pour consulter la liste des métiers en tension, consultez le lien suivant : Liste des métiers en tension."
+      ],
+      "key_fact_figures": [
+        "2",
+        "2800.53"
+      ],
+      "key_fact_figures_stated": [
+        "2"
+      ],
+      "key_fact_figure_recall": 0.5,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 35,
+      "prompt_tokens": 3079,
+      "completion_tokens": 718,
+      "latency_ms": 3634.5
+    },
+    {
+      "id": "g014",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F16922",
+        "fact_sheet:F17319"
+      ],
+      "must_cite": [
+        "fact_sheet:F16922",
+        "law:LEGIARTI000042771574"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 6,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "The \"talent – salarié qualifié\" permit is a multi-year residence permit for foreigners in France under the \"talent\" category.",
+        "It can be issued for one of three specific purposes: qualified employee, employee of an innovative company, or employee on an intra-group assignment.",
+        "For the \"qualified employee\" pathway, you must have obtained in France a diploma at least equivalent to a master's degree or a level 1 diploma labeled by the Conférence des grandes écoles, and have a work contract of more than 3 months with a gross annual salary of at least 39 582 €.",
+        "For the \"employee of an innovative company\" pathway, you must be recruited by a young innovative company or a company recognized as innovative by the Ministry of Economy, have functions directly related to the company's R&D project, and have a work contract with a gross annual salary of at least 39 582 €.",
+        "For the \"employee on an intra-group assignment\" pathway, you must be an employee of a company established abroad and come to France to work within the same group or between companies of the same group, with at least 3 months of seniority in the group.",
+        "After completing studies in France, you may apply for the \"talent – salarié qualifié\" permit if you meet the conditions for one of the three pathways, including the salary threshold of 39 582 € gross annually."
+      ],
+      "key_fact_figures": [
+        "1",
+        "3",
+        "39582",
+        "4"
+      ],
+      "key_fact_figures_stated": [
+        "1",
+        "3",
+        "39582"
+      ],
+      "key_fact_figure_recall": 0.75,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 24,
+      "prompt_tokens": 3840,
+      "completion_tokens": 391,
+      "latency_ms": 2715.4
+    },
+    {
+      "id": "g015",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2728"
+      ],
+      "must_cite": [
+        "fact_sheet:F2728",
+        "fact_sheet:F16922",
+        "fact_sheet:F17319"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 7,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "L'employeur doit demander une autorisation de travail dans certains cas de changement de statut, notamment si l'étranger détient une carte de séjour « salarié » obtenue pour un CDD et souhaite passer à une carte de séjour « travailleur temporaire ».",
+        "L'employeur doit demander une autorisation de travail si l'étranger détient une carte de séjour « travailleur temporaire » obtenue pour un CDI et souhaite passer à une carte de séjour « salarié ».",
+        "L'employeur doit demander une autorisation de travail si l'étranger détient une carte de séjour « salarié détaché mobile ICT » pour une mission de plus de 90 jours.",
+        "L'employeur n'a pas besoin de demander une autorisation de travail si l'étranger détient un VLS-TS ou une carte de séjour « vie privée et familiale », sauf exceptions précisées.",
+        "L'employeur n'a pas besoin de demander une autorisation de travail si l'étranger détient une carte de résident ou une carte de résident longue durée-UE.",
+        "L'employeur n'a pas besoin de demander une autorisation de travail si l'étranger détient une carte de séjour « stagiaire ICT (famille) » ou « stagiaire mobile ICT (famille) ».",
+        "L'employeur n'a pas besoin de demander une autorisation de travail si l'étranger détient une carte de séjour « recherche d'emploi/création d'entreprise » sous conditions."
+      ],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 23,
+      "prompt_tokens": 4136,
+      "completion_tokens": 410,
+      "latency_ms": 2389.1
+    },
+    {
+      "id": "g016",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F2229",
+        "fact_sheet:F2728"
+      ],
+      "must_cite": [
+        "fact_sheet:F2728",
+        "fact_sheet:F16922"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": null,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "For a change from student to employee status, a minimum salary of 2 800,53 € gross per month applies in certain cases.",
+        "The minimum salary requirement of 2 800,53 € gross per month applies if the employment is related to the student's training.",
+        "The minimum salary requirement of 2 800,53 € gross per month applies if the employment is listed as a profession in tension.",
+        "The minimum salary requirement of 2 800,53 € gross per month does not apply if the student holds a master's degree or equivalent and the employment is related to their training."
+      ],
+      "key_fact_figures": [
+        "2800.53",
+        "39582"
+      ],
+      "key_fact_figures_stated": [
+        "2800.53"
+      ],
+      "key_fact_figure_recall": 0.5,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 15,
+      "prompt_tokens": 3029,
+      "completion_tokens": 216,
+      "latency_ms": 2422.4
+    },
+    {
+      "id": "g017",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "any",
+      "cited": [
+        "fact_sheet:F35799"
+      ],
+      "must_cite": [
+        "fact_sheet:F35799"
+      ],
+      "winning_source": null,
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": null,
+      "sentences_kept": 5,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Après un premier titre salarié, vous pouvez demander une carte de séjour pluriannuelle salarié si vous continuez à remplir les conditions de délivrance de la carte de séjour temporaire salarié.",
+        "Pour demander une carte de séjour pluriannuelle salarié, vous devez déposer votre demande auprès de la préfecture ou de la sous-préfecture de votre domicile, dans les 2 mois précédant la fin de validité de votre carte de séjour.",
+        "Pour une première carte de séjour pluriannuelle salarié, vous devez attester de votre connaissance de la langue française à un niveau A2 et réussir l’examen civique mention « carte de séjour pluriannuelle », sauf si vous avez plus de 65 ans.",
+        "Vous devez également respecter la condition d'intégration en prouvant votre assiduité et le sérieux de votre participation aux formations prévues par le contrat d'intégration républicaine, si vous y êtes soumis.",
+        "Vous devez vous engager à respecter les principes de la République en signant le contrat d'engagement prévu lors du dépôt de votre dossier."
+      ],
+      "key_fact_figures": [
+        "1",
+        "2",
+        "4",
+        "65"
+      ],
+      "key_fact_figures_stated": [
+        "2",
+        "65"
+      ],
+      "key_fact_figure_recall": 0.5,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 3958,
+      "completion_tokens": 321,
+      "latency_ms": 2330.3
+    },
+    {
+      "id": "g018",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "case_law:CETATEXT000053612496",
+        "fact_sheet:F2215",
+        "fact_sheet:F2231"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "treaty:accord-franco-algerien-1968:article-9",
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:protocole-titre-3",
+      "expected_source_cited": true,
+      "citation_precision": 0.5,
+      "governing_first": true,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "L'Accord franco-algérien du 27 décembre 1968 régit les conditions de séjour des ressortissants algériens en France.",
+        "Les ressortissants algériens qui suivent des études en France reçoivent, sur présentation d'une attestation de préinscription ou d'inscription dans un établissement d'enseignement français, un certificat de résidence valable un an, renouvelable et portant la mention « étudiant ».",
+        "Le certificat de résidence pour étudiant est délivré sous réserve de justifier de moyens d'existence suffisants (bourse ou autres ressources).",
+        "Le montant minimal des moyens d'existence exigés pour un étudiant algérien est de 877,5 € par mois."
+      ],
+      "key_fact_figures": [
+        "1",
+        "3",
+        "877.5"
+      ],
+      "key_fact_figures_stated": [
+        "877.5"
+      ],
+      "key_fact_figure_recall": 0.3333333333333333,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 29,
+      "prompt_tokens": 4453,
+      "completion_tokens": 224,
+      "latency_ms": 1529.6
+    },
+    {
+      "id": "g019",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "treaty:accord-franco-algerien-1968:article-7",
+        "fact_sheet:F2713"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "fact_sheet:F2713",
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:protocole-titre-3",
+      "expected_source_cited": true,
+      "citation_precision": 0.6666666666666666,
+      "governing_first": true,
+      "sentences_kept": 10,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "L'Accord franco-algérien du 27 décembre 1968 régit les droits de séjour des ressortissants algériens en France.",
+        "Un étudiant algérien peut travailler pendant ses études sous conditions.",
+        "L'étudiant doit être titulaire d'un certificat de résidence portant la mention « étudiant ».",
+        "L'autorisation de travail est délivrée sous forme d'autorisation provisoire de travail (APT) sur présentation d'une promesse d'embauche ou d'un contrat de travail.",
+        "L'étudiant algérien peut travailler dans la limite d'un mi-temps annuel pour la branche ou la profession concernée (R1).",
+        "Après obtention de l'autorisation de travail, l'étudiant peut travailler au maximum 50 % de la durée annuelle de travail pratiquée dans la branche ou la profession concernée (R2).",
+        "L'employeur doit demander et obtenir une autorisation de travail avant le début de l'activité.",
+        "L'embauche ne peut avoir lieu qu'après une déclaration nominative de l'employeur auprès de la préfecture du département où l'établissement employeur a son siège.",
+        "L'employeur doit accomplir cette formalité au moins 2 jours ouvrables avant la date d'effet de l'embauche.",
+        "En l'absence de réponse du préfet dans un délai de 2 jours ouvrables, la déclaration vaut accomplissement de la vérification de l'existence de l'autorisation de travail."
+      ],
+      "key_fact_figures": [
+        "2",
+        "50",
+        "964"
+      ],
+      "key_fact_figures_stated": [
+        "2",
+        "50"
+      ],
+      "key_fact_figure_recall": 0.6666666666666666,
+      "rules_offered": [
+        "algerian-student-work-agreement",
+        "algerian-student-work-share"
+      ],
+      "rules_cited": [],
+      "embedding_tokens": 26,
+      "prompt_tokens": 4571,
+      "completion_tokens": 556,
+      "latency_ms": 2877.3
+    },
+    {
+      "id": "g020",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "fact_sheet:F2733"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "case_law:CETATEXT000053612496",
+        "fact_sheet:F17319"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "expected_source_cited": true,
+      "citation_precision": 0.3333333333333333,
+      "governing_first": true,
+      "sentences_kept": 6,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "The Franco-Algerian Agreement of 27 December 1968 governs residence rights for Algerian nationals in France.",
+        "The agreement does not provide for a specific job-search permit for Algerian students.",
+        "Algerian students holding a residence certificate with the mention 'étudiant' may be authorized to work up to a half-time annual limit for the relevant branch or profession.",
+        "This authorization is granted in the form of a provisional work authorization upon presentation of a job offer or employment contract.",
+        "To work as a salaried employee, an Algerian national must obtain a work authorization (called 'permis de travail').",
+        "The work authorization is requested by the future employer, not the employee."
+      ],
+      "key_fact_figures": [
+        "2",
+        "2026",
+        "500835",
+        "7"
+      ],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": 0.0,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 3026,
+      "completion_tokens": 239,
+      "latency_ms": 1833.1
+    },
+    {
+      "id": "g021",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:article-7"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "fact_sheet:F2215",
+        "fact_sheet:F2733"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": true,
+      "sentences_kept": 4,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "L'Accord franco-algérien du 27 décembre 1968 régit les droits de séjour des ressortissants algériens en France.",
+        "Un ressortissant algérien désirant exercer une activité professionnelle salariée en France doit demander un certificat de résidence portant la mention « salarié ».",
+        "Ce certificat de résidence « salarié » est valable un an, renouvelable, et constitue l'autorisation de travail exigée par la législation française.",
+        "Pour obtenir ce certificat, il faut présenter un contrat de travail visé par les services du ministre chargé de l'emploi."
+      ],
+      "key_fact_figures": [
+        "1",
+        "200",
+        "250",
+        "50",
+        "7"
+      ],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": 0.0,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 27,
+      "prompt_tokens": 4971,
+      "completion_tokens": 187,
+      "latency_ms": 1689.4
+    },
+    {
+      "id": "g022",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:article-7-bis",
+        "treaty:accord-franco-algerien-1968:protocole-titre-3",
+        "treaty:accord-franco-algerien-1968:article-7",
+        "fact_sheet:F2713",
+        "fact_sheet:F2733"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7",
+        "case_law:CETATEXT000053612496"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7",
+      "expected_source_cited": true,
+      "citation_precision": 0.2,
+      "governing_first": false,
+      "sentences_kept": 6,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "L'Accord franco-algérien du 27 décembre 1968 régit les droits de séjour des ressortissants algériens en France.",
+        "Le titre de séjour « talent » n'est pas mentionné dans l'Accord franco-algérien du 27 décembre 1968.",
+        "L'Accord franco-algérien du 27 décembre 1968 prévoit uniquement des certificats de résidence pour les étudiants algériens, valables un an et renouvelables, portant la mention « étudiant ».",
+        "Un Algérien titulaire d'un certificat de résidence « étudiant » peut obtenir une autorisation provisoire de travail pour exercer une activité professionnelle dans la limite d'un mi-temps annuel.",
+        "Pour obtenir une autorisation de travail en tant qu'étudiant algérien, l'employeur doit déposer une demande en ligne avant l'embauche.",
+        "L'autorisation de travail pour un étudiant algérien est délivrée sous réserve que le salaire proposé soit au moins égal au SMIC ou à la rémunération minimale prévue par la convention collective."
+      ],
+      "key_fact_figures": [
+        "2",
+        "2026",
+        "500835",
+        "7"
+      ],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": 0.0,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 22,
+      "prompt_tokens": 4544,
+      "completion_tokens": 334,
+      "latency_ms": 2507.7
+    },
+    {
+      "id": "g023",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "treaty:accord-franco-algerien-1968:article-7-bis",
+        "fact_sheet:F2257"
+      ],
+      "must_cite": [
+        "treaty:accord-franco-algerien-1968:article-7-bis",
+        "fact_sheet:F2257"
+      ],
+      "winning_source": "treaty:accord-franco-algerien-1968:article-7-bis",
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": true,
+      "sentences_kept": 10,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "Pour un Algérien, l'obtention d'un certificat de résidence de 10 ans est régie par l'Accord franco-algérien du 27 décembre 1968.",
+        "Un certificat de résidence de 10 ans peut être obtenu si l'intéressé justifie d'une résidence ininterrompue en France de 3 années.",
+        "La délivrance du certificat de résidence de 10 ans tient compte des moyens d'existence dont le demandeur peut faire état, notamment ses conditions d'activité professionnelle.",
+        "Le certificat de résidence de 10 ans confère le droit d'exercer en France la profession de son choix, sous réserve des dispositions régissant les professions réglementées.",
+        "Le certificat de résidence de 10 ans est délivré de plein droit sous réserve de la régularité du séjour pour certaines catégories, dont les conjoints de Français mariés depuis au moins un an.",
+        "Le certificat de résidence de 10 ans est renouvelé automatiquement.",
+        "La demande de certificat de résidence de 10 ans doit être déposée à la préfecture ou sous-préfecture du domicile du demandeur.",
+        "Si le dossier est complet, un récépissé est remis en attendant la réponse de la préfecture.",
+        "Les documents à fournir incluent notamment le passeport, l'acte de naissance, un justificatif de domicile de moins de 6 mois, 3 photos d'identité et des justificatifs de résidence régulière.",
+        "La première délivrance d'un certificat de résidence donne lieu à une visite médicale obligatoire auprès de l'Ofii."
+      ],
+      "key_fact_figures": [
+        "1",
+        "10",
+        "3"
+      ],
+      "key_fact_figures_stated": [
+        "10",
+        "3"
+      ],
+      "key_fact_figure_recall": 0.6666666666666666,
+      "rules_offered": [
+        "algerian-10-year-residence"
+      ],
+      "rules_cited": [],
+      "embedding_tokens": 25,
+      "prompt_tokens": 5053,
+      "completion_tokens": 539,
+      "latency_ms": 3089.7
+    },
+    {
+      "id": "g024",
+      "expected": "answer",
+      "kind": "answer",
+      "correct": true,
+      "reason": null,
+      "nationality": "algerian",
+      "cited": [
+        "fact_sheet:F2215"
+      ],
+      "must_cite": [
+        "fact_sheet:F2215"
+      ],
+      "winning_source": "fact_sheet:F2215",
+      "expected_source_cited": true,
+      "citation_precision": 1.0,
+      "governing_first": true,
+      "sentences_kept": 3,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [
+        "An Algerian student renews their residence certificate (certificat de résidence) at the prefecture (or sub-prefecture) of their place of residence.",
+        "For residents of Paris, the renewal is handled by the Préfecture de police de Paris - Service des titres de séjour.",
+        "It is not possible to carry out the renewal procedure in some sub-prefectures; check the website of your prefecture for available locations."
+      ],
+      "key_fact_figures": [
+        "100",
+        "180",
+        "2",
+        "4",
+        "50"
+      ],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": 0.0,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 23,
+      "prompt_tokens": 4899,
+      "completion_tokens": 135,
+      "latency_ms": 1284.6
+    },
+    {
+      "id": "g025",
+      "expected": "refuse",
+      "kind": "refuse",
+      "correct": true,
+      "reason": "asylum",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 1.0
+    },
+    {
+      "id": "g026",
+      "expected": "refuse",
+      "kind": "refuse",
+      "correct": true,
+      "reason": "family_reunification",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g027",
+      "expected": "refuse",
+      "kind": "refuse",
+      "correct": true,
+      "reason": "naturalisation",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g028",
+      "expected": "handoff",
+      "kind": "handoff",
+      "correct": true,
+      "reason": "oqtf",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g029",
+      "expected": "handoff",
+      "kind": "handoff",
+      "correct": true,
+      "reason": "expired_permit",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g030",
+      "expected": "handoff",
+      "kind": "handoff",
+      "correct": true,
+      "reason": "refusal_appeal",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": 0.9
+    },
+    {
+      "id": "g031",
+      "expected": "abstain",
+      "kind": "abstain",
+      "correct": true,
+      "reason": "model_declined",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 30,
+      "prompt_tokens": 3740,
+      "completion_tokens": 13,
+      "latency_ms": 723.6
+    },
+    {
+      "id": "g032",
+      "expected": "abstain",
+      "kind": "abstain",
+      "correct": true,
+      "reason": "model_declined",
+      "nationality": "any",
+      "cited": [],
+      "must_cite": [],
+      "winning_source": null,
+      "expected_source_cited": null,
+      "citation_precision": null,
+      "governing_first": null,
+      "sentences_kept": 0,
+      "sentences_removed": 0,
+      "removed_reasons": [],
+      "answer": [],
+      "key_fact_figures": [],
+      "key_fact_figures_stated": [],
+      "key_fact_figure_recall": null,
+      "rules_offered": [],
+      "rules_cited": [],
+      "embedding_tokens": 12,
+      "prompt_tokens": 3619,
+      "completion_tokens": 13,
+      "latency_ms": 709.8
+    }
+  ]
+}
