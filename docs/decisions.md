@@ -316,3 +316,39 @@ d'une manière complète…", the CESEDA provisions on residence titles "ne sont
 aux ressortissants algériens") read with article 7 of the agreement. Index after ingestion on
 2026-11-27: 20 fact sheets (470 chunks), 245 law sources (261 chunks), 17 treaty sources
 (21 chunks), 1 decision (5 chunks).
+
+## D-016 — Hybrid retrieval: full-text and vector rankings fused with RRF
+
+**Context.** Build step 4 replaces the vector-only retriever of step 3 with hybrid retrieval and
+metadata filters (PLAN.md). On golden v1 the vector retriever finds the expected sources
+(recall@5 0.708) but rarely ranks the governing source first for Algerian questions (right
+source wins 0.143).
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Rankings | Lexical: `ts_rank_cd` over `chunks.tsv`, query parsed with the `french` configuration, stemmed terms joined with OR (an AND of every term of a question almost never matches). Vector: cosine distance with `mistral-embed`. 50 candidates each. |
+| Fusion | Reciprocal Rank Fusion, k = 60, weights lexical 0.5 and vector 1.0 (`rag.fusion`, `rag.retrieval`). A ranking with weight 0 adds no documents. |
+| Filters | Applied to both rankings: `nationality_scope` (`all`, plus `algerian` when the question names an Algerian national, `guardrails.nationality`), in force on the question date, prefecture (chunks of another prefecture excluded). |
+| Re-ranking | Not part of this change; measured separately. |
+
+Ablation on the 24 scored items of golden v1 (2026-11-27, filters on, same cached query vectors):
+
+| Variant | recall@5 | recall@10 | MRR | Right source wins |
+|---|---|---|---|---|
+| Vector only | 0.729 | 0.743 | 0.840 | 0.143 |
+| Lexical only | 0.472 | 0.667 | 0.417 | 0.429 |
+| RRF 1:1 | 0.646 | 0.722 | 0.798 | 0.286 |
+| RRF 1:1, length normalisation 1 | 0.646 | 0.743 | 0.777 | 0.286 |
+| RRF 1:1, normalisation 32 | 0.646 | 0.722 | 0.798 | 0.286 |
+| **RRF 0.5:1** (chosen) | 0.743 | 0.792 | 0.801 | 0.286 |
+| RRF 0.5:1, normalisation 1 | 0.701 | 0.771 | 0.802 | 0.286 |
+
+**Consequences.** The weights were chosen among seven variants on the same 24 items, so the
+chosen row is an optimistic estimate; the golden set needs held-out items before further
+tuning. The filters alone raise vector-only results (recall@5 0.708 to 0.729, MRR 0.819 to
+0.840). The lexical ranking is weak alone but doubles right source wins in fusion; the
+remaining gap is the job of the precedence node. `mistral-embed` query vectors vary slightly
+between calls (MRR 0.777 and 0.798 for the same configuration on two runs): differences of a
+few hundredths between runs are noise at this set size.
