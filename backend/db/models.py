@@ -28,6 +28,30 @@ SOURCE_TYPES = ("law", "treaty", "fact_sheet", "prefecture", "case_law")
 AUTHORITIES = ("official", "secondary")
 NATIONALITY_SCOPES = ("all", "algerian")
 JOURNEY_STAGES = ("arriving", "renewing", "working", "finishing", "job_offer", "settling")
+RULE_PERMITS = (
+    "vls_ts_etudiant",
+    "cst_etudiant",
+    "csp_etudiant",
+    "rece",
+    "cst_salarie",
+    "csp_salarie",
+    "talent_salarie_qualifie",
+    "stage_etudiant",
+    "cr_etudiant",
+    "cr_salarie",
+    "cr_10_ans",
+)
+RULE_TOPICS = (
+    "work_limit",
+    "resources",
+    "deadline",
+    "fee",
+    "duration",
+    "salary_threshold",
+    "residence_requirement",
+    "internship",
+    "documents",
+)
 LANGS = ("fr", "en")
 CHANGE_TYPES = ("added", "modified", "removed")
 REVIEW_STATUSES = ("pending", "reviewed", "rejected")
@@ -166,3 +190,42 @@ class QueryLog(Base):
     prompt_tokens: Mapped[int | None] = mapped_column(Integer)
     completion_tokens: Mapped[int | None] = mapped_column(Integer)
     eval_flags: Mapped[dict[str, Any]] = mapped_column(JSONB, server_default="{}")
+
+
+class Rule(Base):
+    """One sourced fact of the journey (`sources/rules.yaml`, build step 5). `quote` is verbatim
+    from the source; the agent uses only rows with `verified_at` set."""
+
+    __tablename__ = "rules"
+    __table_args__ = (
+        CheckConstraint(_in("permit", RULE_PERMITS), name="ck_rules_permit"),
+        CheckConstraint(_in("topic", RULE_TOPICS), name="ck_rules_topic"),
+        CheckConstraint(
+            _in("nationality_scope", NATIONALITY_SCOPES), name="ck_rules_nationality_scope"
+        ),
+        CheckConstraint(_in("stage", JOURNEY_STAGES), name="ck_rules_stage"),
+        CheckConstraint(_in("source_type", SOURCE_TYPES), name="ck_rules_source_type"),
+        CheckConstraint(
+            "(verified_by IS NULL) = (verified_at IS NULL)", name="ck_rules_verification"
+        ),
+        Index("ix_rules_lookup", "nationality_scope", "permit", "topic"),
+    )
+
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    permit: Mapped[str] = mapped_column(Text)
+    nationality_scope: Mapped[str] = mapped_column(Text)
+    topic: Mapped[str] = mapped_column(Text)
+    stage: Mapped[str] = mapped_column(Text)
+    label_fr: Mapped[str] = mapped_column(Text)
+    label_en: Mapped[str] = mapped_column(Text)
+    value: Mapped[str] = mapped_column(Text)
+    quote: Mapped[str] = mapped_column(Text)
+    source_type: Mapped[str] = mapped_column(Text)
+    source_id: Mapped[str] = mapped_column(Text)
+    source_title: Mapped[str] = mapped_column(Text)
+    url: Mapped[str] = mapped_column(Text)
+    source_checked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    """`fetched_at` of the source chunk the quote was checked against."""
+    verified_by: Mapped[str | None] = mapped_column(Text)
+    verified_at: Mapped[date | None] = mapped_column(Date)
+    loaded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))

@@ -15,10 +15,11 @@ results are in `eval-results.md`.
 | Nationality | `backend/guardrails/nationality.py` | Algerian only on an explicit mention. |
 | Retrieval | `backend/rag/retrieval.py`, `rag/fusion.py` | Full-text and vector rankings fused with RRF, metadata filters (D-016). |
 | Precedence | `backend/rag/precedence.py`, `rag/search.py` | Which source governs; order of sources (D-017). |
+| Rules tool | `backend/rag/rules.py`, `ingestion/rules.py`, `sources/rules.yaml` | Read-only lookup of verified, sourced figures, deadlines, fees and documents (D-019). |
 | Answer | `backend/rag/answer.py`, `rag/prompts/` | Structured answer from `mistral-small-2603`; versioned prompts. |
 | Citation check | `backend/rag/citations.py` | Removes sentences without valid citations or with figures absent from the cited chunks. |
 | Abstain gate | `backend/rag/abstain.py` | No retrieval, model declined, or no supported sentence. |
-| Fixed texts | `backend/guardrails/texts.yaml` | Notices and refuse / handoff / abstain responses (FR, EN; draft wording). |
+| Fixed texts | `backend/guardrails/texts.yaml` | Notices and refuse / handoff / abstain responses (FR, EN; wording approved by the maintainer). |
 
 ## Request flow
 
@@ -28,7 +29,8 @@ flowchart TD
     route -- out of scope --> refuse([refuse])
     route -- urgent or personal-legal --> handoff([handoff])
     route -- in scope --> clarify
-    clarify --> retrieve
+    clarify --> eligibility
+    eligibility --> retrieve
     retrieve -- nothing found --> abstain([abstain])
     retrieve --> answer
     answer --> check_citations
@@ -40,16 +42,16 @@ flowchart TD
 |---|---|---|
 | `route` | question | scope decision; answer language (requested, else detected) |
 | `clarify` | question, requested nationality | nationality: `algerian`, `other` or `unknown` |
+| `eligibility` | question, nationality | up to 5 verified rows of the rules table |
 | `retrieve` | question, nationality, date | up to 10 chunks after precedence; governing source |
-| `answer` | question, chunks, precedence decision | sentences, each citing source labels |
+| `answer` | question, chunks, rules, precedence decision | sentences, each citing source labels (`S1`..) or rule labels (`R1`..) |
 | `check_citations` | sentences, chunks | kept and removed sentences; abstain reason |
 | `respond` | kept sentences | numbered sources with links, in-force date, date checked; notices |
 | `refuse`, `handoff`, `abstain` | scope reason or abstain reason | fixed text; for `abstain`, the best official page found |
 
 Every response starts its notices with "not legal advice". An answer about an Algerian national
 states that the agreement governs; an answer whose nationality is unknown says that Algerian
-nationals fall under the agreement. The `eligibility` node (SQL rules table) is added in build
-step 5.
+nationals fall under the agreement.
 
 ## Retrieval and precedence
 
@@ -75,6 +77,7 @@ in the source). Removed sentences are counted in the log, never shown.
 | Store | Content |
 |---|---|
 | `chunks` | Official sources: text, metadata, `tsv`, `embedding` (Postgres + pgvector). |
+| `rules` | Sourced facts (`sources/rules.yaml`): value, verbatim quote, source, verification. |
 | `query_logs` | Per request: journey stage, retrieved chunk ids, latency, token counts, eval flags. No question text (CLAUDE.md, rule 5). |
 
-The agent has no write action outside `query_logs`.
+The agent has no write action outside `query_logs`; the rules tool runs one SELECT.

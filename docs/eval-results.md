@@ -194,3 +194,24 @@ average processing time of one prefecture had been answered with a related deadl
 
 Retrieval of the agent (`hybrid-precedence`) against the step-3 reference is in the comparison
 above (recall@5 0.708 to 0.764, right source wins 0.143 to 1.000).
+
+## Rules table (build step 5, 2026-11-27)
+
+`python -m evals.agent --rules none|all`: same code, same day, prompt `answer.v4`, 32 items.
+`--rules all` uses the 27 draft rows (not yet verified).
+
+| Metric | No rules | Draft rules |
+|---|---|---|
+| Behaviour accuracy | 1.000 | 1.000 |
+| Expected source cited | 0.958 | 0.958 |
+| Key-fact figure recall | 0.480 | 0.522 |
+| Answers citing a rule | 0 | 2 |
+| Citation precision (strict) | 0.617 | 0.608 |
+| Governing source cited first | 0.857 | 0.857 |
+| Sentences removed by the checker | 0.0 % | 0.0 % |
+| Latency p50 (ms) | 1,786 | 1,746 |
+
+Key-fact figure recall: share of the numbers in `key_facts` that the answer states (judge-free
+proxy, see D-019 for its limits). Figures added with rules: internship stipend threshold (g008),
+6-month document limit (g006), diploma within 12 months (g010), 4-year limit after leaving
+France (g012).

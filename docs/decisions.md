@@ -401,7 +401,7 @@ modules (D-017).
 | Language | Requested language, else detected from the question (French unless English markers dominate). |
 | API | `POST /ask {question (5 to 1000 characters), lang?, stage?, nationality?}`. One `query_logs` row per request, metadata only. A failed log write does not fail the answer. |
 | Dependencies | `langgraph`, `langchain-mistralai`, `langchain-core`. `langchain-mistralai` depends on `httpx`; project code uses `httpx2` (D-010) and the suite runs with warnings as errors. |
-| Fixed texts | `guardrails/texts.yaml`, status `draft`: final wording by the maintainer. |
+| Fixed texts | `guardrails/texts.yaml`; wording approved by the maintainer on 2026-11-27 (`status: approved`). |
 
 **Consequences.** Results on golden v1 (`evals.agent`, prompt v3, 32 items, 2026-11-27): behaviour
 accuracy 1.000 (answer 24/24, refuse 3/3, handoff 3/3, abstain 2/2); expected source cited
@@ -412,3 +412,31 @@ citation precision (0.574 and 0.629). Prompts v2 and v3 were revised after readi
 failures, so these figures are optimistic; golden v2 needs held-out items. `key_facts`
 coverage and faithfulness need a judge and are not measured yet. Rate limiting and the spend
 cap (`DAILY_QUESTION_LIMIT`, `MONTHLY_SPEND_CAP_EUR`) are not enforced by `/ask` yet.
+
+## D-019 — Rules table and the read-only rules tool
+
+**Context.** Build step 5 adds a `rules` table of permit facts (thresholds, deadlines, fees,
+durations, documents), each row sourced and dated, and a read-only tool the agent can use
+alongside document search (PLAN.md; CLAUDE.md, rule 6: figures come from retrieved sources or a
+sourced rules-table row).
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Source of truth | `sources/rules.yaml` (reviewed in git), loaded by `python -m ingestion run --source rules` into `rules` (migration 0005); `--all` loads it after the sources. The table is replaced as a whole in one transaction. |
+| Row | `id`, `permit`, `nationality_scope`, `topic`, `stage`, `label` (fr, en), `value`, `quote`, `source`, `verified_by`, `verified_at`. `url`, `source_title` and `source_checked_at` come from the indexed chunks. |
+| Grounding checks | At load: the source has chunks in the index; the quote appears in the source's title or text (after normalising spaces and apostrophes); every figure of the value appears in the quote, French number words included. Any failure loads nothing. |
+| Verification | Rows are drafted from the sources and verified by the maintainer (`verified_by`, `verified_at`). The agent uses verified rows only; `evals.agent --rules all` evaluates drafts. |
+| Tool | `rag.rules.RulesTool.lookup`: one SELECT. French and English patterns detect the asked topic and the named permits; a row is returned when its topic is asked and, if permits are named, its permit is one of them; Algerian rows for an Algerian national, general rows otherwise; at most 5 rows. |
+| Agent | Node `eligibility` between `clarify` and `retrieve`. Rows are given to the model as `R1`..`R5` (prompt `answer.v4`), cited like sources, checked by the citation checker against their label, value and quote, and shown as the official source they quote (`rule` field of the source). |
+
+**Consequences.** First load (2026-11-27): 27 rows, all grounding checks passed, 0 verified.
+On golden v1 the tool offers rows for 9 of the 24 answer items. With the draft rows
+(`--rules all`) against no rules (`--rules none`), same code and day: behaviour accuracy 1.000 in
+both; key-fact figure recall 0.480 to 0.522; 2 answers cite a rule. The gain is small because
+the same figures are usually in the retrieved chunks; the rows fill figures retrieval missed
+(internship stipend threshold, job-search card deadlines). The figure-recall metric counts
+every number in `key_facts`, including article and decision numbers an answer need not repeat,
+so its absolute value understates figure accuracy; it is used for comparisons only. Thresholds
+that change by decree (salary thresholds, fees) now have one row each to update.

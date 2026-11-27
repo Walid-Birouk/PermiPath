@@ -1,9 +1,12 @@
 # User-facing fixed texts: notices and the refuse / handoff / abstain responses (FR, EN).
 #
-# Status: DRAFT. Final wording is the maintainer's (CLAUDE.md, "Things only Walid does").
+# Wording approved by the maintainer (CLAUDE.md, "Things only Walid does"); changes need his
+# approval again.
 # No legal figures (rule 6) and no links other than official ones already in the index.
 
-status: draft
+status: approved
+approved_by: Walid
+approved_at: 2026-11-27
 
 notices:
   not_legal_advice:

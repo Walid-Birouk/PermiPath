@@ -15,6 +15,9 @@ Metrics:
 - Governing source cited first: answered Algerian answer items whose first cited source is
   `winning_source`.
 - Removed sentences: sentences removed by the citation checker, over generated sentences.
+- Key-fact figure recall: answered answer items: share of the figures in `key_facts` (digits)
+  that the answer states. A judge-free proxy for getting the figures right.
+- Items citing rules: answers citing at least one rules-table row.
 - Tokens and latency per question: embedding, prompt and completion tokens; wall time.
 
 `key_facts` coverage and faithfulness need a judge and are not measured here.
@@ -30,6 +33,7 @@ from typing import Any
 
 from evals import REPO_ROOT
 from evals.golden_set import GoldenItem, load_golden_set, set_path
+from rag.citations import figures
 
 REPORT_SCHEMA = "permipath.agent-eval.v1"
 
@@ -42,6 +46,9 @@ def score(item: GoldenItem, state: dict[str, Any], latency_ms: float) -> dict[st
     found = state.get("search")
     must = set(item.must_cite)
     answered = item.expected_behaviour == "answer" and response["kind"] == "answer" and bool(must)
+    texts = [s["text"] for s in response["sentences"]] if response["kind"] == "answer" else []
+    expected_figures = set().union(set(), *(figures(f) for f in item.key_facts))
+    stated = set().union(set(), *(figures(t) for t in texts))
     return {
         "id": item.id,
         "expected": item.expected_behaviour,
@@ -62,6 +69,14 @@ def score(item: GoldenItem, state: dict[str, Any], latency_ms: float) -> dict[st
         "sentences_kept": len(checked.kept) if checked else 0,
         "sentences_removed": len(checked.dropped) if checked else 0,
         "removed_reasons": [d.reason for d in checked.dropped] if checked else [],
+        "answer": texts,
+        "key_fact_figures": sorted(expected_figures),
+        "key_fact_figures_stated": sorted(expected_figures & stated),
+        "key_fact_figure_recall": (len(expected_figures & stated) / len(expected_figures))
+        if answered and expected_figures
+        else None,
+        "rules_offered": [r.id for r in state.get("rules", [])],
+        "rules_cited": sorted({s["rule"] for s in response["sources"] if s.get("rule")}),
         "embedding_tokens": found.embedding_tokens if found else 0,
         "prompt_tokens": draft.prompt_tokens if draft else 0,
         "completion_tokens": draft.completion_tokens if draft else 0,
@@ -88,6 +103,8 @@ def summarise(items: list[dict[str, Any]]) -> dict[str, Any]:
             k: {"accuracy": _mean(v), "items": len(v)} for k, v in sorted(by_behaviour.items())
         },
         "expected_source_cited": _mean([i["expected_source_cited"] for i in items]),
+        "key_fact_figure_recall": _mean([i["key_fact_figure_recall"] for i in items]),
+        "items_citing_rules": sum(1 for i in items if i["rules_cited"]),
         "citation_precision": _mean([i["citation_precision"] for i in items]),
         "governing_source_cited_first": _mean([i["governing_first"] for i in items]),
         "removed_sentence_rate": round(removed / (kept + removed), 3) if kept + removed else None,
@@ -110,11 +127,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--set", default="golden")
     parser.add_argument("--include-drafts", action="store_true")
     parser.add_argument("--out", type=Path)
+    parser.add_argument(
+        "--rules",
+        choices=("verified", "all", "none"),
+        default="verified",
+        help="rules-table rows the agent may use: verified (default), all (drafts too), none",
+    )
     args = parser.parse_args(argv)
 
     golden = load_golden_set(set_path(args.set))
     selected = [i for i in golden.items if args.include_drafts or i.verified]
-    agent = _default_agent()
+    agent = _default_agent(rules=args.rules)
     today = datetime.now(UTC).date()
     items = []
     for item in selected:
@@ -130,6 +153,7 @@ def main(argv: list[str] | None = None) -> int:
             "answer_model": ANSWER_MODEL,
             "prompt": PROMPT_VERSION,
             "in_force_on": str(today),
+            "rules": args.rules,
         },
         "summary": summarise(items),
         "items": items,

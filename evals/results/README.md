@@ -8,6 +8,7 @@ closes a build step.
 |---|---|---|---|
 | `step-3/` | v1, 32 items verified 2026-11-27, 24 scored | 757 chunks (20 fact sheets, 245 law sources, 17 treaty sources, 1 decision) | `vector`, `bge-m3-index`, `baseline-sp`, and the six `grid-<corpus>-<model>` cells. Summary and findings: `docs/eval-results.md`. |
 | `step-4/` | v1, 32 items verified, 24 scored for retrieval | 757 chunks | `hybrid`, `hybrid-precedence` (retrieval of the agent), `agent` and `agent-run2` (end to end, prompt v3). Summary: `docs/eval-results.md`, D-016 to D-018. |
+| `step-5/` | v1, 32 items verified | 757 chunks, 27 draft rules | `agent-rules-none` and `agent-rules-all` (prompt v4; same code, with and without the draft rules). Summary: `docs/eval-results.md`, D-019. |
 
 Compare a later run with the step-3 reference:
 

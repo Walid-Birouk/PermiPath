@@ -92,7 +92,8 @@ uv run python -m ingestion embed                        # fill missing embedding
 
 | Command | Effect |
 |---------|--------|
-| `run --all` / `run --source sp\|legifrance\|treaty\|case_law` | Loads the selected sources and syncs them: new chunks added, changed chunks archived and their embedding reset, removed chunks deleted; one changelog entry per change. Re-running without source changes writes nothing. |
+| `run --all` / `run --source sp\|legifrance\|treaty\|case_law\|rules` | Loads the selected sources and syncs them: new chunks added, changed chunks archived and their embedding reset, removed chunks deleted; one changelog entry per change. Re-running without source changes writes nothing. |
+| `run --source rules` | Checks every row of `sources/rules.yaml` against the index (source indexed, quote verbatim, value figures in the quote) and replaces the `rules` table; nothing is loaded if a row fails. `--all` runs it after the sources. With `--dry-run`, checks only. |
 | `run ... --date YYYY-MM-DD` | In-force date for legal texts (default: today, UTC). |
 | `embed` | Embeds every chunk whose embedding is empty, in batches of at most 32 chunks and 40,000 characters, one transaction per batch. An interrupted run resumes where it stopped. Billed per input token; the token count is printed. |
 | `embed --limit N` | Embeds at most N chunks. |
@@ -128,7 +129,7 @@ uv run --project backend python -m evals.compare reports/BASE.json reports/NEW.j
 | `run_evals --pipeline baseline-sp` | Runs the baseline: questions embedded locally with BAAI/bge-m3 on CPU (optional dependency group `baseline`, about 2.2 GB of model files on first use), ranked against the dataset's own vectors. |
 | `run_evals --pipeline bge-m3-index` | Model comparison: the index's chunks embedded locally with bge-m3 (cached in `reports/cache/`; the first run embeds every chunk on CPU, several minutes), ranked like `vector`. Needs `--group baseline`. |
 | `evals.grid` | Embeds three corpora (`service-public` dataset chunks, the index's chunks of the same sheets, the whole index) with `mistral-embed` and local bge-m3, runs the golden set on each of the six cells and prints one table. Passage vectors are cached in `reports/cache/grid-*.json`; index vectors for `mistral-embed` come from the database. |
-| `evals.agent` | Runs every verified item through the agent graph (`mistral-embed`, `mistral-small-2603`; billed) and writes `reports/<date>-agent.json`: behaviour accuracy, cited sources, governing source first, sentences removed, tokens, latency. |
+| `evals.agent` | Runs every verified item through the agent graph (`mistral-embed`, `mistral-small-2603`; billed) and writes `reports/<date>-agent.json`: behaviour accuracy, cited sources, governing source first, key-fact figure recall, sentences removed, tokens, latency. `--rules verified\|all\|none` selects the rules-table rows the agent may use. |
 | `evals.compare` | Renders the summary metrics of two reports and their difference as a markdown table. |
 
 Metrics and report format: D-014 in `docs/decisions.md`; published comparisons:

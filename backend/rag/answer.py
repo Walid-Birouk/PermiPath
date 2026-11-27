@@ -1,4 +1,4 @@
-"""The `answer` step: a structured answer from retrieved chunks (prompt `prompts/answer.v1.md`).
+"""The `answer` step: a structured answer from retrieved chunks and rules (`prompts/`).
 
 The model is behind `Answerer`, so the graph is tested with a fake. `MistralAnswerer` uses
 `langchain_mistralai.ChatMistralAI.with_structured_output` (`json_schema` mode: with
@@ -17,12 +17,14 @@ from pydantic import BaseModel, Field
 from rag.citations import AnswerSentence
 from rag.precedence import PrecedenceDecision
 from rag.retrieval import RetrievedChunk
+from rag.rules import RuleRow
 
-PROMPT_VERSION = "answer.v3"
+PROMPT_VERSION = "answer.v4"
 """Prompt history (each version is kept for the reports made with it; all 2026-11-27):
 v1 first version; v2 sources labelled S1..Sn (long chunk ids were mangled by the model),
 partial and "does not apply" answers allowed; v3 a related rule is not an answer (decline when
-no source states what is asked, e.g. statistics or one prefecture's practice)."""
+no source states what is asked, e.g. statistics or one prefecture's practice); v4 rules from the
+rules table, labelled R1..Rn (build step 5)."""
 PROMPT_PATH = Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md"
 ANSWER_MODEL = "mistral-small-2603"
 EXCERPT_CHARS = 1800
@@ -74,6 +76,7 @@ class Answerer(Protocol):
         lang: Literal["fr", "en"],
         chunks: Sequence[RetrievedChunk],
         decision: PrecedenceDecision,
+        rules: Sequence[RuleRow] = (),
     ) -> DraftAnswer: ...
 
 
@@ -82,6 +85,7 @@ def render_prompt(
     lang: Literal["fr", "en"],
     chunks: Sequence[RetrievedChunk],
     decision: PrecedenceDecision,
+    rules: Sequence[RuleRow] = (),
 ) -> str:
     key: str = decision.governing
     if decision.topic == "procedure":
@@ -89,11 +93,16 @@ def render_prompt(
     sources = "\n\n".join(
         f"{label(i)} {c.title}\n{c.text[:EXCERPT_CHARS]}" for i, c in enumerate(chunks)
     )
+    rules_block = ""
+    if rules:
+        listed = "\n\n".join(f"{rule_label(i)} {r.text(lang)}" for i, r in enumerate(rules))
+        rules_block = f"\nRules:\n{listed}\n"
     return PROMPT_PATH.read_text(encoding="utf-8").format(
         lang_name=LANG_NAMES[lang],
         precedence_instruction=PRECEDENCE_INSTRUCTIONS[key],
         question=question,
         sources=sources,
+        rules=rules_block,
     )
 
 
@@ -101,15 +110,21 @@ def label(index: int) -> str:
     return f"S{index + 1}"
 
 
+def rule_label(index: int) -> str:
+    return f"R{index + 1}"
+
+
 def to_draft(
     structured: StructuredAnswer,
     usage: dict[str, Any] | None = None,
     chunks: Sequence[RetrievedChunk] = (),
+    rules: Sequence[RuleRow] = (),
 ) -> DraftAnswer:
     """Maps source labels back to chunk ids. An unknown label is kept as is, so the citation
     checker removes the sentence."""
     usage = usage or {}
     ids = {label(i): c.id for i, c in enumerate(chunks)}
+    ids |= {rule_label(i): r.ref for i, r in enumerate(rules)}
     return DraftAnswer(
         declined=structured.declined,
         sentences=[
@@ -142,15 +157,16 @@ class MistralAnswerer:
         lang: Literal["fr", "en"],
         chunks: Sequence[RetrievedChunk],
         decision: PrecedenceDecision,
+        rules: Sequence[RuleRow] = (),
     ) -> DraftAnswer:
-        result = self._structured.invoke(render_prompt(question, lang, chunks, decision))
+        result = self._structured.invoke(render_prompt(question, lang, chunks, decision, rules))
         parsed = result.get("parsed") if isinstance(result, dict) else None
         raw = result.get("raw") if isinstance(result, dict) else None
         usage = getattr(raw, "usage_metadata", None)
         if not isinstance(parsed, StructuredAnswer):
             # Unparseable output: treated as no supported sentence (the gate abstains).
             return DraftAnswer(declined=False, sentences=[], **_tokens(usage))
-        return to_draft(parsed, usage, chunks)
+        return to_draft(parsed, usage, chunks, rules)
 
 
 def _tokens(usage: dict[str, Any] | None) -> dict[str, int]:

@@ -15,6 +15,7 @@ from rag.citations import AnswerSentence
 from rag.graph import Deps, build_graph
 from rag.precedence import PrecedenceDecision
 from rag.retrieval import Filters, RetrievalResult, RetrievedChunk
+from rag.rules import RuleRow
 
 ON = date(2026, 11, 27)
 
@@ -73,6 +74,7 @@ class FakeAnswerer:
     draft: DraftAnswer
     seen: list[PrecedenceDecision] = field(default_factory=list)
     seen_chunks: list[list[str]] = field(default_factory=list)
+    seen_rules: list[list[str]] = field(default_factory=list)
 
     def answer(
         self,
@@ -80,17 +82,51 @@ class FakeAnswerer:
         lang: Any,
         chunks: Sequence[RetrievedChunk],
         decision: PrecedenceDecision,
+        rules: Sequence[RuleRow] = (),
     ) -> DraftAnswer:
         self.seen.append(decision)
         self.seen_chunks.append([c.id for c in chunks])
+        self.seen_rules.append([r.id for r in rules])
         return self.draft
 
 
+@dataclass
+class FakeRules:
+    rows: list[RuleRow]
+    calls: list[tuple[str, bool]] = field(default_factory=list)
+
+    def lookup(self, question: str, algerian: bool) -> list[RuleRow]:
+        self.calls.append((question, algerian))
+        return [r for r in self.rows if (r.nationality_scope == "algerian") == algerian]
+
+
+RULE = RuleRow(
+    id="fictive-hours",
+    permit="cst_etudiant",
+    nationality_scope="all",
+    topic="work_limit",
+    label_fr="Plafond fictif",
+    label_en="Fictive cap",
+    value="321 heures par an",
+    quote="Le plafond fictif est de 321 heures par an.",
+    source_type="fact_sheet",
+    source_id="F1",
+    source_title="Titre F1",
+    url="https://example.test/F1",
+    source_checked_at=datetime(2026, 11, 20, tzinfo=UTC),
+    verified_at=date(2026, 11, 27),
+)
+
+
 def run(
-    question: str, chunks: list[RetrievedChunk], draft: DraftAnswer, **request: Any
+    question: str,
+    chunks: list[RetrievedChunk],
+    draft: DraftAnswer,
+    rules: FakeRules | None = None,
+    **request: Any,
 ) -> dict[str, Any]:
     answerer = FakeAnswerer(draft)
-    graph = build_graph(Deps(FakeRetriever(chunks), answerer))
+    graph = build_graph(Deps(FakeRetriever(chunks), answerer, rules))
     state = graph.invoke({"question": question, "on": ON, **request})
     response: dict[str, Any] = state["response"]
     response["_answerer"] = answerer
@@ -201,3 +237,37 @@ def test_personal_question_and_english_detection() -> None:
     assert response["lang"] == "en"
     assert response["notices"][0] == texts.notice("not_legal_advice", "en")
     assert texts.notice("personal", "en") in response["notices"]
+
+
+def test_eligibility_rules_are_passed_cited_and_shown_as_their_source() -> None:
+    draft = DraftAnswer(
+        False,
+        [
+            AnswerSentence("Le plafond est de 321 heures par an.", ("rule:fictive-hours",)),
+            AnswerSentence("La carte est valable 7 lunes.", ("fact_sheet:F1:0",)),
+        ],
+    )
+    rules = FakeRules([RULE])
+    response = run("Combien d'heures puis-je travailler ?", [SHEET], draft, rules)
+    assert rules.calls == [("Combien d'heures puis-je travailler ?", False)]
+    assert response["_answerer"].seen_rules == [["fictive-hours"]]
+    assert [s["sources"] for s in response["sentences"]] == [[1], [1]]
+    # The rule and the chunk quote the same sheet: one source, marked with the rule.
+    assert len(response["sources"]) == 1
+    assert response["sources"][0]["ref"] == "fact_sheet:F1"
+    assert response["sources"][0]["rule"] == "fictive-hours"
+
+
+def test_a_rule_figure_must_be_in_the_rule() -> None:
+    draft = DraftAnswer(
+        False, [AnswerSentence("Le plafond est de 999 heures.", ("rule:fictive-hours",))]
+    )
+    response = run("Combien d'heures ?", [SHEET], draft, FakeRules([RULE]))
+    assert response["kind"] == "abstain"
+
+
+def test_algerian_questions_get_algerian_rules_only() -> None:
+    algerian_rule = RuleRow(**{**RULE.__dict__, "id": "alg", "nationality_scope": "algerian"})
+    rules = FakeRules([RULE, algerian_rule])
+    run("Un étudiant algérien peut-il travailler ?", [AGREEMENT], SUPPORTED, rules)
+    assert rules.calls[0][1] is True
