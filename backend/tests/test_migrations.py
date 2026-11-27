@@ -149,8 +149,8 @@ def test_upgrade_remaps_existing_source_types(monkeypatch: pytest.MonkeyPatch) -
             )
         command.upgrade(cfg, "0002")
         with engine.begin() as conn:
-            result = conn.execute(text("SELECT id, source_type FROM chunks")).tuples().all()
-        rows: dict[str, str] = dict(result)
+            result = conn.execute(text("SELECT id, source_type FROM chunks")).all()
+        rows = {str(row[0]): str(row[1]) for row in result}
         assert rows == {"a": "law", "b": "fact_sheet"}
     finally:
         engine.dispose()
