@@ -4,9 +4,10 @@
         [--depth 20] [--include-drafts] [--out reports/YYYY-MM-DD-vector.json]
     uv run --project backend --group baseline python -m evals.run_evals --pipeline baseline-sp
 
-Pipelines: `vector` (the index of build step 2, `evals.retrievers`) and `baseline-sp` (the
+Pipelines: `vector` (the index of build step 2, `evals.retrievers`), `baseline-sp` (the
 pre-vectorised service-public dataset, `evals.baseline`; run `python -m evals.baseline fetch`
-first).
+first) and `bge-m3-index` (the index's chunks embedded locally with bge-m3,
+`evals.model_comparison`; the last two need `--group baseline`).
 
 Scope (build step 3): retrieval only. Items expecting an answer and listing `must_cite` are
 scored for source recall@k, reciprocal rank and, when `winning_source` is set, whether the
@@ -195,10 +196,23 @@ def _retriever(pipeline: str, stack: ExitStack) -> Retriever:
 
     from app.config import get_settings
     from db.session import make_engine
+
+    settings = get_settings()
+    if pipeline == "bge-m3-index":
+        from evals.baseline import SentenceTransformerEncoder
+        from evals.model_comparison import IndexModelRetriever
+
+        try:
+            local_encoder = SentenceTransformerEncoder()
+        except ImportError as exc:
+            raise ConfigError(f"{exc}; run with --group baseline") from exc
+        local_engine = make_engine(settings.database_url)
+        stack.callback(local_engine.dispose)
+        return IndexModelRetriever.from_database(local_engine, local_encoder)
+
     from evals.retrievers import VectorRetriever
     from rag.embeddings import MistralEmbedder
 
-    settings = get_settings()
     if settings.mistral_api_key is None:
         raise ConfigError("MISTRAL_API_KEY is not set in .env")
     engine = make_engine(settings.database_url)
@@ -210,7 +224,9 @@ def _retriever(pipeline: str, stack: ExitStack) -> Retriever:
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m evals.run_evals")
     parser.add_argument("--set", default="golden", help="golden set name (evals/golden/NAME.yaml)")
-    parser.add_argument("--pipeline", choices=("vector", "baseline-sp"), default="vector")
+    parser.add_argument(
+        "--pipeline", choices=("vector", "baseline-sp", "bge-m3-index"), default="vector"
+    )
     parser.add_argument("--depth", type=int, default=DEFAULT_DEPTH, help="chunks retrieved")
     parser.add_argument("--include-drafts", action="store_true", help="also run draft items")
     parser.add_argument("--out", type=Path, default=None, help="report path (JSON)")

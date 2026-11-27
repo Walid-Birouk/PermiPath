@@ -122,6 +122,7 @@ uv run --project backend python -m evals.compare reports/BASE.json reports/NEW.j
 | `evals.run_evals` | Runs verified items (`--include-drafts` for all) through a retriever and writes `reports/<date>-<pipeline>.json` (git-ignored). Embeds each question with `mistral-embed`. |
 | `evals.baseline fetch` | Saves the rows of the manifest's fact sheets from the pre-vectorised service-public dataset (`AgentPublic/service-public`) to `reports/cache/service-public-baseline.json`, with the dataset revision. |
 | `run_evals --pipeline baseline-sp` | Runs the baseline: questions embedded locally with BAAI/bge-m3 on CPU (optional dependency group `baseline`, about 2.2 GB of model files on first use), ranked against the dataset's own vectors. |
+| `run_evals --pipeline bge-m3-index` | Model comparison: the index's chunks embedded locally with bge-m3 (cached in `reports/cache/`; the first run embeds every chunk on CPU, several minutes), ranked like `vector`. Needs `--group baseline`. |
 | `evals.compare` | Renders the summary metrics of two reports and their difference as a markdown table. |
 
 Metrics and report format: D-014 in `docs/decisions.md`; published comparisons:

@@ -14,7 +14,8 @@ Metric definitions and report format: D-014 in `docs/decisions.md`. Golden set:
 | Query embedding tokens | Tokens billed to embed the questions. |
 
 Pipelines: `baseline-sp` (pre-vectorised service-public dataset, DINUM, BAAI/bge-m3; same 19
-fact sheets as the index) and `vector` (the index of build step 2, `mistral-embed`). Details:
+fact sheets as the index) `vector` (the index of build step 2, `mistral-embed`) and `bge-m3-index` (the same chunks
+embedded with bge-m3: model comparison). Details:
 D-014.
 
 No comparison has been recorded yet: the golden set has no verified item.
