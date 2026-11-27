@@ -352,3 +352,32 @@ tuning. The filters alone raise vector-only results (recall@5 0.708 to 0.729, MR
 remaining gap is the job of the precedence node. `mistral-embed` query vectors vary slightly
 between calls (MRR 0.777 and 0.798 for the same configuration on two runs): differences of a
 few hundredths between runs are noise at this set size.
+
+## D-017 — Decision logic outside the graph: scope, precedence, citations, abstain
+
+**Context.** Build step 4 requires the guardrails, precedence, citation checking and abstain
+gate to be project modules unit-tested without LangChain (CLAUDE.md, Stack). Retrieval scores do
+not separate answerable from unanswerable questions on golden v1: the two abstain items have a
+top cosine of 0.738 and 0.833, answer items 0.765 to 0.923, and every question has lexical
+matches.
+
+**Decision.**
+
+| Module | Rule |
+|---|---|
+| `guardrails.scope` | Keyword patterns (FR, EN), in order: handoff (OQTF, refusal and appeal, expired permit or irregular stay, detention), then out of scope (asylum, family reunification, naturalisation), else in scope. `personal` flags "in my case" questions, which get a general answer plus the handoff notice. |
+| `guardrails.nationality` | Algerian only on an explicit mention (nationality, Algeria, "certificat de résidence"); otherwise unknown, and `clarify` asks. |
+| `rag.precedence` | Algerian question: topic `procedure` on an explicit procedural marker (where, online, ANEF, documents, fees, appointment), else `rights`. Rights: the agreement governs; the best 3 chunks of the agreement and case law are retrieved separately and merged; order agreement and case law, then Algerian sheets, then the rest. Procedure: Algerian sheets, general sheets, CESEDA, then the agreement. Other questions keep the retrieval order. |
+| `rag.citations` | A sentence is kept only if it cites retrieved chunk ids and every figure it states appears in a cited chunk (spaces inside numbers and decimal comma normalised). Dropped sentences are reported with the reason and never shown. |
+| `rag.abstain` | Abstain when retrieval returns nothing, the model declares the sources insufficient, or no sentence survives the citation checker. No similarity threshold. |
+
+Retrieval with precedence (`hybrid-precedence`, 24 scored items, 2026-11-27): recall@5 0.764,
+recall@10 0.799, MRR 0.849, right source wins 1.000 (7 of 7), against 0.743 / 0.792 / 0.801 /
+0.286 for `hybrid` and 0.708 / 0.722 / 0.819 / 0.143 for the step-3 reference.
+
+**Consequences.** The scope patterns and the procedural markers were checked against the golden
+questions (and further cases in the tests), so their accuracy on new questions is unmeasured:
+golden v2 needs held-out refuse, handoff and Algerian items. The figure check makes rule 6
+mechanical for generated text: a sentence whose number is not in its cited chunk is removed,
+even if the number is correct elsewhere. Behaviour accuracy (answer, refuse, handoff, abstain)
+is measured once the graph runs (part 3).

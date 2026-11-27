@@ -140,3 +140,32 @@ Not measured: `answer_correctness`, `faithfulness`, `citation_accuracy`, `refusa
 | g016 | 2 | 3 |
 | g018 | 3 | 5 |
 | g020 | 3 | 1 |
+
+## hybrid-precedence (mistral-embed) vs vector (mistral-embed)
+
+Reports: base 2026-11-27T17:29:37+00:00, candidate 2026-11-27T18:03:08+00:00. Set `golden` v1, 32 items, 24 scored.
+
+| Metric | Base | Candidate | Δ |
+|---|---|---|---|
+| Source recall@5 | 0.708 | 0.764 | +0.056 |
+| Source recall@10 | 0.722 | 0.799 | +0.076 |
+| MRR | 0.819 | 0.849 | +0.029 |
+| Right source wins | 0.143 | 1.000 | +0.857 |
+| Latency p50 (ms) | 223.800 | 259.300 | +35.500 |
+| Latency p95 (ms) | 571.900 | 756.100 | +184.200 |
+| Query embedding tokens | 748 | 748 | +0 |
+
+Not measured: `answer_correctness`, `faithfulness`, `citation_accuracy`, `refusal_abstain_accuracy`.
+
+| Item | First relevant rank (base) | (candidate) |
+|---|---|---|
+| g002 | 1 | 2 |
+| g004 | 2 | 5 |
+| g005 | 2 | 1 |
+| g006 | 1 | 2 |
+| g008 | 2 | 1 |
+| g013 | 1 | 2 |
+| g016 | 2 | 3 |
+| g018 | 3 | 1 |
+| g020 | 3 | 1 |
+| g022 | - | 3 |

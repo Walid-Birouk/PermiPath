@@ -218,11 +218,15 @@ def _retriever(pipeline: str, stack: ExitStack) -> Retriever:
     engine = make_engine(settings.database_url)
     stack.callback(engine.dispose)
     embedder = stack.enter_context(MistralEmbedder(settings.mistral_api_key.get_secret_value()))
-    if pipeline == "hybrid":
+    if pipeline in ("hybrid", "hybrid-precedence"):
         from evals.retrievers import HybridEvalRetriever
         from rag.retrieval import HybridRetriever
 
-        return HybridEvalRetriever(HybridRetriever(engine, embedder), datetime.now(UTC).date())
+        return HybridEvalRetriever(
+            HybridRetriever(engine, embedder),
+            datetime.now(UTC).date(),
+            precedence=pipeline == "hybrid-precedence",
+        )
     return VectorRetriever(engine, embedder)
 
 
@@ -231,7 +235,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--set", default="golden", help="golden set name (evals/golden/NAME.yaml)")
     parser.add_argument(
         "--pipeline",
-        choices=("vector", "hybrid", "baseline-sp", "bge-m3-index"),
+        choices=("vector", "hybrid", "hybrid-precedence", "baseline-sp", "bge-m3-index"),
         default="vector",
     )
     parser.add_argument("--depth", type=int, default=DEFAULT_DEPTH, help="chunks retrieved")
