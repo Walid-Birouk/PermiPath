@@ -14,7 +14,7 @@ ROOT_ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
 class Settings(BaseSettings):
     """Runtime configuration. Every value comes from the environment or a `.env` file."""
 
-    model_config = SettingsConfigDict(env_file=ROOT_ENV_FILE, extra="ignore")
+    model_config = SettingsConfigDict(env_file=ROOT_ENV_FILE, extra="ignore", env_ignore_empty=True)
 
     database_url: str = Field(
         description="Postgres connection URL. `postgresql://` is normalised to psycopg 3.",

@@ -155,18 +155,26 @@ uv run --project backend python -m evals.agent --trace   # full traces + per-ite
 
 ## Configuration
 
-All configuration is read from environment variables. `.env.example` lists every variable.
+All configuration is read from environment variables. `.env.example` lists every variable with
+where its value comes from and where it is set. Empty values count as unset.
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `DATABASE_URL` | Yes | Postgres URL. `postgresql://` URLs are converted to the psycopg 3 driver. |
-| `TEST_DATABASE_URL` | No | Disposable database for `db`-marked tests. |
-| `MISTRAL_API_KEY` | Later phases | Mistral API key (generation, embeddings, OCR). The project uses a Mistral Pro subscription; a key without a billing plan is refused with HTTP 402. |
-| `PISTE_CLIENT_ID`, `PISTE_CLIENT_SECRET` | For Légifrance | PISTE OAuth credentials for the Légifrance API. |
-| `PISTE_ENV` | No | `sandbox` (default) or `prod`. `PISTE_OAUTH_URL` / `PISTE_API_URL` override the hosts. |
-| `DAILY_QUESTION_LIMIT` | No | Per-client daily question limit. |
-| `MONTHLY_SPEND_CAP_EUR` | No | Monthly LLM spend cap, in euros. |
-| `CORS_ORIGINS` | No | JSON list of allowed browser origins. |
+| Variable | Set on | Required | Description |
+|----------|--------|----------|-------------|
+| `DATABASE_URL` | local, backend, GitHub | Yes | Postgres URL. `postgresql://` URLs are converted to the psycopg 3 driver. Production: Supabase session pooler. |
+| `SUPABASE_DATABASE_URL` | local | No | Production database, for deliberate local loads (migrations, ingestion, rules). Not read by the application. |
+| `TEST_DATABASE_URL` | local | No | Disposable database for `db`-marked tests. |
+| `MISTRAL_API_KEY` | local, backend, GitHub | Yes | Generation and embeddings. The project uses a Mistral Pro subscription; a key without a billing plan is refused with HTTP 402. |
+| `PISTE_CLIENT_ID`, `PISTE_CLIENT_SECRET` | local, GitHub | For ingestion | PISTE OAuth credentials for the Légifrance API. |
+| `PISTE_ENV` | local, GitHub | No | `sandbox` (default) or `prod`. `PISTE_OAUTH_URL` / `PISTE_API_URL` override the hosts. |
+| `DAILY_QUESTION_LIMIT` | backend | No | Questions per visitor per day (D-020). |
+| `MONTHLY_SPEND_CAP_EUR` | backend | No | Estimated monthly spend at which `/ask` pauses (D-020). |
+| `IP_HASH_SECRET` | backend | Production | Secret for the daily visitor hash. |
+| `TRUST_FORWARDED_FOR` | backend | Production | `true` behind the host's proxy. |
+| `PRICE_CHAT_INPUT_PER_M`, `PRICE_CHAT_OUTPUT_PER_M`, `PRICE_EMBED_INPUT_PER_M` | backend | No | Mistral list prices (USD per million tokens) for the spend cap and trace costs. |
+| `CORS_ORIGINS` | backend | Production | JSON list of allowed browser origins (the Vercel domain). |
+| `TRACING_MODE` | local, backend | No | `off`, `full` (local, evals) or `metadata` (production, no text; D-021). |
+| `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL`, `LANGFUSE_ENVIRONMENT` | local, backend | With tracing | Langfuse project keys, region URL and environment name. |
+| `API_URL` | Vercel | Yes | Backend URL for the frontend (server side only). |
 
 ## Data sources and licences
 
