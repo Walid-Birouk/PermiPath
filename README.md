@@ -73,6 +73,31 @@ uv run python -m ingestion.legifrance.check --article L422-1 --date 2026-11-26
 It fetches a token, locates CESEDA and prints the article version in force on the date.
 `--dump DIR` saves the raw responses.
 
+### Ingestion and embedding
+
+Sources are selected in `sources/manifest.yaml`. Ingestion needs `DATABASE_URL` (the local
+stack's database by default) and, for Légifrance and the Franco-Algerian agreement, the PISTE
+credentials. Embedding needs `MISTRAL_API_KEY`.
+
+```bash
+docker compose up -d db                                  # local Postgres + pgvector
+cd backend
+uv run alembic upgrade head
+uv run python -m ingestion run --all --dry-run          # load and chunk, no database access
+uv run python -m ingestion run --all                    # sync chunks, versions, changelog
+uv run python -m ingestion embed --dry-run              # chunks, characters, requests to send
+uv run python -m ingestion embed                        # fill missing embeddings (mistral-embed)
+```
+
+| Command | Effect |
+|---------|--------|
+| `run --all` / `run --source sp\|legifrance\|treaty` | Loads the selected sources and syncs them: new chunks added, changed chunks archived and their embedding reset, removed chunks deleted; one changelog entry per change. Re-running without source changes writes nothing. |
+| `run ... --date YYYY-MM-DD` | In-force date for legal texts (default: today, UTC). |
+| `embed` | Embeds every chunk whose embedding is empty, in batches of at most 32 chunks and 40,000 characters, one transaction per batch. An interrupted run resumes where it stopped. Billed per input token; the token count is printed. |
+| `embed --limit N` | Embeds at most N chunks. |
+
+Exit codes: `0` success, `1` a source or the provider failed, `2` configuration error.
+
 ### Frontend checks
 
 ```bash
@@ -89,7 +114,7 @@ All configuration is read from environment variables. `.env.example` lists every
 |----------|----------|-------------|
 | `DATABASE_URL` | Yes | Postgres URL. `postgresql://` URLs are converted to the psycopg 3 driver. |
 | `TEST_DATABASE_URL` | No | Disposable database for `db`-marked tests. |
-| `MISTRAL_API_KEY` | Later phases | Mistral API key (generation and embeddings). |
+| `MISTRAL_API_KEY` | Later phases | Mistral API key (generation, embeddings, OCR). The project uses a Mistral Pro subscription; a key without a billing plan is refused with HTTP 402. |
 | `PISTE_CLIENT_ID`, `PISTE_CLIENT_SECRET` | For Légifrance | PISTE OAuth credentials for the Légifrance API. |
 | `PISTE_ENV` | No | `sandbox` (default) or `prod`. `PISTE_OAUTH_URL` / `PISTE_API_URL` override the hosts. |
 | `DAILY_QUESTION_LIMIT` | No | Per-client daily question limit. |

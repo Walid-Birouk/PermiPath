@@ -12,6 +12,7 @@ from sqlalchemy import (
     Computed,
     Date,
     DateTime,
+    Index,
     Integer,
     Text,
     UniqueConstraint,
@@ -23,8 +24,10 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 EMBEDDING_DIM = 1024
 """Output dimension of `mistral-embed`."""
 
-SOURCE_TYPES = ("ceseda_article", "sp_sheet", "anef_guide")
-JOURNEY_STAGES = ("arriving", "renewing", "working", "finishing", "job_offer")
+SOURCE_TYPES = ("law", "treaty", "fact_sheet", "prefecture")
+AUTHORITIES = ("official", "secondary")
+NATIONALITY_SCOPES = ("all", "algerian")
+JOURNEY_STAGES = ("arriving", "renewing", "working", "finishing", "job_offer", "settling")
 LANGS = ("fr", "en")
 CHANGE_TYPES = ("added", "modified", "removed")
 REVIEW_STATUSES = ("pending", "reviewed", "rejected")
@@ -56,6 +59,11 @@ class Chunk(Base):
         CheckConstraint(_in("source_type", SOURCE_TYPES), name="ck_chunks_source_type"),
         CheckConstraint(_in("lang", LANGS), name="ck_chunks_lang"),
         CheckConstraint(_subset("journey_stages", JOURNEY_STAGES), name="ck_chunks_stages"),
+        CheckConstraint(_in("authority", AUTHORITIES), name="ck_chunks_authority"),
+        CheckConstraint(
+            _in("nationality_scope", NATIONALITY_SCOPES), name="ck_chunks_nationality_scope"
+        ),
+        Index("ix_chunks_filters", "nationality_scope", "source_type"),
     )
 
     id: Mapped[str] = mapped_column(Text, primary_key=True)
@@ -66,6 +74,9 @@ class Chunk(Base):
     url: Mapped[str] = mapped_column(Text)
     text: Mapped[str] = mapped_column(Text)
     lang: Mapped[str] = mapped_column(Text)
+    authority: Mapped[str] = mapped_column(Text, server_default="official")
+    nationality_scope: Mapped[str] = mapped_column(Text, server_default="all")
+    prefecture: Mapped[str | None] = mapped_column(Text)
     journey_stages: Mapped[list[str]] = mapped_column(ARRAY(Text), server_default="{}")
     procedure_tags: Mapped[list[str]] = mapped_column(ARRAY(Text), server_default="{}")
     in_force_from: Mapped[date | None] = mapped_column(Date)
@@ -94,6 +105,9 @@ class ChunkVersion(Base):
     url: Mapped[str] = mapped_column(Text)
     text: Mapped[str] = mapped_column(Text)
     lang: Mapped[str] = mapped_column(Text)
+    authority: Mapped[str] = mapped_column(Text, server_default="official")
+    nationality_scope: Mapped[str] = mapped_column(Text, server_default="all")
+    prefecture: Mapped[str | None] = mapped_column(Text)
     journey_stages: Mapped[list[str]] = mapped_column(ARRAY(Text))
     procedure_tags: Mapped[list[str]] = mapped_column(ARRAY(Text))
     in_force_from: Mapped[date | None] = mapped_column(Date)

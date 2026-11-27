@@ -17,6 +17,8 @@ IN scope (the "journey"):
 3. Working while studying — hour limits, internships
 4. Finishing studies — job-search / business-creation permit (RECE)
 5. Job offer — change of status to salarié or talent – salarié qualifié
+6. Settling — long-term residence after the job offer (multi-year, resident and 10-year
+   Algerian certificates), as information only
 
 **Algerian nationals are IN scope, as a deliberate feature.** Their residence rights are governed
 by the Franco-Algerian agreement of 27 December 1968 (amended 1985, 1994, 2001), not by CESEDA.
@@ -124,8 +126,7 @@ docs/             architecture.md, decisions.md, eval-results.md
 ```
 
 ## Data model essentials
-Each chunk stores: `id`, `source_type` (law | treaty | fact_sheet | prefecture; the current
-migration still has ceseda_article | sp_sheet | anef_guide — migrate in build step 2), `authority`
+Each chunk stores: `id`, `source_type` (law | treaty | fact_sheet | prefecture; migration 0002), `authority`
 (official | secondary), `nationality_scope` (all | algerian), `source_id` (article ID / sheet ID /
 treaty clause), `prefecture` (nullable), `title`, `url`, `text`, `lang`, `journey_stages[]`,
 `procedure_tags[]`, `in_force_from`, `in_force_to`, `source_updated_at`, `fetched_at`,
