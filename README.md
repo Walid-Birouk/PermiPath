@@ -110,6 +110,7 @@ uv run --project backend python -m evals.draft sources F2713          # find mus
 uv run --project backend python -m evals.run_evals --set golden --pipeline vector
 uv run --project backend python -m evals.baseline fetch               # baseline snapshot
 uv run --project backend --group baseline python -m evals.run_evals --pipeline baseline-sp
+uv run --project backend --group baseline python -m evals.grid    # model x corpus grid
 uv run --project backend python -m evals.compare reports/BASE.json reports/NEW.json \
     --append docs/eval-results.md
 ```
@@ -123,6 +124,7 @@ uv run --project backend python -m evals.compare reports/BASE.json reports/NEW.j
 | `evals.baseline fetch` | Saves the rows of the manifest's fact sheets from the pre-vectorised service-public dataset (`AgentPublic/service-public`) to `reports/cache/service-public-baseline.json`, with the dataset revision. |
 | `run_evals --pipeline baseline-sp` | Runs the baseline: questions embedded locally with BAAI/bge-m3 on CPU (optional dependency group `baseline`, about 2.2 GB of model files on first use), ranked against the dataset's own vectors. |
 | `run_evals --pipeline bge-m3-index` | Model comparison: the index's chunks embedded locally with bge-m3 (cached in `reports/cache/`; the first run embeds every chunk on CPU, several minutes), ranked like `vector`. Needs `--group baseline`. |
+| `evals.grid` | Embeds three corpora (`service-public` dataset chunks, the index's chunks of the same sheets, the whole index) with `mistral-embed` and local bge-m3, runs the golden set on each of the six cells and prints one table. Passage vectors are cached in `reports/cache/grid-*.json`; index vectors for `mistral-embed` come from the database. |
 | `evals.compare` | Renders the summary metrics of two reports and their difference as a markdown table. |
 
 Metrics and report format: D-014 in `docs/decisions.md`; published comparisons:
