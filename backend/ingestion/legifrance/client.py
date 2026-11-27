@@ -34,6 +34,7 @@ for /loda/article_lc/ and /codes/id/ pages)."""
 _OPEN_END_YEAR = 2999
 _TOKEN_EXPIRY_MARGIN_S = 60.0
 _BODY_EXCERPT = 300
+_MAX_RETRY_DELAY_S = 60.0
 _TYPOGRAPHIC_APOSTROPHE = "\N{RIGHT SINGLE QUOTATION MARK}"
 
 ResponseHook = Callable[[str, Any], None]
@@ -100,6 +101,8 @@ class LegifranceClient:
         *,
         http: httpx2.Client | None = None,
         clock: Callable[[], float] = time.monotonic,
+        sleep: Callable[[float], None] = time.sleep,
+        max_quota_retries: int = 4,
         on_response: ResponseHook | None = None,
     ) -> None:
         self._endpoints = endpoints
@@ -107,6 +110,8 @@ class LegifranceClient:
         self._client_secret = client_secret
         self._http = http or httpx2.Client(timeout=httpx2.Timeout(30.0, connect=5.0))
         self._clock = clock
+        self._sleep = sleep
+        self._max_quota_retries = max_quota_retries
         self._on_response = on_response
         self._token: str | None = None
         self._token_expires_at = 0.0
@@ -159,11 +164,18 @@ class LegifranceClient:
     # --- transport ------------------------------------------------------------------------
 
     def post(self, path: str, body: dict[str, Any]) -> Any:
-        """POST JSON to an API path; on 401, refresh the token once and retry."""
+        """POST JSON to an API path. On 401, refresh the token once and retry. On 429 (quota),
+        wait (`Retry-After` seconds, else exponential backoff) and retry up to
+        `max_quota_retries` times."""
         url = f"{self._endpoints.api_url}/{path}"
         response = self._send(url, body)
         if response.status_code == 401:
             self._token = None
+            response = self._send(url, body)
+        for attempt in range(self._max_quota_retries):
+            if response.status_code != 429:
+                break
+            self._sleep(_retry_delay(response, attempt))
             response = self._send(url, body)
         if response.status_code != 200:
             raise LegifranceApiError(path, response.status_code, response.text)
@@ -304,6 +316,14 @@ def _search_article_hits(payload: Any) -> list[dict[str, Any]]:
                 if extract.get("type") == "articles":
                     hits.append(extract)
     return hits
+
+
+def _retry_delay(response: httpx2.Response, attempt: int) -> float:
+    """Seconds to wait after a 429: the `Retry-After` header (seconds) when present and valid,
+    else 1, 2, 4, 8... seconds; never more than `_MAX_RETRY_DELAY_S`."""
+    header = response.headers.get("Retry-After", "")
+    delay = float(header) if header.isdigit() else float(2**attempt)
+    return min(delay, _MAX_RETRY_DELAY_S)
 
 
 def _parse_date(value: Any) -> date | None:

@@ -166,15 +166,43 @@ def test_quota_error_has_hint() -> None:
             return httpx2.Response(200, json={"access_token": "t", "expires_in": 3600})
         return httpx2.Response(429, text="Too Many Requests")
 
+    delays: list[float] = []
     client = LegifranceClient(
         ENDPOINTS,
         CLIENT_ID,
         CLIENT_SECRET,
         http=httpx2.Client(transport=httpx2.MockTransport(handler)),
+        sleep=delays.append,
     )
     with pytest.raises(LegifranceApiError, match="quota") as exc_info:
         client.find_code()
     assert exc_info.value.status_code == 429
+    assert delays == [1.0, 2.0, 4.0, 8.0]
+
+
+def test_quota_retry_honours_retry_after_then_succeeds() -> None:
+    responses = iter(
+        [
+            httpx2.Response(429, headers={"Retry-After": "3"}, text="Too Many Requests"),
+            httpx2.Response(200, json={"results": []}),
+        ]
+    )
+
+    def handler(request: httpx2.Request) -> httpx2.Response:
+        if request.url == ENDPOINTS.oauth_url:
+            return httpx2.Response(200, json={"access_token": "t", "expires_in": 3600})
+        return next(responses)
+
+    delays: list[float] = []
+    client = LegifranceClient(
+        ENDPOINTS,
+        CLIENT_ID,
+        CLIENT_SECRET,
+        http=httpx2.Client(transport=httpx2.MockTransport(handler)),
+        sleep=delays.append,
+    )
+    assert client.post("list/code", {}) == {"results": []}
+    assert delays == [3.0]
 
 
 # --- operations -----------------------------------------------------------------------------

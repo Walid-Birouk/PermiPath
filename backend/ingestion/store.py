@@ -46,12 +46,18 @@ def sync(
     drafts: list[ChunkDraft],
     complete_sources: Iterable[tuple[str, str]],
     fetched_at: datetime,
+    complete_source_types: Iterable[str] = (),
 ) -> ChangePlan:
-    """Plans and applies the changes for the source types present in `drafts` and
-    `complete_sources`. The caller commits."""
-    complete = list(complete_sources)
-    source_types = {d.source_type for d in drafts} | {st for st, _ in complete}
-    plan = plan_changes(stored_chunks(session, source_types), drafts, complete)
+    """Plans and applies the changes for the source types present in `drafts`,
+    `complete_sources` and `complete_source_types`. For a complete source type, every stored
+    source of that type is complete: a source no longer loaded is removed. The caller
+    commits."""
+    complete = set(complete_sources)
+    full_types = set(complete_source_types)
+    source_types = {d.source_type for d in drafts} | {st for st, _ in complete} | full_types
+    stored = stored_chunks(session, source_types)
+    complete |= {(s.source_type, s.source_id) for s in stored if s.source_type in full_types}
+    plan = plan_changes(stored, drafts, complete)
     apply_plan(session, plan, fetched_at)
     return plan
 
