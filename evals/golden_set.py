@@ -26,7 +26,9 @@ Behaviour = Literal["answer", "refuse", "handoff", "abstain"]
 """answer: in scope, official sources exist. refuse: out of scope. handoff: personal or urgent
 situation (general information + referral). abstain: in scope but no official source."""
 
-SourceRef = Annotated[str, StringConstraints(pattern=r"^(law|treaty|fact_sheet|prefecture):\S+$")]
+SourceRef = Annotated[
+    str, StringConstraints(pattern=r"^(law|treaty|fact_sheet|prefecture|case_law):\S+$")
+]
 
 
 def split_ref(ref: str) -> tuple[str, str]:

@@ -24,7 +24,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 EMBEDDING_DIM = 1024
 """Output dimension of `mistral-embed`."""
 
-SOURCE_TYPES = ("law", "treaty", "fact_sheet", "prefecture")
+SOURCE_TYPES = ("law", "treaty", "fact_sheet", "prefecture", "case_law")
 AUTHORITIES = ("official", "secondary")
 NATIONALITY_SCOPES = ("all", "algerian")
 JOURNEY_STAGES = ("arriving", "renewing", "working", "finishing", "job_offer", "settling")

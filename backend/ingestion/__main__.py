@@ -28,6 +28,7 @@ from ingestion.manifest import MANIFEST_PATH, load_manifest
 from ingestion.pipeline import (
     LoadResult,
     download_feed,
+    load_case_law,
     load_fact_sheets,
     load_laws,
     load_treaties,
@@ -36,7 +37,7 @@ from ingestion.pipeline import (
 from ingestion.service_public.parser import Sheet
 
 EXIT_OK, EXIT_SOURCE_ERROR, EXIT_CONFIG_ERROR = 0, 1, 2
-SOURCES = ("sp", "legifrance", "treaty")
+SOURCES = ("sp", "legifrance", "treaty", "case_law")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -63,7 +64,7 @@ def main(argv: list[str] | None = None) -> int:
         if "sp" in selected:
             results.append(load_fact_sheets(manifest, sheets, sheet_errors))
 
-    if selected & {"legifrance", "treaty"}:
+    if selected & {"legifrance", "treaty", "case_law"}:
         client = _legifrance_client()
         if client is None:
             return EXIT_CONFIG_ERROR
@@ -75,6 +76,8 @@ def main(argv: list[str] | None = None) -> int:
                 results.append(laws)
             if "treaty" in selected:
                 results.append(load_treaties(manifest, client, args.manifest.parent))
+            if "case_law" in selected:
+                results.append(load_case_law(manifest, client))
 
     for result in results:
         _print_result(result)

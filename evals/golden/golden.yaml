@@ -31,9 +31,14 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2231"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Le VLS-TS « étudiant » doit être validé dans les 3 mois suivant l'arrivée en France."
+      - "La validation se fait en ligne sur le site de l'administration des étrangers en France (service « Valider un VLS-TS et payer la taxe »)."
+      - "Une taxe de 100 € est payée lors de la validation du VLS-TS."
+      - "La validation permet d'être en séjour régulier et de franchir à nouveau la frontière de l'espace Schengen."
     verified_by: null
     verified_at: null
   - id: g002
@@ -43,9 +48,13 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2231"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Le VLS-TS « étudiant » doit être validé dans les 3 mois suivant l'arrivée en France."
+      - "La validation se fait en ligne sur le site de l'administration des étrangers en France (service « Valider un VLS-TS et payer la taxe »)."
+      - "Une taxe de 100 € est payée lors de la validation du VLS-TS."
     verified_by: null
     verified_at: null
   - id: g003
@@ -55,9 +64,16 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2231"
+      - "law:LEGIARTI000042801344"
+      - "law:LEGIARTI000042801346"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Le VLS-TS doit être validé dans les 3 mois suivant l'arrivée en France ; c'est la validation en ligne qui permet d'être en séjour régulier et de franchir à nouveau la frontière de l'espace Schengen."
+      - "Le VLS-TS « étudiant » ne permet de séjourner au-delà de 3 mois qu'à la condition que son titulaire déclare, dans les 3 mois suivant son entrée, la date d'entrée et son domicile au moyen d'un téléservice (article R431-17)."
+      - "Pour se maintenir en France au-delà de la durée du visa, l'étranger demande une carte de séjour et doit justifier avoir accompli cette formalité (article R431-18)."
+    notes: "R431-17 and R431-18 indexed through manifest include_articles (2026-11-27). The answer explains the rule in general; a user who is already past the deadline is in a personal, irregular situation and gets the handoff."
     verified_by: null
     verified_at: null
   - id: g004
@@ -67,9 +83,15 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2231"
+      - "law:LEGIARTI000042771654"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "La demande de titre de séjour se fait au plus tôt 4 mois et au plus tard 2 mois avant la fin de validité du VLS-TS."
+      - "La démarche se fait uniquement sur internet (service « Demander un titre de séjour étudiant »)."
+      - "Une attestation dématérialisée de dépôt est délivrée immédiatement ; elle n'est pas un document provisoire de séjour."
+      - "Il faut être inscrit (ou préinscrit) dans un établissement d'enseignement supérieur et justifier de ressources d'au moins 877,5 € par mois."
     verified_by: null
     verified_at: null
   - id: g005
@@ -79,9 +101,15 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2231"
+      - "fact_sheet:F35799"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "La carte de séjour temporaire « étudiant » est valable 1 an et renouvelable."
+      - "Après 1 an sous VLS-TS ou carte de séjour temporaire étudiant, un titre de séjour pluriannuel étudiant peut être délivré."
+      - "La durée du titre pluriannuel est celle restant à courir du cycle d'études ; elle est supérieure à 12 mois et ne peut pas dépasser 4 ans."
+      - "Le titre pluriannuel exige les conditions initiales (inscription, ressources) et le caractère réel et sérieux des études."
     verified_by: null
     verified_at: null
   - id: g006
@@ -91,9 +119,16 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2231"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Visa de long séjour en cours de validité ou titre de séjour."
+      - "Justificatif de domicile de moins de 6 mois et code e-photo."
+      - "Inscription ou préinscription produite par l'établissement d'enseignement."
+      - "Relevés de notes de l'année écoulée, dernier diplôme obtenu en France et attestation de réussite."
+      - "Justificatifs de ressources d'au moins 877,5 € par mois."
+      - "Exemplaire signé de l'engagement à respecter les principes de la République."
     verified_by: null
     verified_at: null
   - id: g007
@@ -103,9 +138,15 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2713"
+      - "law:LEGIARTI000042771654"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Un étudiant non européen titulaire d'un VLS-TS ou d'une carte de séjour étudiant peut travailler 964 heures par an maximum (60 % de la durée annuelle légale du travail) sans autorisation de travail."
+      - "La période annuelle commence à la délivrance de la carte ou à la validation du VLS-TS."
+      - "Le dépassement de cette limite expose au retrait et au refus de renouvellement du titre de séjour."
+      - "Les règles sont différentes pour les étudiants algériens."
     verified_by: null
     verified_at: null
   - id: g008
@@ -115,9 +156,15 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F16734"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Un étudiant étranger peut effectuer un stage, quelle que soit sa nationalité, mais il doit être en situation régulière en France."
+      - "Le stage se déroule obligatoirement dans le cadre d'une convention de stage signée entre les différentes parties."
+      - "La durée du stage est de 6 mois maximum par organisme d'accueil et par année d'enseignement."
+      - "Une gratification minimale est versée si le stage dure plus de 2 mois consécutifs au cours de la même année d'enseignement."
+    notes: "F16734 added to the manifest (2026-11-27)."
     verified_by: null
     verified_at: null
   - id: g009
@@ -127,9 +174,13 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2713"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "La déclaration est faite par l'employeur, pas par l'étudiant : déclaration nominative à la préfecture du département du siège de l'établissement employeur."
+      - "L'employeur doit l'accomplir au moins 2 jours ouvrables avant la date d'effet de l'embauche."
+      - "Sans réponse du préfet dans un délai de 2 jours ouvrables, la déclaration vaut vérification de l'autorisation de travail."
     verified_by: null
     verified_at: null
   - id: g010
@@ -139,9 +190,17 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F17319"
+      - "fact_sheet:F2229"
+      - "law:LEGIARTI000042771680"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Le diplômé peut demander une carte de séjour « recherche d'emploi ou création d'entreprise »."
+      - "Conditions : séjourner avec une carte étudiant et avoir obtenu au cours des 12 derniers mois un diplôme au moins équivalent au master (ou licence professionnelle, Mastère Spécialisé, MSc labellisé CGE)."
+      - "La carte est valable 1 an et n'est pas renouvelable."
+      - "Pendant sa validité, elle permet de travailler comme salarié sans autorisation de travail, pour un emploi en lien avec les études rémunéré plus de 2 800,53 € brut mensuel."
+      - "Cette carte ne concerne pas les étudiants algériens."
     verified_by: null
     verified_at: null
   - id: g011
@@ -151,9 +210,15 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F17319"
+      - "law:LEGIARTI000042771680"
+      - "law:LEGIARTI000042771684"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "La carte « recherche d'emploi ou création d'entreprise » permet de rester 1 an en France pour créer une entreprise en lien avec les études."
+      - "La demande comprend un justificatif d'un projet de création d'entreprise dans un domaine correspondant à la formation."
+      - "À la fin de la carte, si l'entreprise est créée, il est possible de demander la carte « entrepreneur/profession libérale » ou la carte pluriannuelle « talent - porteur de projet »."
     verified_by: null
     verified_at: null
   - id: g012
@@ -163,9 +228,13 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F17319"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "En France : la demande est déposée à la préfecture ou sous-préfecture du domicile dans les 2 mois précédant la fin de validité de la carte étudiant."
+      - "Le diplôme doit avoir été obtenu au cours des 12 derniers mois."
+      - "Après un retour à l'étranger : la demande prend la forme d'un VLS-TS auprès du consulat, dans un délai maximal de 4 ans après l'obtention du diplôme."
     verified_by: null
     verified_at: null
   - id: g013
@@ -175,9 +244,16 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2229"
+      - "fact_sheet:F15898"
+      - "fact_sheet:F2728"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Le futur employeur fait la demande d'autorisation de travail sur internet."
+      - "La demande de changement de statut se fait dans les 2 mois précédant la fin de validité de la carte de séjour étudiant."
+      - "Pour un diplômé de master, la situation de l'emploi n'est pas opposée si l'emploi est en relation avec la formation et rémunéré au moins 2 800,53 € brut mensuel, ou s'il figure sur la liste des métiers en tension."
+      - "Le dossier contient notamment la copie de l'autorisation de travail ; le certificat médical de l'Ofii est remis au moment de la remise du titre."
     verified_by: null
     verified_at: null
   - id: g014
@@ -187,9 +263,15 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F16922"
+      - "law:LEGIARTI000042771574"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "Conditions (parcours salarié qualifié) : diplôme obtenu en France au moins équivalent au master (ou niveau 1 labellisé CGE) et contrat de travail de plus de 3 mois."
+      - "La rémunération brute annuelle doit être supérieure ou égale à 39 582 €."
+      - "La carte est valable pour la durée du contrat de travail, dans la limite de 4 ans."
+      - "L'employeur n'a pas à demander d'autorisation de travail."
     verified_by: null
     verified_at: null
   - id: g015
@@ -199,9 +281,15 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2728"
+      - "fact_sheet:F16922"
+      - "fact_sheet:F17319"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "En cas de changement de statut vers une carte « salarié » ou « travailleur temporaire », l'employeur doit demander une autorisation de travail."
+      - "Pour la carte « talent - salarié qualifié », l'employeur n'a pas à demander d'autorisation de travail."
+      - "Pendant la validité de la carte « recherche d'emploi ou création d'entreprise », l'employeur est dispensé d'autorisation de travail."
     verified_by: null
     verified_at: null
   - id: g016
@@ -211,9 +299,14 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F2728"
+      - "fact_sheet:F16922"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "La rémunération ne peut pas être inférieure au Smic (ou au salaire de la convention collective s'il est plus élevé)."
+      - "Pour un diplômé de master dont l'emploi est en relation avec la formation, une rémunération d'au moins 2 800,53 € dispense de la publication préalable de l'offre."
+      - "La carte « talent - salarié qualifié » exige une rémunération brute annuelle d'au moins 39 582 €."
     verified_by: null
     verified_at: null
   - id: g017
@@ -223,9 +316,14 @@ items:
     nationality: any
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
+    must_cite:
+      - "fact_sheet:F35799"
     winning_source: null
-    key_facts: []
+    key_facts:
+      - "À la fin de la carte de séjour temporaire « salarié », il est possible de demander une carte pluriannuelle pour le même motif."
+      - "Il faut continuer à remplir les conditions de la carte temporaire et signer le contrat d'engagement à respecter les principes de la République."
+      - "Pour une 1re carte pluriannuelle : niveau A2 en français et réussite à l'examen civique, sauf après 65 ans."
+      - "La carte pluriannuelle salarié obtenue après une 1re année de séjour est en principe valable 4 ans."
     verified_by: null
     verified_at: null
   - id: g018
@@ -235,9 +333,16 @@ items:
     nationality: algerian
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
-    winning_source: null
-    key_facts: []
+    must_cite:
+      - "treaty:accord-franco-algerien-1968:protocole-titre-3"
+      - "treaty:accord-franco-algerien-1968:article-9"
+      - "fact_sheet:F2215"
+    winning_source: "treaty:accord-franco-algerien-1968:protocole-titre-3"
+    key_facts:
+      - "Le droit au séjour de l'étudiant algérien relève de l'accord franco-algérien (protocole, titre III), pas de la carte étudiant du CESEDA."
+      - "Il reçoit un certificat de résidence « étudiant » valable 1 an et renouvelable, sur attestation d'inscription ou de préinscription et justification de moyens d'existence suffisants."
+      - "Un visa de long séjour est exigé pour séjourner plus de 3 mois."
+      - "Les moyens d'existence sont d'au moins 877,5 € par mois ; la demande se fait sur internet."
     verified_by: null
     verified_at: null
   - id: g019
@@ -247,9 +352,16 @@ items:
     nationality: algerian
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
-    winning_source: null
-    key_facts: []
+    must_cite:
+      - "treaty:accord-franco-algerien-1968:protocole-titre-3"
+      - "fact_sheet:F2713"
+      - "fact_sheet:F2215"
+    winning_source: "treaty:accord-franco-algerien-1968:protocole-titre-3"
+    key_facts:
+      - "C'est l'accord franco-algérien qui s'applique : la règle des 964 heures du CESEDA ne vaut pas pour les étudiants algériens."
+      - "L'étudiant algérien peut travailler dans la limite d'un mi-temps annuel (50 % de la durée annuelle de travail de la branche ou de la profession)."
+      - "Il faut une autorisation provisoire de travail, demandée par l'employeur avant le début de l'activité, sur promesse d'embauche ou contrat de travail."
+      - "L'employeur fait une déclaration nominative à la préfecture au moins 2 jours ouvrables avant l'embauche."
     verified_by: null
     verified_at: null
   - id: g020
@@ -259,9 +371,17 @@ items:
     nationality: algerian
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
-    winning_source: null
-    key_facts: []
+    must_cite:
+      - "treaty:accord-franco-algerien-1968:article-7"
+      - "case_law:CETATEXT000053612496"
+      - "fact_sheet:F17319"
+    winning_source: "treaty:accord-franco-algerien-1968:article-7"
+    key_facts:
+      - "L'accord franco-algérien régit d'une manière complète les conditions dans lesquelles les ressortissants algériens peuvent être admis à séjourner en France ; les dispositions du CESEDA relatives aux différents titres de séjour ne leur sont pas applicables (Conseil d'État, 2 mars 2026, n° 500835)."
+      - "La carte de séjour « recherche d'emploi ou création d'entreprise » ne concerne donc pas les étudiants algériens."
+      - "L'accord ne prévoit pas de certificat de résidence pour la recherche d'emploi après les études."
+      - "Avec un contrat de travail visé par les services du ministre chargé de l'emploi, l'accord prévoit le certificat de résidence « salarié » (article 7 b)."
+    notes: "The 'no job-search certificate' fact follows from the CE holding (the agreement is complete) read with article 7, which lists every certificate. Decision indexed as case_law (2026-11-27)."
     verified_by: null
     verified_at: null
   - id: g021
@@ -271,9 +391,16 @@ items:
     nationality: algerian
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
-    winning_source: null
-    key_facts: []
+    must_cite:
+      - "treaty:accord-franco-algerien-1968:article-7"
+      - "fact_sheet:F2215"
+      - "fact_sheet:F2733"
+    winning_source: "treaty:accord-franco-algerien-1968:article-7"
+    key_facts:
+      - "L'accord (article 7 b) prévoit un certificat de résidence « salarié » valable 1 an, renouvelable, sur présentation d'un contrat de travail visé par les services du ministre chargé de l'emploi ; cette mention vaut autorisation de travail."
+      - "La demande d'autorisation de travail est à la charge du futur employeur."
+      - "Pour un titulaire d'une carte étudiant, l'administration vérifie l'adéquation entre diplômes et emploi, et un salaire au moins égal au Smic ou au minimum conventionnel."
+      - "En cas de changement de statut, le certificat coûte 250 € (taxe de 200 € et droit de timbre de 50 €) ; la demande est déposée à la préfecture du domicile."
     verified_by: null
     verified_at: null
   - id: g022
@@ -283,9 +410,15 @@ items:
     nationality: algerian
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
-    winning_source: null
-    key_facts: []
+    must_cite:
+      - "treaty:accord-franco-algerien-1968:article-7"
+      - "case_law:CETATEXT000053612496"
+    winning_source: "treaty:accord-franco-algerien-1968:article-7"
+    key_facts:
+      - "L'accord franco-algérien régit d'une manière complète la nature des titres de séjour qui peuvent être délivrés aux ressortissants algériens ; les dispositions du CESEDA relatives aux différents titres de séjour, dont la carte « talent », ne leur sont pas applicables (Conseil d'État, 2 mars 2026, n° 500835)."
+      - "L'article 7 de l'accord énumère les certificats de résidence (visiteur, salarié, activité soumise à autorisation, vie privée et familiale, travailleur temporaire, scientifique, profession artistique et culturelle) ; aucun ne correspond à la carte « talent »."
+      - "Après les études, la voie prévue par l'accord pour un emploi salarié est le certificat de résidence « salarié » (article 7 b)."
+    notes: "The CE decision is about a 'commerçant' certificate; its point 3 states the general rule (CESEDA residence titles do not apply to Algerians), which covers the talent card. Decision indexed as case_law (2026-11-27)."
     verified_by: null
     verified_at: null
   - id: g023
@@ -295,9 +428,15 @@ items:
     nationality: algerian
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
-    winning_source: null
-    key_facts: []
+    must_cite:
+      - "treaty:accord-franco-algerien-1968:article-7-bis"
+      - "fact_sheet:F2257"
+    winning_source: "treaty:accord-franco-algerien-1968:article-7-bis"
+    key_facts:
+      - "Après 3 ans de résidence ininterrompue avec un certificat d'1 an (visiteur, salarié, vie privée et familiale, travailleur temporaire, scientifique, profession artistique et culturelle), le préfet peut délivrer un certificat de 10 ans ; il tient compte des moyens d'existence."
+      - "Le certificat est délivré de plein droit dans certains cas, par exemple après plus de 10 ans de séjour régulier, sauf si l'intéressé a été titulaire d'un certificat « étudiant » pendant toute cette période."
+      - "Le certificat de 10 ans est gratuit, renouvelé automatiquement et permet d'exercer la profession de son choix."
+      - "La demande est déposée à la préfecture du domicile, avec les justificatifs de 3 ans de séjour régulier et des moyens d'existence ; il cesse d'être valable après une absence de plus de 3 ans consécutifs."
     verified_by: null
     verified_at: null
   - id: g024
@@ -307,9 +446,14 @@ items:
     nationality: algerian
     expected_behaviour: answer
     origin: "Candidate drafted for golden v1; question approved by the maintainer (2026-11-27)"
-    must_cite: []
-    winning_source: null
-    key_facts: []
+    must_cite:
+      - "fact_sheet:F2215"
+    winning_source: "fact_sheet:F2215"
+    key_facts:
+      - "La procédure (où et comment déposer) relève des règles générales : le renouvellement du certificat de résidence étudiant se fait sur internet (service « Demander un titre de séjour étudiant »)."
+      - "La demande est faite au plus tôt 4 mois et au plus tard 2 mois avant la fin de validité du document de séjour."
+      - "Le renouvellement coûte 100 € (droit de timbre de 50 € et taxe de 50 €) ; une demande hors délai entraîne un droit de visa de régularisation de 180 €."
+    notes: "Procedure question: per the precedence rule, service-public / CESEDA govern procedure, so winning_source is the fact sheet."
     verified_by: null
     verified_at: null
   - id: g025

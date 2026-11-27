@@ -215,6 +215,17 @@ class LegifranceClient:
         payload: dict[str, Any] = self.post("consult/jorf", {"textCid": text_cid})
         return payload
 
+    def decision(self, text_id: str) -> dict[str, Any]:
+        """`consult/juri`: a court decision (`text` object: `titre`, `ecli`, `texteHtml`, ...).
+
+        Response shape from a live call (fixture `consult_juri_CETATEXT000053612496.json`); the
+        PISTE Swagger has not been checked for optional fields."""
+        payload: dict[str, Any] = self.post("consult/juri", {"textId": text_id})
+        text = payload.get("text")
+        if not isinstance(text, dict) or not text.get("id"):
+            raise NotFoundError(f"Decision {text_id} not found")
+        return text
+
     def find_code(self, title: str = CESEDA_TITLE) -> CodeRef:
         payload = self.post(
             "list/code",

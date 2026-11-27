@@ -18,8 +18,14 @@ from db.models import JOURNEY_STAGES
 from ingestion.consolidation import consolidation_drafts, load_consolidation
 from ingestion.drafts import ChunkDraft, SourceMeta, SourceType
 from ingestion.legifrance.annex import annex_drafts
-from ingestion.legifrance.client import LegifranceClient, LegifranceError, NotFoundError
+from ingestion.legifrance.client import (
+    ArticleVersion,
+    LegifranceClient,
+    LegifranceError,
+    NotFoundError,
+)
 from ingestion.legifrance.jorf import jorf_drafts
+from ingestion.legifrance.juri import decision_drafts
 from ingestion.legifrance.loader import article_drafts
 from ingestion.legifrance.toc import TocIndex, resolve
 from ingestion.manifest import MANIFEST_PATH, Annex, Code, Manifest
@@ -104,6 +110,8 @@ def load_laws(
             ids = _cited_articles(index, code, sheet, result)
             for article_id in ids:
                 citing.setdefault(article_id, set()).update(stages.get(sheet.id, ()))
+        for included in code.include_articles:
+            citing.setdefault(included.article_id, set()).update(included.journey_stages)
         _fetch_articles(client, code, citing, on, result)
         for annex in code.annexes:
             _load_annex(client, code, annex, on, result)
@@ -150,8 +158,12 @@ def _fetch_articles(
     on: date,
     result: LoadResult,
 ) -> None:
-    seen: set[str] = set()
+    # Several ids (versions, or a cited and an included id) can resolve to the same article:
+    # index it once, with the union of their journey stages.
+    found: dict[str, tuple[ArticleVersion, set[str]]] = {}
     for article_id, stage_set in citing.items():
+        if article_id in code.exclude_articles:
+            continue
         try:
             article = client.version_in_force(article_id, on)
         except NotFoundError as exc:
@@ -160,10 +172,11 @@ def _fetch_articles(
         except LegifranceError as exc:
             result.errors.append(f"{code.label} {article_id}: {exc}")
             continue
-        key = article.cid or article.id
-        if key in seen or article.id in code.exclude_articles:
+        if article.id in code.exclude_articles:
             continue
-        seen.add(key)
+        key = article.cid or article.id
+        found.setdefault(key, (article, set()))[1].update(stage_set)
+    for article, stage_set in found.values():
         meta = SourceMeta(journey_stages=tuple(s for s in JOURNEY_STAGES if s in stage_set))
         result.drafts.extend(article_drafts(article, on, meta, code_label=code.label))
 
@@ -189,6 +202,23 @@ def load_treaties(
             continue
         if not drafts:
             result.errors.append(f"{text.jorf_cid}: no text returned")
+        result.drafts.extend(drafts)
+    return result
+
+
+# --- case law ---------------------------------------------------------------------------
+
+
+def load_case_law(manifest: Manifest, client: LegifranceClient) -> LoadResult:
+    result = LoadResult("case_law")
+    for decision in manifest.case_law.decisions:
+        try:
+            drafts = decision_drafts(client.decision(decision.id), decision.meta())
+        except LegifranceError as exc:
+            result.errors.append(f"{decision.id}: {exc}")
+            continue
+        if not drafts:
+            result.errors.append(f"{decision.id}: no text returned")
         result.drafts.extend(drafts)
     return result
 

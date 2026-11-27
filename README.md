@@ -91,7 +91,7 @@ uv run python -m ingestion embed                        # fill missing embedding
 
 | Command | Effect |
 |---------|--------|
-| `run --all` / `run --source sp\|legifrance\|treaty` | Loads the selected sources and syncs them: new chunks added, changed chunks archived and their embedding reset, removed chunks deleted; one changelog entry per change. Re-running without source changes writes nothing. |
+| `run --all` / `run --source sp\|legifrance\|treaty\|case_law` | Loads the selected sources and syncs them: new chunks added, changed chunks archived and their embedding reset, removed chunks deleted; one changelog entry per change. Re-running without source changes writes nothing. |
 | `run ... --date YYYY-MM-DD` | In-force date for legal texts (default: today, UTC). |
 | `embed` | Embeds every chunk whose embedding is empty, in batches of at most 32 chunks and 40,000 characters, one transaction per batch. An interrupted run resumes where it stopped. Billed per input token; the token count is printed. |
 | `embed --limit N` | Embeds at most N chunks. |

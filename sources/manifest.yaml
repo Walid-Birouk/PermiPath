@@ -49,6 +49,13 @@ fact_sheets:
       note: >-
         Separate "stagiaire" permit (interns coming for an internship), not the internship of
         an enrolled student. Keep only if in scope.
+    - id: F16734
+      title: "Stage d'un étudiant en milieu professionnel"
+      journey_stages: [working]
+      note: >-
+        Internship of an enrolled student (convention de stage, duration, gratification); states
+        that a foreign student may do an internship whatever their nationality, if their stay is
+        regular. Added for golden item g008.
     # --- Finishing studies / job offer --------------------------------------------------
     - id: F17319
       title: "Carte de séjour ou VLS-TS - Recherche d'emploi/création d'entreprise"
@@ -102,6 +109,21 @@ laws:
       title: "Code de l'entrée et du séjour des étrangers et du droit d'asile"
       exclude_articles:
         - LEGIARTI000043472320
+      include_articles:
+        # VLS-TS: no selected sheet cites these articles; they state the validation rule and
+        # what follows from it (golden item g003).
+        - article_id: LEGIARTI000051747516
+          label: R431-16
+          journey_stages: [arriving]
+          note: Visas exempting from a residence card; 13° is the student VLS-TS.
+        - article_id: LEGIARTI000042806968
+          label: R431-17
+          journey_stages: [arriving]
+          note: The VLS-TS allows a stay beyond 3 months only if declared online within 3 months of entry.
+        - article_id: LEGIARTI000051747510
+          label: R431-18
+          journey_stages: [arriving, renewing]
+          note: Staying beyond the visa requires a card and proof of the R431-17 formalities.
       annexes:
         # Annexe 10: supporting documents for each residence permit, a table of 69 rows
         # ("points"). Only the journey rows are indexed, one source per point.
@@ -158,3 +180,17 @@ treaties:
     # amendments. Indexed once its `status` is `verified` by the maintainer.
     - source_id: accord-franco-algerien-1968
       path: franco-algerian-agreement.yaml
+
+case_law:
+  # Légifrance / DILA, Licence Ouverte 2.0. Decisions as published (pseudonymised by Légifrance).
+  # Indexed only when a decision settles how the indexed texts apply.
+  decisions:
+    - id: CETATEXT000053612496
+      title: "Conseil d'État, 2ème - 7ème chambres réunies, 02/03/2026, 500835"
+      journey_stages: [finishing, job_offer, settling]
+      nationality_scope: algerian
+      note: >-
+        Mentioned in the Lebon tables. Holds that the 1968 agreement governs completely the
+        conditions of admission to stay of Algerian nationals, so the CESEDA provisions on the
+        residence titles and their conditions of issue do not apply to them (point 3). Source
+        for golden items g020 and g022 (talent and job-search cards).

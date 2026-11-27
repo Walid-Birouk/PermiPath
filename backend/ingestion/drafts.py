@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from datetime import date, datetime
 from typing import Literal
 
-SourceType = Literal["law", "treaty", "fact_sheet", "prefecture"]
+SourceType = Literal["law", "treaty", "fact_sheet", "prefecture", "case_law"]
 Authority = Literal["official", "secondary"]
 NationalityScope = Literal["all", "algerian"]
 

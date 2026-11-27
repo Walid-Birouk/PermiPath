@@ -75,6 +75,7 @@ OUT of scope (detect and say so clearly, do not answer):
 | 3 | Ministry page on the Franco-Algerian agreement | immigration.interieur.gouv.fr | Official guidance on Algerian-specific rules. |
 | 4 | Agreement text | JORF decrees (original + amendments, e.g. Decree 2002-1500 for the 3rd) | Official = original + amendments as published. GISTI consolidation = secondary, labelled; or rebuild the consolidation ourselves. |
 | 5 | Prefecture document lists (PDFs) | per prefecture | Start with 2–3 (Paris, Seine-Saint-Denis). `prefecture` is metadata. |
+| 5b | Case law (Conseil d'État, Cour de cassation) | Légifrance API `consult/juri` | Only decisions that settle how indexed texts apply (e.g. CESEDA titles do not apply to Algerians). Listed in the manifest (D-015). |
 | 6 | Forums / Facebook groups | — | NOT indexed. Eval questions only. |
 
 ## Stack
@@ -126,7 +127,7 @@ docs/             architecture.md, decisions.md, eval-results.md
 ```
 
 ## Data model essentials
-Each chunk stores: `id`, `source_type` (law | treaty | fact_sheet | prefecture; migration 0002), `authority`
+Each chunk stores: `id`, `source_type` (law | treaty | fact_sheet | prefecture | case_law; migrations 0002, 0004), `authority`
 (official | secondary), `nationality_scope` (all | algerian), `source_id` (article ID / sheet ID /
 treaty clause), `prefecture` (nullable), `title`, `url`, `text`, `lang`, `journey_stages[]`,
 `procedure_tags[]`, `in_force_from`, `in_force_to`, `source_updated_at`, `fetched_at`,
