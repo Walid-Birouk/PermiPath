@@ -26,6 +26,18 @@ removed; every remaining entry is unchanged.
 and the text after the table; `texte` keeps only the text up to the end of the header row.
 Kept rows are byte-identical to the recorded ones; all other fields are unchanged.
 
+## Journal officiel scans (text layer)
+
+`jo_scan_*.txt` files are the text layer of Journal officiel PDF issues (`JO_PAT` scans), as
+output by `pdftotext` (poppler) for the listed pages, unedited. Légifrance serves these PDFs
+only to browsers; they were saved by the maintainer.
+
+| File | Issue | PDF pages | Content |
+|---|---|---|---|
+| `jo_scan_JORF_19690322_69_p5-7.txt` | JO of 22 March 1969 | 5-7 | Décret n° 69-243 and the agreement of 27 December 1968 |
+| `jo_scan_JORF_19860308_57_p14-16.txt` | JO of 8 March 1986 | 14-16 | Décret n° 86-320 and the first amendment |
+| `jo_scan_JORF_19941220_294_p23-24.txt` | JO of 20 December 1994 | 23-24 | Décret n° 94-1103 and the second amendment |
+
 ## Source and licence
 
 Légifrance / DILA, Licence Ouverte 2.0.

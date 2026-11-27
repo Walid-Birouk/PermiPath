@@ -170,3 +170,66 @@ def test_verified_status_requires_a_reviewer() -> None:
     data["status"] = "verified"
     with pytest.raises(ValidationError, match="verified_by"):
         Consolidation.model_validate(data)
+
+
+# --- 1968 and 1985 wording against the JO scans -------------------------------------------
+
+JO_SCANS = {
+    "accord-1968": "jo_scan_JORF_19690322_69_p5-7.txt",
+    "avenant-1985": "jo_scan_JORF_19860308_57_p14-16.txt",
+}
+THIRD_AMENDMENT_WORDS = (
+    "l'article 6 nouveau",
+    "nouveau",
+    "après le contrôle médical d'usage",
+    "ministre chargé de l'emploi",
+    "de plein droit",
+    "vie privée et familiale",
+    "sous réserve de la régularité du séjour pour ce qui concerne les catégories visées au a, "
+    "au b, au c, et au g",
+    "ou de maladie professionnelle",
+    "ainsi qu'aux ayants droit d'un ressortissant algérien, bénéficiaires d'une rente de décès "
+    "pour accident de travail ou maladie professionnelle versée par un organisme français",
+    "au titre du regroupement familial",
+    "d'un document de voyage en cours de validité",
+    ", dans l'intérêt supérieur de l'enfant",
+    "portant la mention travailleur temporaire conformément à l'article 7 e de l'accord",
+)
+
+
+def _scan_text(name: str) -> str:
+    raw = (FIXTURES / name).read_text(encoding="utf-8")
+    joined = re.sub("\u00ad\\s*", "", raw).replace("\u2019", "'").replace("l*r", "1er")
+    return _normalise(joined)
+
+
+@pytest.mark.parametrize(
+    "provision_id",
+    [
+        "preambule",
+        "article-3",
+        "article-11",
+        "article-7",
+        "article-7-bis",
+        "protocole-titre-1",
+        "protocole-titre-2",
+        "protocole-titre-3",
+    ],
+)
+def test_1968_and_1985_wording_matches_the_jo_scans(provision_id: str) -> None:
+    """Outside the words set by the third amendment (and the 1985 change to article 3),
+    every alinéa is found in the text layer of the JO issue that published it."""
+    provision = next(p for p in _repo_consolidation().provisions if p.id == provision_id)
+    wording = [c for c in provision.history if c.change in ("original", "inserted", "replaced")]
+    source = wording[-1].instrument
+    scan = _scan_text(JO_SCANS[source])
+    third = _jorf_text(THIRD)
+    pattern = "|".join(re.escape(_normalise(w)) for w in (*THIRD_AMENDMENT_WORDS, "annuellement"))
+    for line in provision.text.splitlines():
+        text = _normalise(line)
+        if text in third:
+            continue  # alinéa written entirely by the third amendment
+        for segment in re.split(pattern, text):
+            segment = segment.strip(" ,;.:")
+            if len(segment) >= 12:
+                assert segment in scan, (provision_id, segment)

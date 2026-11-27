@@ -8,9 +8,8 @@
 # - Wording is reproduced from the source named in `transcribed_from` of the instrument that
 #   last set it. Amended passages are built only from the words quoted in the amending
 #   instrument; each change is listed in `history`.
-# - Typography of each source is kept (e.g. "A)" in the 1985 wording, "e)" in the 2001
-#   wording, "10 ans" and "dix ans"). Missing closing quotation marks in the Légifrance text of
-#   the third amendment are restored; see `editorial_notes`.
+# - Wording and typography follow the Journal officiel. Missing closing quotation marks in the
+#   Légifrance text of the third amendment are restored; see `editorial_notes`.
 # - Provisions repealed and not replaced have `status: repealed` and no text.
 
 version: 1
@@ -33,10 +32,10 @@ instruments:
     publication: Décret n° 69-243 du 18 mars 1969, JORF du 22 mars 1969
     publication_url: https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000694290
     transcribed_from: >-
-      Nations Unies, Recueil des Traités, vol. 677, n° 9640, p. 340-358 (texte authentique
-      français, enregistré par la France le 18 juin 1969); text layer checked against the page
-      images.
-    transcription_url: https://treaties.un.org/doc/Publication/UNTS/Volume%20677/volume-677-I-9640-French.pdf
+      JO du 22 mars 1969 (JORF_19690322_69.pdf), pages 5-7 of the PDF: text layer of the scan,
+      checked by tests/test_consolidation.py. Cross-read with Nations Unies, Recueil des Traités,
+      vol. 677, n° 9640 (French authentic text).
+    transcription_url: https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000694290
   - id: avenant-1985
     title: Premier avenant (avec protocole et échange de lettres), signé à Alger le 22 décembre 1985
     signed_on: 1985-12-22
@@ -44,10 +43,10 @@ instruments:
     publication: Décret n° 86-320 du 7 mars 1986, JORF du 8 mars 1986
     publication_url: https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000333424
     transcribed_from: >-
-      Nations Unies, Recueil des Traités, vol. 1485, A-9640, p. 376-381 (texte authentique
-      français, enregistré par la France le 6 novembre 1987); transcribed from the page images
-      (the text layer of this volume is unreliable).
-    transcription_url: https://treaties.un.org/doc/Publication/UNTS/Volume%201485/v1485.pdf
+      JO du 8 mars 1986 (JORF_19860308_57.pdf), pages 14-16 of the PDF: text layer of the scan,
+      checked by tests/test_consolidation.py. Cross-read with Nations Unies, Recueil des Traités,
+      vol. 1485, A-9640, p. 376-381.
+    transcription_url: https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000333424
   - id: avenant-1994
     title: Deuxième avenant, signé à Alger le 28 septembre 1994
     signed_on: 1994-09-28
@@ -74,15 +73,16 @@ provisions:
     part: accord
     label: Préambule
     text: |-
-      Dans le cadre de la Déclaration de principe des Accords d'Evian relative à la Coopération économique et financière,
+      Dans le cadre de la déclaration de principe des Accords d'Evian relative à la coopération économique et financière,
       Le Gouvernement de la République française et
       Le Gouvernement de la République algérienne démocratique et populaire,
-      soucieux d'apporter une solution globale et durable aux problèmes relatifs à la circulation, à l'emploi et au séjour des ressortissants algériens sur le territoire français;
-      conscients de la nécessité de maintenir un courant régulier de travailleurs, qui tienne compte du volume de l'immigration traditionnelle algérienne en France;
-      animés du désir de faciliter la promotion professionnelle et sociale des travailleurs algériens,
-      — d'améliorer leurs conditions de vie et de travail,
-      — de favoriser le plein emploi de ces travailleurs qui résident déjà en France, ou qui s'y rendent par le canal de l'Office National de la Main-d'œuvre, dans le cadre d'un contingent pluri-annuel déterminé d'un commun accord;
-      convaincus de l'intérêt de garantir et d'assurer la libre circulation des ressortissants algériens se rendant en France sans intention d'y exercer une activité professionnelle salariée,
+      Soucieux d'apporter une solution globale et durable aux problèmes relatifs à la circulation, à l'emploi et au séjour des ressortissants algériens sur le territoire français ;
+      Conscients de la nécessité de maintenir un courant régulier de travailleurs, qui tienne compte du volume de l'immigration traditionnelle algérienne en France ;
+      Animés du désir :
+      — de faciliter la promotion professionnelle et sociale des travailleurs algériens ;
+      — d'améliorer leurs conditions de vie et de travail ;
+      — de favoriser le plein emploi de ces travailleurs qui résident déjà en France ou qui s'y rendent par le canal de l'Office national de la main-d'œuvre, dans le cadre d'un contingent pluri-annuel déterminé d'un commun accord ;
+      Convaincus de l'intérêt de garantir et d'assurer la libre circulation des ressortissants algériens se rendant en France sans intention d'y exercer une activité professionnelle salariée,
       sont convenus de ce qui suit:
     history:
       - {instrument: accord-1968, change: original}
@@ -107,8 +107,8 @@ provisions:
     part: accord
     label: Article 3
     text: |-
-      Un effort spécial sera réalisé, avec des moyens accrus en faveur des travailleurs algériens, d'une part pour développer l'enseignement aux adultes, la préformation et la formation professionnelles, ainsi que l'accès aux divers cycles de la promotion du travail, d'autre part pour améliorer, d'une manière continue, les conditions de vie et de logement de ces travailleurs.
-      La Commission mixte, instituée à l'article 12 du présent accord, est chargée de suivre l'ensemble des réalisations dans ces différents domaines. Elle suivra le développement de cette action et recevra, à cet effet, annuellement, communication des résultats obtenus et des programmes établis.
+      Un effort spécial sera réalisé, avec des moyens accrus, en faveur des travailleurs algériens, d'une part pour développer l'enseignement aux adultes, la préformation et la formation professionnelles ainsi que l'accès aux divers cycles de la promotion du travail, d'autre part pour améliorer, d'une manière continue, les conditions de vie et de logement de ces travailleurs.
+      La commission mixte, instituée à l'article 12 du présent accord, est chargée de suivre l'ensemble des réalisations dans ces différents domaines. Elle suivra le développement de cette action et recevra, à cet effet, annuellement, communication des résultats obtenus et des programmes établis.
     history:
       - {instrument: accord-1968, change: original}
       - instrument: avenant-1985
@@ -175,11 +175,11 @@ provisions:
     label: Article 7
     journey_stages: [finishing, job_offer]
     text: |-
-      Les dispositions du présent article et de celles de l'article 7 bis fixent les conditions de délivrance du certificat de résidence aux ressortissants algériens autres que ceux visés à l'article 6 nouveau, ainsi qu'à ceux qui s'établissent en France après la signature du premier avenant à l'Accord.
-      A) Les ressortissants algériens qui justifient de moyens d'existence suffisants et qui prennent l'engagement de n'exercer, en France, aucune activité professionnelle soumise à autorisation, reçoivent après le contrôle médical d'usage un certificat de résidence valable un an, renouvelable et portant la mention «visiteur».
-      B) Les ressortissants algériens désireux d'exercer une activité professionnelle salariée reçoivent, après le contrôle médical d'usage et sur présentation d'un contrat de travail visé par les services du ministre chargé de l'emploi, un certificat de résidence valable un an pour toutes professions et toutes régions, renouvelable et portant la mention «salarié»; cette mention constitue l'autorisation de travail exigée par la législation française.
-      C) Les ressortissants algériens désireux d'exercer une activité professionnelle soumise à autorisation reçoivent, s'ils justifient l'avoir obtenue, un certificat de résidence valable un an, renouvelable et portant la mention de cette activité.
-      D) Les ressortissants algériens autorisés à séjourner en France au titre du regroupement familial, s'ils rejoignent un ressortissant algérien lui-même titulaire d'un certificat de résidence d'un an, reçoivent de plein droit un certificat de résidence de même durée de validité, renouvelable et portant mention « vie privée et familiale ».
+      Les dispositions du présent article et celles de l'article 7 bis fixent les conditions de délivrance du certificat de résidence aux ressortissants algériens autres que ceux visés à l'article 6 nouveau, ainsi qu'à ceux qui s'établissent en France après la signature du premier avenant à l'Accord :
+      a) les ressortissants algériens qui justifient de moyens d'existence suffisants et qui prennent l'engagement de n'exercer, en France, aucune activité professionnelle soumise à autorisation reçoivent après le contrôle médical d'usage un certificat de résidence valable un an renouvelable et portant la mention « visiteur » ;
+      b) Les ressortissants algériens désireux d'exercer une activité professionnelle salariée reçoivent, après le contrôle médical d'usage et sur présentation d'un contrat de travail visé par les services du ministre chargé de l'emploi, un certificat de résidence valable un an pour toutes professions et toutes régions, renouvelable et portant la mention « salarié » ; cette mention constitue l'autorisation de travail exigée par la législation française ;
+      c) Les ressortissants algériens désireux d'exercer une activité professionnelle soumise à autorisation reçoivent, s'ils justifient l'avoir obtenue, un certificat de résidence valable un an renouvelable et portant la mention de cette activité ;
+      d) Les ressortissants algériens autorisés à séjourner en France au titre du regroupement familial, s'ils rejoignent un ressortissant algérien lui-même titulaire d'un certificat de résidence d'un an, reçoivent de plein droit un certificat de résidence de même durée de validité, renouvelable et portant la mention « vie privée et familiale ».
       e) Les ressortissants algériens autorisés à exercer à titre temporaire, en application de la législation française, une activité salariée chez un employeur déterminé, reçoivent un certificat de résidence portant la mention « travailleur temporaire », faisant référence à l'autorisation provisoire de travail dont ils bénéficient et de même durée de validité ;
       f) Les ressortissants algériens qui viennent en France pour mener des travaux de recherche ou dispenser un enseignement du niveau universitaire reçoivent, sous réserve d'une entrée régulière, un certificat de résidence valable un an portant la mention « scientifique » ;
       g) Les artistes-interprètes algériens tels que définis par la législation française ou les auteurs algériens d'oeuvre littéraire ou artistique au sens de la législation française, titulaires d'un contrat de plus de trois mois passé avec une entreprise ou un établissement dont l'activité principale comporte la création ou l'exploitation d'une oeuvre de l'esprit, reçoivent un certificat de résidence valable un an portant la mention « profession artistique et culturelle ».
@@ -202,15 +202,15 @@ provisions:
     label: Article 7 bis
     journey_stages: [settling]
     text: |-
-      Les ressortissants algériens visés à l'article 7 peuvent obtenir un certificat de résidence de 10 ans s'ils justifient d'une résidence ininterrompue en France de trois années.
+      Les ressortissants algériens visés à l'article 7 peuvent obtenir un certificat de résidence de dix ans s'ils justifient d'une résidence ininterrompue en France de trois années.
       Il est statué sur leur demande en tenant compte des moyens d'existence dont ils peuvent faire état, parmi lesquels les conditions de leur activité professionnelle et, le cas échéant, des justifications qu'ils peuvent invoquer à l'appui de leur demande.
-      Le certificat de résidence valable 10 ans, renouvelé automatiquement, confère à son titulaire le droit d'exercer en France la profession de son choix, dans le respect des dispositions régissant l'exercice des professions réglementées.
-      Le certificat de résidence valable 10 ans est délivré de plein droit sous réserve de la régularité du séjour pour ce qui concerne les catégories visées au a, au b, au c, et au g :
+      Le certificat de résidence valable dix ans, renouvelé automatiquement, confère à son titulaire le droit d'exercer en France la profession de son choix, dans le respect des dispositions régissant l'exercice des professions réglementées.
+      Le certificat de résidence valable dix ans est délivré de plein droit sous réserve de la régularité du séjour pour ce qui concerne les catégories visées au a, au b, au c, et au g :
       a) Au ressortissant algérien, marié depuis au moins un an avec un ressortissant de nationalité française, dans les mêmes conditions que celles prévues à l'article 6 nouveau 2, et au dernier alinéa de ce même article.
-      b) A l'enfant algérien d'un ressortissant français si cet enfant a moins de 21 ans ou s'il est à la charge de ses parents, ainsi qu'aux ascendants d'un ressortissant français et de son conjoint qui sont à sa charge;
-      c) Au ressortissant algérien titulaire d'une rente d'accident du travail ou de maladie professionnelle servie par un organisme français et dont le taux d'incapacité permanente est égal ou supérieur à 20 % ainsi qu'aux ayants droit d'un ressortissant algérien, bénéficiaires d'une rente de décès pour accident de travail ou maladie professionnelle versée par un organisme français;
-      d) Aux membres de la famille d'un ressortissant algérien titulaire d'un certificat de résidence valable 10 ans qui sont autorisés à résider en France au titre du regroupement familial;
-      e) Au ressortissant algérien qui justifie résider habituellement en France depuis qu'il a atteint au plus l'âge de 10 ans;
+      b) A l'enfant algérien d'un ressortissant français si cet enfant a moins de vingt et un ans ou s'il est à la charge de ses parents, ainsi qu'aux ascendants d'un ressortissant français et de son conjoint qui sont à sa charge ;
+      c) Au ressortissant algérien titulaire d'une rente d'accident du travail ou de maladie professionnelle servie par un organisme français et dont le taux d'incapacité permanente est égal ou supérieur à 20 p. 100 ainsi qu'aux ayants droit d'un ressortissant algérien, bénéficiaires d'une rente de décès pour accident de travail ou maladie professionnelle versée par un organisme français ;
+      d) Aux membres de la famille d'un ressortissant algérien titulaire d'un certificat de résidence valable dix ans qui sont autorisés à résider en France au titre du regroupement familial ;
+      e) Au ressortissant algérien qui justifie résider habituellement en France depuis qu'il a atteint au plus l'âge de dix ans ;
       f) Au ressortissant algérien qui est en situation régulière depuis plus de dix ans, sauf s'il a été, pendant toute cette période, titulaire d'un certificat de résidence portant la mention « étudiant » ;
       g) Au ressortissant algérien ascendant direct d'un enfant français résidant en France, à la condition qu'il exerce, même partiellement, l'autorité parentale à l'égard de cet enfant ou qu'il subvienne effectivement à ses besoins, à l'échéance de son certificat de résidence d'un an ;
       h) Au ressortissant algérien titulaire d'un certificat de résidence d'une validité d'un an portant la mention « vie privée et familiale », lorsqu'il remplit les conditions prévues aux alinéas précédents ou, à défaut, lorsqu'il justifie de cinq années de résidence régulière ininterrompue en France.
@@ -285,7 +285,7 @@ provisions:
     label: Article 11
     text: |-
       Le présent accord entrera en vigueur à la date de sa signature.
-      Les dispositions des articles 1, 2, 9 et 10 prendront effet à compter du 1er janvier 1969.
+      Les dispositions des articles 1er, 2, 9 et 10 prendront effet à compter du 1er janvier 1969.
       L'application des dispositions concernant la délivrance des certificats de résidence s'échelonnera sur une période d'une année à compter du 1er janvier 1969.
     history:
       - {instrument: accord-1968, change: original}
@@ -319,7 +319,7 @@ provisions:
     label: Titre I. Circulation des personnes
     journey_stages: [renewing, settling]
     text: |-
-      Sont admis à circuler librement entre l'Algérie et la France, sans discrimination aucune et sur simple présentation d'un document de voyage en cours de validité les titulaires du certificat de résidence en cours de validité.
+      Sont admis à circuler librement entre l'Algérie et la France, sans discrimination aucune et sur simple présentation d'un document de voyage en cours de validité, les titulaires du certificat de résidence en cours de validité.
     history:
       - {instrument: avenant-1985, provision: Article 5 (Protocole), change: replaced}
       - instrument: avenant-2001
@@ -332,7 +332,7 @@ provisions:
     label: Titre II. Départ des familles
     journey_stages: [settling]
     text: |-
-      Les membres de la famille s'entendent du conjoint d'un ressortissant algérien, de ses enfants mineurs ainsi que des enfants de moins de 18 ans dont il a juridiquement la charge en vertu d'une décision de l'autorité judiciaire algérienne, dans l'intérêt supérieur de l'enfant.
+      Les membres de la famille s'entendent du conjoint d'un ressortissant algérien, de ses enfants mineurs ainsi que des enfants de moins de dix-huit ans dont il a juridiquement la charge en vertu d'une décision de l'autorité judiciaire algérienne, dans l'intérêt supérieur de l'enfant.
       Le cas des ascendants du travailleur désireux de résider en France fera l'objet d'un examen particulier.
     history:
       - {instrument: avenant-1985, provision: Article 5 (Protocole), change: replaced}
@@ -348,10 +348,10 @@ provisions:
       algériens, des travailleurs saisonniers, des malades
     journey_stages: [arriving, renewing, working]
     text: |-
-      Les ressortissants algériens qui suivent un enseignement, un stage ou font des études en France et justifient de moyens d'existence suffisants (bourse ou autres ressources), reçoivent, sur présentation, soit d'une attestation de pré-inscription ou d'inscription dans un établissement d'enseignement français, soit d'une attestation de stage, un certificat de résidence valable un an, renouvelable et portant la mention «étudiant» ou «stagiaire».
+      Les ressortissants algériens qui suivent un enseignement, un stage ou font des études en France et justifient de moyens d'existence suffisants (bourse ou autres ressources) reçoivent, sur présentation, soit d'une attestation de préinscription ou d'inscription dans un établissement d'enseignement français, soit d'une attestation de stage, un certificat de résidence valable un an, renouvelable et portant la mention « étudiant » ou « stagiaire ».
       Les ressortissants algériens titulaires d'un certificat de résidence portant la mention « étudiant », sous réserve de leur inscription dans un établissement ouvrant droit au régime de sécurité sociale des étudiants, peuvent être autorisés à travailler dans la limite d'un mi-temps annuel pour la branche ou la profession concernée. L'autorisation est délivrée sous forme d'autorisation provisoire de travail sur présentation d'une promesse d'embauche ou d'un contrat de travail.
-      Les fonctionnaires ou agents des organismes algériens reçoivent sur présentation d'une attestation délivrée par l'autorité algérienne compétente un certificat de résidence valable deux ans, renouvelable et portant la mention «agent officiel».
-      Les travailleurs saisonniers reçoivent sur présentation d'un contrat de travail qui est visé par les services du ministre chargé de l'emploi et dont la durée n'atteint pas une année, un certificat de résidence valable pour la durée du contrat portant la mention « travailleur temporaire » conformément à l'article 7 e de l'accord.
+      Les fonctionnaires ou agents des organismes algériens reçoivent, sur présentation d'une attestation délivrée par l'autorité algérienne compétente, un certificat de résidence valable deux ans, renouvelable et portant la mention « agent officiel ».
+      Les travailleurs saisonniers reçoivent, sur présentation d'un contrat de travail qui est visé par les services du ministre chargé de l'emploi et dont la durée n'atteint pas une année, un certificat de résidence valable pour la durée du contrat portant la mention « travailleur temporaire » conformément à l'article 7 e de l'accord.
       Les ressortissants algériens admis dans des établissements de soins français et n'ayant pas leur résidence habituelle en France peuvent se voir délivrer par l'autorité française compétente, après examen de leur situation médicale, une autorisation provisoire de séjour, renouvelable le cas échéant.
     history:
       - {instrument: avenant-1985, provision: Article 5 (Protocole), change: replaced}
@@ -385,9 +385,8 @@ not_consolidated:
   - Échange de lettres modifié du 31 août 1983, cited by article 9; a separate instrument.
 
 editorial_notes:
-  - Third amendment (Légifrance text) omits the closing quotation mark of every quoted permit mention (e.g. « "vie privée et familiale est délivré »). Closing marks are restored in articles 6, 7 (e, f, g, D), 7 bis (f, h), 7 ter and Protocol title III; mentions are written « … ».
-  - Article 8, "Consultats français" is reproduced as published in the Légifrance text of the second amendment (sic).
-  - Article 10, "Les mineurs algériens de dix-huit ans" and "d'au moins de six ans" are reproduced as published in the Légifrance text of the second amendment (sic); to be checked against the JO scan of 1994 if available.
-  - Article 7, the 1985 wording labels the categories "A)" to "D)"; the 2001 amendment refers to them as "a" to "d" and adds "e)" to "g)".
-  - Article 7 bis (c) and article 7 (a), the 2001 insertions are made without added punctuation, as worded in the amendment.
-  - The 1968 footnote "Entré en vigueur le 27 décembre 1958" in UNTS vol. 677 is a printing error of the UNTS volume (article 11 and the signature date state 27 December 1968); not part of the text.
+  - Third amendment (Légifrance text) omits the closing quotation mark of every quoted permit mention (e.g. « "vie privée et familiale est délivré »). Closing marks are restored in articles 6, 7 (d to g), 7 bis (f, h), 7 ter and Protocol title III; mentions are written « … ».
+  - Article 7, "a) les ressortissants" (lower case) and the colon closing the first alinéa are as printed in the JO of 8 March 1986.
+  - Article 8 "Consultats français", article 10 "Les mineurs algériens de dix-huit ans" and "d'au moins de six ans" are as printed in the JO of 20 December 1994 (sic), not Légifrance errors.
+  - Article 7 a) and article 7 bis c), the 2001 insertions are made without added punctuation, as worded in the amendment.
+  - The UN Treaty Series reprint differs in typography from the JO (figures in digits, "20 %", capital A) to D) in article 7, some commas); the JO wording is used.
