@@ -36,7 +36,9 @@ PROD = PisteEndpoints(
 class PisteSettings(BaseSettings):
     """`PISTE_*` variables. `oauth_url` / `api_url` override the per-environment defaults."""
 
-    model_config = SettingsConfigDict(env_prefix="PISTE_", env_file=ROOT_ENV_FILE, extra="ignore")
+    model_config = SettingsConfigDict(
+        env_prefix="PISTE_", env_file=ROOT_ENV_FILE, extra="ignore", env_ignore_empty=True
+    )
 
     client_id: str
     client_secret: SecretStr
