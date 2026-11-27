@@ -161,3 +161,20 @@ def test_case_law_source_type_is_accepted(migrated_engine: Engine) -> None:
                 " 'fr', ARRAY['finishing'], now(), 'h')"
             )
         )
+
+
+def test_every_table_has_row_level_security(migrated_engine: Engine) -> None:
+    """No table may be reachable through the Supabase Data API (D-022): a new table must be
+    created with RLS enabled (and its client-role grants revoked on Supabase)."""
+    with migrated_engine.connect() as conn:
+        without_rls = (
+            conn.execute(
+                text(
+                    "SELECT c.relname FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace"
+                    " WHERE n.nspname = 'public' AND c.relkind = 'r' AND NOT c.relrowsecurity"
+                )
+            )
+            .scalars()
+            .all()
+        )
+    assert without_rls == []
