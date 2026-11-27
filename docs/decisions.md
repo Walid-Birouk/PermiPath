@@ -488,3 +488,30 @@ modes and reading the traces back: in `full` mode the tree, model, usage, cost a
 outputs are present; in `metadata` mode the same tree, model, usage, cost and metadata are
 present and the question text appears nowhere in the exported data. Cost per answered question
 at list prices: about $0.0007.
+
+## D-022 — Production database on Supabase, closed to the Data API
+
+**Context.** Production uses Supabase Postgres (EU region, eu-central-1) on the free plan. The
+application connects to Postgres directly and never uses the Supabase Data API (REST/GraphQL),
+supabase-js, Auth or the API keys. Tables in `public` can be reachable through the Data API when
+the client roles hold grants; the project still had default privileges granting `anon`,
+`authenticated` and `service_role` TRUNCATE, REFERENCES, TRIGGER and MAINTAIN on new tables.
+Sources: supabase.com/docs/guides/api/securing-your-api, .../database/postgres/row-level-security
+and the changelog entry of 2026-04-28 on tables no longer exposed automatically (read
+2026-11-27, following the Supabase agent skill).
+
+**Decision.**
+
+| Topic | Rule |
+|---|---|
+| Connection | Session pooler (IPv4-compatible, works from IPv6 networks too; one URL for local loads, the backend host and GitHub Actions), with `sslmode=require`. |
+| Data API | Turned off in the dashboard (Integrations > Data API: "Enable Data API" off), done by the maintainer. |
+| Grants | Migration 0007 revokes every grant of `anon`, `authenticated` and `service_role` on tables and sequences in `public`, and their default privileges on future tables, sequences and functions (only where these roles exist). |
+| RLS | Enabled on every table, with no policy (defense in depth; the owner and `postgres` are unaffected). A migration test fails if a table in `public` lacks RLS. |
+| Initial data | Copied from the evaluated local database (chunks with embeddings, chunk versions, changelog, rules), not re-ingested: identical chunk ids and content hashes. Request logs and usage counters are per environment and not copied. Later updates come from the nightly ingestion. |
+
+**Consequences.** Verified on 2026-11-27: no table without RLS, no grant left to the client
+roles, `anon` / `authenticated` / `service_role` refused on read and write, rules grounding
+check passing against Supabase, and the agent answering from Supabase (1.5 to 3.6 s from the
+maintainer's machine). The two databases sort ids slightly differently (collation libraries),
+which can reorder exact ties only.
